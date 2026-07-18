@@ -2,7 +2,11 @@
 # Um serviço só no Railway = uma URL, sem CORS e sem custo dobrado.
 
 # ── 1. Front Angular ──────────────────────────────────────────────
-FROM node:22.22-alpine AS front
+# Debian (glibc), não Alpine (musl), de propósito: em musl o npm cai no fallback
+# WebAssembly do @napi-rs/nice e passa a exigir os peers @emnapi/*, que o lockfile
+# gerado no Windows não registra — e aí `npm ci` falha. Em glibc o binário nativo
+# (@napi-rs/nice-linux-x64-gnu) existe e já está no lockfile.
+FROM node:22.22-bookworm-slim AS front
 WORKDIR /front
 
 COPY frontend/package*.json ./
