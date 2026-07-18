@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>O escritório que trabalha antes de você chegar</title>
+<style>
+  @page { size: 297mm 167mm; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  :root {
+    --ink:      #14213D;
+    --ink-soft: #40506E;
+    --muted:    #8A93A6;
+    --gold:     #A8763E;
+    --gold-lt:  #F5EDE2;
+    --line:     #DFE3EA;
+    --paper:    #FFFFFF;
+    --wash:     #F7F8FA;
+    --green:    #2F6F4F;
+    --red:      #9B3B33;
+  }
+
+  body {
+    font-family: "Segoe UI", -apple-system, system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--wash);
+    font-feature-settings: "kern" 1;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .slide {
+    position: relative;
+    width: 297mm; height: 167mm;
+    background: var(--paper);
+    padding: 16mm 18mm 13mm;
+    break-after: page;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .slide:last-child { break-after: auto; }
+
+  /* running marks */
+  .rule { position: absolute; top: 0; left: 0; right: 0; height: 3.5mm; background: var(--ink); }
+  .rule::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 42mm; background: var(--gold); }
+  .num { position: absolute; right: 18mm; bottom: 7mm; font-size: 8pt; color: var(--muted); letter-spacing: .1em; }
+  .tag { position: absolute; left: 18mm; bottom: 7mm; font-size: 8pt; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; }
+
+  .eyebrow {
+    font-size: 8.5pt; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--gold); font-weight: 700; margin-bottom: 5mm;
+  }
+  h1 { font-size: 34pt; line-height: 1.1; letter-spacing: -.02em; font-weight: 700; }
+  h2 { font-size: 23pt; line-height: 1.15; letter-spacing: -.015em; font-weight: 700; margin-bottom: 3mm; }
+  .lede { font-size: 12pt; color: var(--ink-soft); line-height: 1.5; max-width: 190mm; }
+
+  /* ---------- capa ---------- */
+  .cover { justify-content: center; background: var(--ink); color: #fff; }
+  .cover .rule::after { width: 62mm; }
+  .cover h1 { font-size: 44pt; max-width: 220mm; }
+  .cover .eyebrow { color: #D2A970; }
+  .cover .sub { font-size: 14pt; color: #AEB8CC; margin-top: 7mm; max-width: 175mm; line-height: 1.5; }
+  .cover .disclaimer {
+    margin-top: 14mm; padding: 4mm 6mm; border-left: 2.5pt solid var(--gold);
+    background: rgba(255,255,255,.05); font-size: 10pt; color: #C9D2E2; max-width: 175mm; line-height: 1.5;
+  }
+  .cover .tag, .cover .num { color: #6B7896; }
+
+  /* ---------- listas de dor ---------- */
+  .pains { display: flex; flex-direction: column; gap: 3.5mm; margin-top: 7mm; }
+  .pain { display: flex; gap: 6mm; align-items: baseline; padding-bottom: 3.5mm; border-bottom: .6pt solid var(--line); }
+  .pain b { font-size: 12.5pt; min-width: 63mm; font-weight: 700; }
+  .pain span { font-size: 11pt; color: var(--ink-soft); line-height: 1.45; }
+
+  /* ---------- fluxo ---------- */
+  .flow { display: flex; align-items: stretch; gap: 0; margin-top: 10mm; }
+  .step { flex: 1; padding: 6mm 4mm; text-align: center; position: relative; }
+  .step + .step { border-left: .6pt dashed var(--line); }
+  .step .ico {
+    width: 13mm; height: 13mm; margin: 0 auto 4mm; border-radius: 50%;
+    background: var(--gold-lt); color: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14pt; font-weight: 700;
+  }
+  .step .who { font-size: 7.5pt; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 2mm; }
+  .step b { display: block; font-size: 11.5pt; line-height: 1.3; margin-bottom: 2mm; }
+  .step span { font-size: 9pt; color: var(--ink-soft); line-height: 1.4; }
+  .step.you .ico { background: var(--ink); color: #fff; }
+  .step.you .who { color: var(--ink); font-weight: 700; }
+
+  .vp {
+    margin-top: auto; padding: 6mm 7mm; background: var(--wash);
+    border-left: 3pt solid var(--ink); font-size: 14pt; line-height: 1.45; font-weight: 600;
+  }
+
+  /* ---------- mockup ---------- */
+  .mock {
+    margin-top: 6mm; border: .8pt solid var(--line); border-radius: 2.5mm;
+    overflow: hidden; box-shadow: 0 2mm 6mm rgba(20,33,61,.08); background: #fff;
+  }
+  .mock-bar { background: var(--ink); color: #fff; padding: 3.5mm 6mm; display: flex; align-items: center; gap: 3mm; }
+  .mock-bar .dot { width: 2.2mm; height: 2.2mm; border-radius: 50%; background: #56628A; }
+  .mock-bar b { font-size: 10pt; margin-left: 3mm; font-weight: 600; }
+  .mock-bar .when { margin-left: auto; font-size: 8.5pt; color: #9AA5BF; }
+  .mock-body { padding: 6mm; }
+  .greet { font-size: 13pt; font-weight: 700; margin-bottom: 1.5mm; }
+  .greet-sub { font-size: 9.5pt; color: var(--ink-soft); margin-bottom: 5mm; }
+  .cards { display: flex; gap: 4mm; }
+  .card { flex: 1; border: .6pt solid var(--line); border-radius: 2mm; padding: 4mm; background: #fff; }
+  .card .head { display: flex; align-items: center; gap: 2mm; margin-bottom: 2.5mm; }
+  .chip { font-size: 6.5pt; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: .8mm 2mm; border-radius: 1mm; }
+  .chip.urg { background: #FBEAE8; color: var(--red); }
+  .chip.ok  { background: #E7F1EC; color: var(--green); }
+  .chip.new { background: var(--gold-lt); color: var(--gold); }
+  .card .proc { font-size: 8pt; color: var(--muted); font-family: Consolas, monospace; }
+  .card .what { font-size: 10.5pt; font-weight: 600; line-height: 1.3; margin-bottom: 2mm; }
+  .card .meta { font-size: 8.5pt; color: var(--ink-soft); line-height: 1.5; }
+  .card .cta {
+    margin-top: 3.5mm; padding: 2.2mm 0; text-align: center; border-radius: 1.5mm;
+    background: var(--ink); color: #fff; font-size: 8.5pt; font-weight: 600;
+  }
+  .card .cta.ghost { background: #fff; color: var(--ink); border: .6pt solid var(--ink); }
+  .mock-note { margin-top: 5mm; font-size: 9pt; color: var(--muted); font-style: italic; }
+
+  /* ---------- comparação ---------- */
+  table { width: 100%; border-collapse: collapse; margin-top: 6mm; }
+  th { text-align: left; font-size: 8pt; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); padding: 0 4mm 3mm 0; font-weight: 700; }
+  th:first-child { width: 42%; }
+  td { padding: 3.2mm 4mm 3.2mm 0; border-top: .6pt solid var(--line); font-size: 10.5pt; vertical-align: top; line-height: 1.4; }
+  td:first-child { font-weight: 600; }
+  td .x { color: var(--red); font-weight: 700; }
+  td .v { color: var(--green); font-weight: 700; }
+  .fair {
+    margin-top: auto; padding: 5mm 6mm; background: var(--gold-lt);
+    border-left: 3pt solid var(--gold); font-size: 10.5pt; line-height: 1.5;
+  }
+  .fair b { display: block; margin-bottom: 1.5mm; }
+
+  /* ---------- escopo ---------- */
+  .two { display: flex; gap: 8mm; margin-top: 7mm; flex: 1; }
+  .col { flex: 1; }
+  .col h3 { font-size: 10pt; letter-spacing: .12em; text-transform: uppercase; padding-bottom: 2.5mm; margin-bottom: 4mm; border-bottom: 1.5pt solid; }
+  .col.in h3  { color: var(--green); border-color: var(--green); }
+  .col.out h3 { color: var(--red);   border-color: var(--red); }
+  .col ul { list-style: none; }
+  .col li { font-size: 10.5pt; line-height: 1.4; padding: 2.6mm 0 2.6mm 7mm; position: relative; color: var(--ink-soft); }
+  .col li b { color: var(--ink); font-weight: 600; }
+  .col.in  li::before { content: "✓"; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+  .col.out li::before { content: "—"; position: absolute; left: 0; color: var(--red); font-weight: 700; }
+
+  /* ---------- perguntas ---------- */
+  .qs { display: flex; flex-direction: column; gap: 4mm; margin-top: 7mm; }
+  .q { display: flex; gap: 6mm; align-items: flex-start; }
+  .q .n {
+    flex: none; width: 9mm; height: 9mm; border-radius: 50%; background: var(--ink); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-size: 10pt; font-weight: 700;
+  }
+  .q p { font-size: 12pt; line-height: 1.45; padding-top: 1.2mm; }
+  .q p em { color: var(--muted); font-style: italic; font-size: 10pt; display: block; margin-top: 1mm; }
+  .closing { margin-top: auto; font-size: 11pt; color: var(--ink-soft); border-top: .6pt solid var(--line); padding-top: 5mm; line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<!-- 1 ─────────────────────────────── capa -->
+<section class="slide cover">
+  <div class="rule"></div>
+  <div class="eyebrow">Conversa exploratória · julho de 2026</div>
+  <h1>O escritório que trabalha antes de você chegar.</h1>
+  <p class="sub">Uma ideia de software jurídico onde a IA não é um botão perdido no menu — ela é o próprio produto.</p>
+  <div class="disclaimer">
+    <b>Isto ainda não existe.</b> Não tem uma linha de código escrita. É uma hipótese que eu quero que você tente derrubar — quanto mais crítica, mais útil.
+  </div>
+  <div class="tag">Ronny · projeto em validação</div>
+</section>
+
+<!-- 2 ─────────────────────────────── a dor -->
+<section class="slide">
+  <div class="rule"></div>
+  <div class="eyebrow">A hipótese</div>
+  <h2>O que eu acho que consome o teu dia</h2>
+  <p class="lede">Cinco chutes meus sobre a rotina de quem toca o escritório sozinho. Quero saber quais estão certos, quais são bobagem e o que faltou.</p>
+  <div class="pains">
+    <div class="pain"><b>Medo de perder prazo</b><span>O controle vive em planilha, agenda de papel ou na memória — e um prazo perdido é responsabilidade civil.</span></div>
+    <div class="pain"><b>Repetir a mesma peça</b><span>A mesma contestação, a mesma procuração, mudando só nome e data.</span></div>
+    <div class="pain"><b>Ler o diário oficial</b><span>Garimpar o que importa na avalanche de publicações — ou pagar serviço à parte para isso.</span></div>
+    <div class="pain"><b>Cliente ansioso</b><span>"Doutora, e o meu processo?" — horas por semana respondendo a mesma pergunta.</span></div>
+    <div class="pain"><b>Honorário no caderno</b><span>Parcelas anotadas na mão, inadimplência alta, cobrança que ninguém gosta de fazer.</span></div>
+  </div>
+  <div class="tag">Hipótese · derrube à vontade</div>
+  <div class="num">02</div>
+</section>
+
+<!-- 3 ─────────────────────────────── o fluxo -->
+<section class="slide">
+  <div class="rule"></div>
+  <div class="eyebrow">A ideia</div>
+  <h2>Inverter quem procura quem</h2>
+  <p class="lede">Hoje você abre o sistema e procura a informação. A ideia é o sistema chegar pronto — e sobrar para você só a parte que exige ser advogada.</p>
+  <div class="flow">
+    <div class="step">
+      <div class="ico">1</div>
+      <div class="who">Sistema</div>
+      <b>Intimação chega</b>
+      <span>Puxa sozinho do diário eletrônico. Você não digita nada.</span>
+    </div>
+    <div class="step">
+      <div class="ico">2</div>
+      <div class="who">IA</div>
+      <b>Lê e classifica</b>
+      <span>Que ato é, o que precisa ser feito, qual a urgência.</span>
+    </div>
+    <div class="step">
+      <div class="ico">3</div>
+      <div class="who">Código</div>
+      <b>Calcula o prazo</b>
+      <span>Dias úteis e feriados forenses, com a conta na tela. Isso a IA não chuta.</span>
+    </div>
+    <div class="step">
+      <div class="ico">4</div>
+      <div class="who">IA</div>
+      <b>Rascunha a peça</b>
+      <span>Já com os dados dos autos e no formato certo.</span>
+    </div>
+    <div class="step you">
+      <div class="ico">5</div>
+      <div class="who">Você</div>
+      <b>Revisa e protocola</b>
+      <span>A peça é sua. A assinatura é sua. A decisão é sua.</span>
+    </div>
+  </div>
+  <div class="vp">"A IA lê as intimações e rascunha as peças. Você revisa."</div>
+  <div class="tag">O fluxo inteiro</div>
+  <div class="num">03</div>
+</section>
+
+<!-- 4 ─────────────────────────────── mockup -->
+<section class="slide">
+  <div class="rule"></div>
+  <div class="eyebrow">Como seria na prática</div>
+  <h2>A primeira tela, 8h da manhã</h2>
+  <div class="mock">
+    <div class="mock-bar">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <b>Seu dia</b>
+      <div class="when">quinta, 16 de julho · 08:02</div>
+    </div>
+    <div class="mock-body">
+      <div class="greet">Bom dia, Dra. Marina.</div>
+      <div class="greet-sub">Chegaram 3 intimações esta noite. Rascunhei 2 peças. Nada venceu.</div>
+      <div class="cards">
+        <div class="card">
+          <div class="head"><span class="chip urg">Prazo curto</span><span class="proc">0001234-56.2026.5.12.0001</span></div>
+          <div class="what">Contestação — Silva × Transportes RM</div>
+          <div class="meta">Prazo: <b>15 dias úteis</b> · vence 07/08<br>Rascunho pronto — 6 páginas</div>
+          <div class="cta">Revisar rascunho</div>
+        </div>
+        <div class="card">
+          <div class="head"><span class="chip new">Novo</span><span class="proc">0007788-12.2026.5.12.0004</span></div>
+          <div class="what">Manifestação sobre laudo pericial</div>
+          <div class="meta">Prazo: <b>10 dias úteis</b> · vence 30/07<br>Rascunho pronto — 3 páginas</div>
+          <div class="cta">Revisar rascunho</div>
+        </div>
+        <div class="card">
+          <div class="head"><span class="chip ok">Sem prazo</span><span class="proc">0004455-90.2026.5.12.0002</span></div>
+          <div class="what">Audiência designada</div>
+          <div class="meta">12/09, 14h30 · 2ª Vara do Trabalho<br>Já entrou na sua agenda</div>
+          <div class="cta ghost">Ver processo</div>
+        </div>
+      </div>
+      <div class="mock-note">Todo rascunho nasce marcado como rascunho, com a origem de cada dado e a memória do cálculo do prazo. Nada vai para o juiz sem você ler.</div>
+    </div>
+  </div>
+  <div class="tag">Mockup · não é produto real</div>
+  <div class="num">04</div>
+</section>
+
+<!-- 5 ─────────────────────────────── vs chatgpt -->
+<section class="slide">
+  <div class="rule"></div>
+  <div class="eyebrow">A pergunta difícil</div>
+  <h2>"Mas isso o ChatGPT não faz de graça?"</h2>
+  <p class="lede">É a objeção que mais me preocupa — e a resposta honesta é: faz uma parte, sim.</p>
+  <table>
+    <tr><th></th><th>ChatGPT</th><th>A ideia aqui</th></tr>
+    <tr>
+      <td>Redigir um texto jurídico</td>
+      <td><span class="v">Faz bem</span></td>
+      <td>Faz igual — é o mesmo motor</td>
+    </tr>
+    <tr>
+      <td>Saber que chegou intimação</td>
+      <td><span class="x">Não</span> — você cola lá</td>
+      <td>Lê o diário sozinho, de madrugada</td>
+    </tr>
+    <tr>
+      <td>Calcular o prazo</td>
+      <td><span class="x">Chuta</span> — e erra feriado forense</td>
+      <td>Conta em código, com a memória do cálculo</td>
+    </tr>
+    <tr>
+      <td>Conhecer os autos do caso</td>
+      <td><span class="x">Só o que você colar</span></td>
+      <td>Já tem o processo inteiro</td>
+    </tr>
+    <tr>
+      <td>Inventar jurisprudência</td>
+      <td><span class="x">Inventa</span>, com confiança</td>
+      <td>Só cita o que achou em base real</td>
+    </tr>
+    <tr>
+      <td>Sigilo profissional</td>
+      <td>Sua responsabilidade</td>
+      <td>Contrato, trilha de auditoria, LGPD</td>
+    </tr>
+  </table>
+  <div class="fair">
+    <b>Sendo justo com o outro lado:</b> o ChatGPT é mais barato, mais flexível e você já sabe usar. Se a resposta for "prefiro colar no ChatGPT", isso é informação — e eu preciso ouvir.
+  </div>
+  <div class="tag">Onde eu posso estar errado</div>
+  <div class="num">05</div>
+</section>
+
+<!-- 6 ─────────────────────────────── escopo -->
+<section class="slide">
+  <div class="rule"></div>
+  <div class="eyebrow">Honestidade de escopo</div>
+  <h2>O que a primeira versão <em>não</em> faz</h2>
+  <p class="lede">Somos duas pessoas, meio período. Se eu prometer tudo, entrego nada. Escolhi ir fundo em um fluxo só — e essa escolha pode estar errada.</p>
+  <div class="two">
+    <div class="col in">
+      <h3>Tem na v1</h3>
+      <ul>
+        <li><b>Importar seus processos</b> pela OAB, sem digitar</li>
+        <li><b>Ler o diário</b> e classificar as intimações</li>
+        <li><b>Calcular prazo</b> e jogar na agenda com alerta</li>
+        <li><b>Rascunhar a peça</b> — trabalhista, para começar</li>
+        <li><b>Editor e export</b> em .docx formatado</li>
+      </ul>
+    </div>
+    <div class="col out">
+      <h3>Não tem na v1</h3>
+      <ul>
+        <li><b>Financeiro</b> e controle de honorários</li>
+        <li><b>Protocolo automático</b> no PJe — a peça sai pronta, mas quem protocola é você</li>
+        <li><b>Captação e indicação</b> de clientes novos</li>
+        <li><b>WhatsApp</b> automático com o cliente</li>
+        <li><b>Outras áreas</b> além de trabalhista</li>
+      </ul>
+    </div>
+  </div>
+  <div class="tag">É aqui que eu quero o tapa na mesa</div>
+  <div class="num">06</div>
+</section>
+
+<!-- 7 ─────────────────────────────── perguntas -->
+<section class="slide">
+  <div class="rule"></div>
+  <div class="eyebrow">O que eu preciso de você</div>
+  <h2>Cinco perguntas — e nenhuma delas é "gostou?"</h2>
+  <div class="qs">
+    <div class="q"><div class="n">1</div><p>Me conta como foi teu dia ontem, do começo ao fim.<em>Onde o tempo foi embora de verdade — não onde deveria ter ido.</em></p></div>
+    <div class="q"><div class="n">2</div><p>Você já usa ChatGPT para redigir peça? Como foi?<em>Se já resolve, eu preciso saber agora.</em></p></div>
+    <div class="q"><div class="n">3</div><p>Sem financeiro, sem protocolo automático e sem captação — você ainda testaria?<em>Ou isso é motivo para nem olhar?</em></p></div>
+    <div class="q"><div class="n">4</div><p>Quanto tu pagaria por mês por isso? E quanto acha caro demais?<em>Número, não elogio.</em></p></div>
+    <div class="q"><div class="n">5</div><p>O que eu não perguntei e deveria ter perguntado?</p></div>
+  </div>
+  <div class="closing">
+    Se em algum momento você pensar "isso não resolve o meu problema" — fala. Feedback educado me faz perder um ano.
+  </div>
+  <div class="tag">Obrigado ✳ Ronny</div>
+  <div class="num">07</div>
+</section>
+
+</body>
+</html>

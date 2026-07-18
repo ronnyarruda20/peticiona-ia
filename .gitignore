@@ -1,0 +1,41 @@
+# Build
+target/
+build/
+dist/
+out/
+*.jar
+*.war
+!.mvn/wrapper/maven-wrapper.jar
+
+# Node
+node_modules/
+.angular/
+npm-debug.log*
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Segredos — NUNCA commitar
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+application-local.properties
+application-local.yml
+
+# Temporários
+*.log
+scratchpad/
+
+# Backup do material original (mantido em disco, fora do versionamento)
+saas-juridico.zip
