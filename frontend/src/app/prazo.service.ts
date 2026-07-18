@@ -13,4 +13,9 @@ export class PrazoService {
   calcular(req: CalculoRequest): Observable<ResultadoPrazo> {
     return this.http.post<ResultadoPrazo>(`${this.api}/calcular`, req);
   }
+
+  /** Config de runtime — hoje só a URL da pesquisa de validação. */
+  config(): Observable<{ pesquisaUrl: string }> {
+    return this.http.get<{ pesquisaUrl: string }>('/api/config');
+  }
 }

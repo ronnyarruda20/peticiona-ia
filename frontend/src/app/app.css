@@ -193,8 +193,86 @@ input:focus-visible, select:focus-visible {
 .avisos h3 { color: var(--warn); }
 .avisos li { color: var(--fg); }
 
+/* Convite para a pesquisa — aparece só depois do resultado, quando a página
+   já entregou valor. Antes disso seria pedir sem ter dado nada. */
+.convite {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 0.5rem;
+}
+.convite h3 { font-size: 1.05rem; margin-bottom: 0.5rem; }
+.convite p { font-size: 0.9rem; line-height: 1.6; color: #c9d2e2; margin-bottom: 1rem; }
+.btn-convite {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.2rem;
+  background: var(--gold);
+  color: #fff;
+  border-radius: 0.4rem;
+  text-decoration: none;
+}
+.btn-convite:hover { background: #96682f; }
+.convite small { display: block; margin-top: 0.7rem; font-size: 0.78rem; color: #8e9ab5; }
+
+/* Conteúdo explicativo: existe para o leitor e para a busca. */
+.conteudo {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+  max-width: 44rem;
+}
+.conteudo h2 {
+  font-size: 1.4rem;
+  margin: 2rem 0 0.75rem;
+  letter-spacing: -0.01em;
+}
+.conteudo h2:first-child { margin-top: 0; }
+.conteudo h3 {
+  font-size: 1.02rem;
+  margin: 1.5rem 0 0.4rem;
+}
+.conteudo p {
+  line-height: 1.7;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+.conteudo p strong, .conteudo li strong { color: var(--fg); }
+.conteudo .mini { font-size: 0.82rem; }
+
+.tabela-wrap { overflow-x: auto; margin: 1rem 0; }
+.tabela-prazos {
+  width: 100%;
+  min-width: 30rem;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  background: var(--surface);
+  border-radius: 0.4rem;
+  overflow: hidden;
+}
+.tabela-prazos th {
+  text-align: left;
+  padding: 0.6rem 0.8rem;
+  background: var(--surface-2);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+.tabela-prazos td {
+  padding: 0.6rem 0.8rem;
+  border-top: 1px solid var(--line);
+}
+
+.limites { padding-left: 1.15rem; margin-bottom: 0.75rem; }
+.limites li { line-height: 1.7; color: var(--muted); margin-bottom: 0.5rem; }
+
 .rodape-nota {
-  margin-top: 2rem;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
   font-size: 0.85rem;
   color: var(--muted);
   line-height: 1.6;

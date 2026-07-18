@@ -134,15 +134,120 @@
             }
           </ul>
         </div>
+
+        @if (pesquisaUrl()) {
+          <aside class="convite">
+            <h3>E se você não precisasse calcular?</h3>
+            <p>
+              Estou construindo um sistema que lê suas intimações no diário eletrônico,
+              calcula o prazo sozinho e avisa você antes de vencer. Ainda não existe —
+              estou entrevistando advogados para entender se vale construir.
+            </p>
+            <a [href]="pesquisaUrl()" target="_blank" rel="noopener" class="btn-convite">
+              Responder a pesquisa (2 min)
+            </a>
+            <small>Não vendo nada. Não tenho produto. É pesquisa mesmo.</small>
+          </aside>
+        }
       </div>
     }
   </section>
 
+  <article class="conteudo">
+    <h2>Como se conta prazo processual</h2>
+
+    <p>
+      A regra vale para qualquer prazo processual e cabe em uma frase: <strong>exclui-se
+      o dia do começo e inclui-se o do vencimento</strong> (CPC, art. 224). O que confunde
+      é o que vem depois dela.
+    </p>
+
+    <h3>1. A contagem não começa no dia da intimação</h3>
+    <p>
+      Começa no <strong>primeiro dia útil seguinte</strong> (art. 224, § 3º). Se você foi
+      intimado numa sexta, a contagem não começa no sábado nem no domingo — começa na
+      segunda. Se a segunda for feriado, começa na terça.
+    </p>
+
+    <h3>2. Prazo processual conta em dias úteis</h3>
+    <p>
+      Desde o CPC de 2015, prazos processuais correm só em dias úteis (art. 219) — e o
+      mesmo vale no processo do trabalho (CLT, art. 775, com a redação da Lei 13.467/2017).
+      Sábado, domingo e feriado forense não contam.
+    </p>
+    <p>
+      <strong>Cuidado com a exceção:</strong> prazos de <em>direito material</em> —
+      prescrição e decadência — continuam em dias corridos. A calculadora tem as duas
+      opções, mas quem decide qual é qual é você.
+    </p>
+
+    <h3>3. O recesso forense congela o prazo</h3>
+    <p>
+      Entre <strong>20 de dezembro e 20 de janeiro</strong> o curso do prazo fica suspenso
+      (art. 220). Suspenso não é reiniciado: os dias já contados continuam contados, e o
+      prazo retoma de onde parou em 21 de janeiro.
+    </p>
+    <p>
+      É onde mais se erra. Um prazo de 15 dias iniciado em meados de dezembro só vence em
+      fevereiro — e quem contar direto no calendário perde a conta.
+    </p>
+
+    <h3>4. Vencimento em dia sem expediente prorroga</h3>
+    <p>
+      Se o último dia cair em sábado, domingo ou feriado, o prazo vence no dia útil
+      seguinte (art. 224, § 1º).
+    </p>
+
+    <h2>Prazos comuns</h2>
+    <div class="tabela-wrap">
+      <table class="tabela-prazos">
+        <thead>
+          <tr><th>Ato</th><th>Prazo</th><th>Base</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Contestação (procedimento comum)</td><td>15 dias úteis</td><td>CPC, art. 335</td></tr>
+          <tr><td>Embargos de declaração</td><td>5 dias úteis</td><td>CPC, art. 1.023</td></tr>
+          <tr><td>Apelação</td><td>15 dias úteis</td><td>CPC, art. 1.003, § 5º</td></tr>
+          <tr><td>Agravo de instrumento</td><td>15 dias úteis</td><td>CPC, art. 1.003, § 5º</td></tr>
+          <tr><td>Recurso ordinário (trabalhista)</td><td>8 dias úteis</td><td>CLT, art. 895</td></tr>
+          <tr><td>Contrarrazões</td><td>mesmo prazo do recurso</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mini">
+      ⚠️ Tabela de referência rápida, não exaustiva. Prazos em dobro (Fazenda Pública,
+      Defensoria, Ministério Público, litisconsortes com procuradores distintos) e regras
+      de procedimentos especiais não estão aqui.
+    </p>
+
+    <h2>O que esta calculadora não sabe</h2>
+    <ul class="limites">
+      <li>
+        <strong>Feriados estaduais e municipais.</strong> Ela conhece os feriados nacionais
+        e os forenses federais. Um feriado na sua comarca desloca o vencimento e ela não vê.
+      </li>
+      <li>
+        <strong>Portarias de suspensão de expediente.</strong> Greve, luto oficial,
+        instabilidade do sistema do tribunal — nada disso está coberto.
+      </li>
+      <li>
+        <strong>Prazos em dobro e regras especiais.</strong> Você precisa dobrar na mão.
+      </li>
+      <li>
+        <strong>O seu caso.</strong> Ela não conhece o processo, a parte nem o juízo.
+      </li>
+    </ul>
+    <p>
+      Por isso ela mostra a <strong>memória de cálculo dia a dia</strong>: o objetivo não é
+      você confiar no número, é você conseguir conferir a conta em dez segundos.
+    </p>
+  </article>
+
   <section class="rodape-nota">
     <p>
       <strong>Isto é uma ferramenta de apoio, não uma consultoria jurídica.</strong>
-      Confira sempre no sistema do tribunal. Feriados estaduais e municipais, portarias de
-      suspensão de expediente e prazos em dobro não estão cobertos.
+      Confira sempre no sistema do tribunal. A responsabilidade pelo prazo é de quem
+      protocola.
     </p>
     <p class="mini">
       Parte do <strong>Peticiona</strong> — projeto em construção. O motor de cálculo é

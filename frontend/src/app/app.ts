@@ -32,6 +32,16 @@ export class App {
   readonly carregando = signal(false);
   readonly memoriaAberta = signal(false);
 
+  /** Vazio = sem pesquisa configurada; o convite não aparece. */
+  readonly pesquisaUrl = signal('');
+
+  constructor() {
+    this.service.config().subscribe({
+      next: (c) => this.pesquisaUrl.set(c.pesquisaUrl ?? ''),
+      error: () => this.pesquisaUrl.set(''),
+    });
+  }
+
   readonly diasNaoContados = computed(
     () => this.resultado()?.passos.filter((p) => !p.contado).length ?? 0,
   );
