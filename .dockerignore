@@ -3,8 +3,11 @@
 **/target
 **/.angular
 **/.git
+**/.github
 **/.idea
 **/.vscode
+
+# Documentação não entra no build da imagem
+docs/
 *.md
-apresentacao/
 saas-juridico.zip
