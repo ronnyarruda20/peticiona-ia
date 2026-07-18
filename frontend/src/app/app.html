@@ -1,0 +1,152 @@
+<header class="topo">
+  <div class="marca">⚖️ Calculadora de Prazos</div>
+  <div class="selo">Grátis · sem cadastro</div>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>Quando vence esse prazo?</h1>
+    <p>
+      Conta em dias úteis, pula feriado forense e respeita o recesso de 20/12 a 20/01.
+      E mostra a conta dia a dia — porque a responsabilidade pelo prazo é sua, não de um número na tela.
+    </p>
+  </section>
+
+  <section class="painel">
+    <form class="form" (ngSubmit)="calcular()">
+      <div class="campo">
+        <label for="data">Data da intimação</label>
+        <input id="data" type="date" [ngModel]="dataIntimacao()" (ngModelChange)="dataIntimacao.set($event)" name="data" required />
+        <small>O dia da intimação não conta — a contagem começa no dia útil seguinte (CPC art. 224, § 3º).</small>
+      </div>
+
+      <div class="campo">
+        <label for="dias">Prazo</label>
+        <div class="input-sufixo">
+          <input id="dias" type="number" min="1" max="3650" [ngModel]="prazoEmDias()" (ngModelChange)="prazoEmDias.set($event)" name="dias" required />
+          <span>dias</span>
+        </div>
+        <div class="atalhos">
+          @for (p of prazosComuns; track p.dias) {
+            <button type="button" class="chip" (click)="usarPrazo(p.dias)">{{ p.label }}</button>
+          }
+        </div>
+      </div>
+
+      <div class="linha">
+        <div class="campo">
+          <label for="tipo">Contagem</label>
+          <select id="tipo" [ngModel]="tipoContagem()" (ngModelChange)="tipoContagem.set($event)" name="tipo">
+            <option value="DIAS_UTEIS">Dias úteis (prazo processual)</option>
+            <option value="DIAS_CORRIDOS">Dias corridos (prazo material)</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="justica">Justiça</label>
+          <select id="justica" [ngModel]="justica()" (ngModelChange)="justica.set($event)" name="justica">
+            <option value="TRABALHISTA">Do Trabalho</option>
+            <option value="ESTADUAL">Estadual</option>
+            <option value="FEDERAL">Federal</option>
+          </select>
+        </div>
+      </div>
+
+      <label class="check">
+        <input type="checkbox" [ngModel]="considerarRecesso()" (ngModelChange)="considerarRecesso.set($event)" name="recesso" />
+        <span>Suspender no recesso forense (20/12 a 20/01 — CPC art. 220)</span>
+      </label>
+
+      <button type="submit" class="btn" [disabled]="carregando()">
+        {{ carregando() ? 'Calculando…' : 'Calcular prazo' }}
+      </button>
+    </form>
+
+    @if (erro()) {
+      <div class="erro">{{ erro() }}</div>
+    }
+
+    @if (resultado(); as r) {
+      <div class="resultado">
+        <div class="venc">
+          <span class="rotulo">Vence em</span>
+          <strong>{{ r.dataVencimento | date: 'dd/MM/yyyy' }}</strong>
+          <span class="dia-semana">{{ r.dataVencimento | date: 'EEEE' : '' : 'pt-BR' }}</span>
+        </div>
+
+        <dl class="resumo">
+          <div>
+            <dt>Contagem começou</dt>
+            <dd>{{ r.dataInicioContagem | date: 'dd/MM/yyyy' }}</dd>
+          </div>
+          <div>
+            <dt>Dias contados</dt>
+            <dd>{{ r.prazoEmDias }} {{ r.tipoContagem === 'DIAS_UTEIS' ? 'úteis' : 'corridos' }}</dd>
+          </div>
+          <div>
+            <dt>Dias pulados</dt>
+            <dd>{{ diasNaoContados() }}</dd>
+          </div>
+          <div>
+            <dt>Total no calendário</dt>
+            <dd>{{ r.diasCorridosTotais }} dias</dd>
+          </div>
+        </dl>
+
+        <button type="button" class="link" (click)="alternarMemoria()">
+          {{ memoriaAberta() ? '▾ Esconder a memória de cálculo' : '▸ Ver a memória de cálculo (dia a dia)' }}
+        </button>
+
+        @if (memoriaAberta()) {
+          <div class="memoria">
+            <table>
+              <thead>
+                <tr><th>Data</th><th>Contou?</th><th>Motivo</th><th class="num">#</th></tr>
+              </thead>
+              <tbody>
+                @for (p of r.passos; track p.data) {
+                  <tr [class.pulado]="!p.contado">
+                    <td>{{ p.data | date: 'dd/MM (EEE)' : '' : 'pt-BR' }}</td>
+                    <td>{{ p.contado ? '✓' : '—' }}</td>
+                    <td>{{ p.motivo }}</td>
+                    <td class="num">{{ p.numero || '' }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <div class="fundamentos">
+            <h3>Base legal aplicada</h3>
+            <ul>
+              @for (f of r.fundamentacao; track f) {
+                <li>{{ f }}</li>
+              }
+            </ul>
+          </div>
+        }
+
+        <div class="avisos">
+          <h3>⚠️ O que este cálculo NÃO garante</h3>
+          <ul>
+            @for (a of r.avisos; track a) {
+              <li>{{ a }}</li>
+            }
+          </ul>
+        </div>
+      </div>
+    }
+  </section>
+
+  <section class="rodape-nota">
+    <p>
+      <strong>Isto é uma ferramenta de apoio, não uma consultoria jurídica.</strong>
+      Confira sempre no sistema do tribunal. Feriados estaduais e municipais, portarias de
+      suspensão de expediente e prazos em dobro não estão cobertos.
+    </p>
+    <p class="mini">
+      Parte do <strong>Peticiona</strong> — projeto em construção. O motor de cálculo é
+      determinístico e coberto por testes automatizados: nenhuma data aqui vem de IA.
+    </p>
+  </section>
+</main>

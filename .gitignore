@@ -39,3 +39,6 @@ scratchpad/
 
 # Backup do material original (mantido em disco, fora do versionamento)
 saas-juridico.zip
+
+# Front compilado que o Docker copia para dentro do jar
+backend/src/main/resources/static/

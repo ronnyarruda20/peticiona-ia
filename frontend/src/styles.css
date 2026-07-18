@@ -1,0 +1,40 @@
+/*
+  Tokens semânticos.
+  Dark mode foi cortado do escopo (doc 00, corte #1), mas os tokens já são semânticos
+  para que ligá-lo depois custe pouco — só trocar os valores num media query.
+*/
+:root {
+  --ink: #14213d;
+  --ink-hover: #1f3057;
+  --gold: #a8763e;
+  --gold-soft: #d2a970;
+  --gold-bg: #faf4ea;
+  --fg: #14213d;
+  --muted: #64708a;
+  --line: #e2e6ee;
+  --line-strong: #c7cedd;
+  --surface: #ffffff;
+  --surface-2: #f7f8fb;
+  --input-bg: #ffffff;
+  --link: #1f5fa8;
+  --red: #9b3b33;
+  --red-bg: #fbeae8;
+  --warn: #8a6321;
+  --warn-bg: #fdf6e7;
+  --page: #f2f4f8;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--page);
+  color: var(--fg);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { margin: 0; font-weight: 700; }
+p { margin: 0; }
+ul { margin: 0; }
