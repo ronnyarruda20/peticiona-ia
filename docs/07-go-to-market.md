@@ -94,10 +94,20 @@ O desenho novo, em três camadas:
 > **(a)** o programa acima é **nosso funil**: advogado indica colega para assinar o produto;
 > **(b)** o **controle de captação/indicação de novos clientes do próprio advogado** (quem indicou cada cliente, funil de leads, página pública, triagem) é **feature de produto** — reclamação literal de um advogado que revisou este material: *"controle de captação/indicação de novos clientes, não tem sobre isso"*. Está no roadmap (doc 04, Fase 3: módulo à la Clio Grow/Lawmatics). Usar como argumento de venda ("está no roadmap, e nenhum concorrente nacional faz bem"), sem prometer data.
 
-### 2. 🔍 Calculadora de prazos + SEO (o canal que trabalha enquanto o fundador codifica)
-- Calculadora pública com a marca — ímã de leads permanente que o advogado compartilha com colegas; no ar a partir do mês 8–9
-- Artigos-ferramenta: "modelo de contestação trabalhista 2028", "prazo de contestação no novo CPC" — 3–4 na fundação, 1/mês depois
-- É o único canal pré-lançamento que escala sem horas recorrentes — por isso sobe para o topo
+### 2. ~~🔍 Calculadora de prazos + SEO~~ — ❌ **REBAIXADO em 19/07/2026**
+
+> **Este canal foi despromovido de nº 2 para último.** Motivo: cálculo de prazo isolado é **commodity gratuita** — há pelo menos **sete** ferramentas grátis no Brasil, várias com cobertura MAIOR que a nossa fatia 1. Ver `02-analise-competitiva.md` → Camada 4 para a lista e as fontes.
+
+**O que caiu:**
+- ~~"Ímã de leads permanente que o advogado compartilha"~~ — ele já tem sete opções grátis, sem cadastro, algumas com feriado municipal (que nós **não** cobrimos) e uma que anexa portaria oficial de tempestividade
+- ~~"O único canal pré-lançamento que escala sem horas recorrentes"~~ — só escala se ranquear, e o SEO desses termos está ocupado por incumbentes, incluindo **um app da própria OAB** e um serviço com 613 mil cálculos feitos
+- ~~"Por isso sobe para o topo"~~ — revogado
+
+**O que sobra de aproveitável:**
+- Artigos-ferramenta de cauda longa ("prazo de contestação no novo CPC") continuam válidos como conteúdo, mas como canal **lento e secundário**, não como motor de aquisição
+- A calculadora pode existir como página de apoio depois do lançamento — nunca como porta de entrada
+
+**Regra derivada:** não investir mais horas na fatia 1 esperando aquisição. Ela é **componente interno** do fluxo integrado (a intimação chega → o prazo aparece sozinho), que é onde ninguém mais está.
 
 ### 3. 🎥 Conteúdo vertical (Instagram/TikTok/YouTube Shorts) — rebaixado de "principal" para "pós-lançamento"
 - Formato: "Gerei uma contestação em 4 minutos com IA — olha isso" (screen recording do produto real)
@@ -119,8 +129,9 @@ O desenho novo, em três camadas:
 
 ## Motor de crescimento embutido no produto (versão Fase 1)
 
-- **Calculadora de prazos pública com a marca** — ímã de leads e ferramenta que o advogado compartilha
-- **Memória de cálculo de prazo exportável em PDF** com marca discreta no rodapé — o advogado manda para colega/cliente, a marca viaja
+- ~~**Calculadora de prazos pública com a marca**~~ — ❌ revogado em 19/07/2026 (commodity gratuita, ver acima e `02` Camada 4)
+- **Memória de cálculo de prazo exportável em PDF** com marca discreta no rodapé — o advogado manda para colega/cliente, a marca viaja.
+  ⚠️ **Sobrevive, mas com ressalva:** o laço viral só funciona a partir de um usuário que já usa o produto integrado. Não serve como aquisição fria — é retenção/indicação, não topo de funil.
 - **Tela de indicação dentro do produto** ("indique um colega, ganhem 1 mês cada")
 - **Badge founding member** — escassez (50 vagas) que os próprios usuários anunciam
 - Peças exportadas **sem marca** (jamais melar a peça do cliente) — inegociável

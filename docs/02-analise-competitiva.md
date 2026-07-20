@@ -2,17 +2,18 @@
 
 > Números de preço/planos citados aqui obedecem ao `00-premissas.md` (nosso lado) e a informação pública dos concorrentes (lado deles). Onde não há certeza, está marcado com ⚠️ — verificar antes de usar em pitch ou copy.
 
-## O mapa real: três camadas de concorrência
+## O mapa real: quatro camadas de concorrência
 
-A concorrência não é uma lista de softwares de gestão. São **três camadas**, e a mais perigosa na cabeça do nosso ICP não é nenhum software jurídico:
+A concorrência não é uma lista de softwares de gestão. São **quatro camadas**, e a mais perigosa na cabeça do nosso ICP não é nenhum software jurídico:
 
 | Camada | Quem | O que ela é na cabeça do advogado solo |
 |---|---|---|
 | 1. IA genérica | ChatGPT, Gemini, Claude | "IA que redige já existe e é quase de graça" |
 | 2. Dados + IA jurídica | Jusbrasil (Jus IA), Lexter, Turivius, Looplex, Juit | "IA jurídica brasileira já existe" |
 | 3. Software de gestão | Astrea, MaisJurídico, Advbox, Projuris, Legal One | "Software de escritório já existe" |
+| 4. Calculadoras de prazo gratuitas | Prazo Fácil, Prazito, Legalcloud, ProJuris, OAB-PR, Cálculo Jurídico | "Calcular prazo já é de graça na internet" |
 
-Nossa tese só se sustenta se respondermos às três — em especial a primeira, que será **a objeção nº 1 nas entrevistas de validação**.
+Nossa tese só se sustenta se respondermos às quatro — em especial a primeira, que será **a objeção nº 1 nas entrevistas de validação**. A camada 4 foi acrescentada em 19/07/2026 e **não ameaça o produto, mas ameaçava o plano de aquisição** (ver `07-go-to-market.md`).
 
 ---
 
@@ -138,6 +139,44 @@ Fingir que essa camada não existe destruiria a credibilidade deste documento. M
 - **Fraquezas (lacunas exploráveis):**
   - ❌ Totalmente fora do alcance financeiro do solo
   - ❌ Complexidade corporativa
+
+---
+
+## 🧮 Camada 4: as calculadoras de prazo gratuitas
+
+> ⚠️ **Camada descoberta tarde — em 19/07/2026, DEPOIS de a fatia 1 do código já estar pronta.** Registrada aqui para que ninguém invista mais horas na direção que ela invalida. A busca levou 2 minutos; deveria ter sido feita antes de escrever o motor.
+
+Cálculo de prazo processual isolado **é commodity gratuita no Brasil**. Levantamento de 19/07/2026:
+
+| Ferramenta | Preço | Cobertura | Observação |
+|---|---|---|---|
+| [Prazo Fácil](https://prazofacil.com.br/) | Grátis, **sem cadastro** | Superiores, TJ, TRF, TRT · CPC/CPP/CLT · **feriados estaduais e municipais** | Ainda traz correção monetária, juros, validadores, QR Code |
+| [Prazito](https://prazito.com.br/) | Grátis | — | **613.969 prazos calculados** — base instalada real |
+| [Legalcloud](https://app.legalcloud.com.br/) | Grátis | CPC, CPP, JEC, CLT (antes e depois da Reforma) | |
+| [ProJuris](https://www.projuris.com.br/blog/melhor-calculadora-de-prazos-processuais/) | Grátis (isca do software pago) | Suspensões municipais | **Anexa portaria oficial para comprovar tempestividade** |
+| [Cálculo Jurídico](https://calculojuridico.com.br/prazos-processuais-trabalhista/) | Grátis | Trabalhista | |
+| [OAB-PR](https://www.oabpr.org.br/aplicativo-gratuito-que-calcula-prazos-processuais-chega-as-lojas-hoje/) | Grátis | App nas lojas | **É a própria OAB** — autoridade institucional imbatível |
+| [Calculador de Dias](https://calculadordedias.com.br/calculadora-de-prazo-legal/) | Grátis | — | |
+
+### O que isso invalida
+
+1. **Calculadora pública como produto de entrada / Fase 0.** Morta. Somos o oitavo entrante numa categoria gratuita.
+2. **Canal de aquisição nº 2 do `07` (calculadora + SEO).** Rebaixado — ver o doc 07.
+3. **A fatia 1 como ímã de leads.** Ela continua sendo o núcleo técnico certo, mas **não é isca**: várias das sete cobrem MAIS que ela hoje (o `CODIGO.md` lista feriados estaduais e municipais como *não cobertos*; o Prazo Fácil já tem, e a ProJuris ainda anexa a portaria).
+
+### O que isso NÃO invalida (e é a distinção que importa)
+
+> **As sete calculam um prazo que o advogado DIGITA. Nós apostamos que o prazo APARECE sem ele digitar nada — porque a IA leu a intimação que chegou.**
+
+Nenhuma delas ingere DJEN/Comunica, classifica a intimação, deriva a providência ou joga o prazo na agenda. São calculadoras; o Peticiona é copiloto. **O gate G5 do `00` §8 NÃO disparou** — ninguém lançou geração de peças + ingestão + prazos integrados.
+
+O motor determinístico segue no "nunca cortar". O que mudou é o papel: **é componente interno, não é produto nem isca.**
+
+### A consequência estratégica desconfortável
+
+O que é barato de construir neste produto é commodity. O que diferencia — a ingestão do DJEN, 90h — é caro. **Não existe versão barata e diferenciada do Peticiona.** Todo atalho de "lança uma fatia pequena para validar" esbarra nisso: a fatia pequena já existe de graça sete vezes.
+
+Isso não mata a tese. Mata o atalho.
 
 ---
 

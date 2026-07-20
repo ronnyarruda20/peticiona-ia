@@ -204,6 +204,25 @@ input:focus-visible, select:focus-visible {
 }
 .convite h3 { font-size: 1.05rem; margin-bottom: 0.5rem; }
 .convite p { font-size: 0.9rem; line-height: 1.6; color: #c9d2e2; margin-bottom: 1rem; }
+.form-lead {
+  display: grid;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+}
+.form-lead input,
+.form-lead select,
+.form-lead textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 0.4rem;
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+}
+.form-lead textarea { resize: vertical; min-height: 4.2rem; }
+.form-lead input::placeholder,
+.form-lead textarea::placeholder { color: #9aa7c2; }
 .btn-convite {
   display: inline-block;
   font-weight: 600;
@@ -213,8 +232,19 @@ input:focus-visible, select:focus-visible {
   color: #fff;
   border-radius: 0.4rem;
   text-decoration: none;
+  border: none;
+  cursor: pointer;
 }
-.btn-convite:hover { background: #96682f; }
+.btn-convite:hover:not(:disabled) { background: #96682f; }
+.btn-convite:disabled { opacity: 0.7; cursor: progress; }
+.btn-convite--secundario { margin-top: 0.75rem; }
+.mensagem-lead {
+  margin-top: 0.75rem;
+  padding: 0.7rem 0.8rem;
+  background: rgba(255,255,255,0.08);
+  border-radius: 0.4rem;
+  color: #fff;
+}
 .convite small { display: block; margin-top: 0.7rem; font-size: 0.78rem; color: #8e9ab5; }
 
 /* Conteúdo explicativo: existe para o leitor e para a busca. */

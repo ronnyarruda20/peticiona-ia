@@ -135,20 +135,44 @@
           </ul>
         </div>
 
-        @if (pesquisaUrl()) {
-          <aside class="convite">
-            <h3>E se você não precisasse calcular?</h3>
-            <p>
-              Estou construindo um sistema que lê suas intimações no diário eletrônico,
-              calcula o prazo sozinho e avisa você antes de vencer. Ainda não existe —
-              estou entrevistando advogados para entender se vale construir.
-            </p>
-            <a [href]="pesquisaUrl()" target="_blank" rel="noopener" class="btn-convite">
+        <aside class="convite">
+          <h3>E se você não precisasse calcular?</h3>
+          <p>
+            Estou construindo um sistema que lê suas intimações no diário eletrônico,
+            calcula o prazo sozinho e avisa você antes de vencer. Ainda não existe —
+            mas já é possível acompanhar o projeto de perto.
+          </p>
+
+          @if (!interesseEnviado()) {
+            <form class="form-lead" (ngSubmit)="enviarInteresse()">
+              <input type="text" [ngModel]="nome()" (ngModelChange)="nome.set($event)" name="nome" placeholder="Seu nome" required />
+              <input type="email" [ngModel]="email()" (ngModelChange)="email.set($event)" name="email" placeholder="Seu e-mail" required />
+              <select [ngModel]="interesse()" (ngModelChange)="interesse.set($event)" name="interesse">
+                <option value="Conteúdo">Quero acompanhar o projeto</option>
+                <option value="Beta">Quero testar o beta</option>
+                <option value="Parceria">Quero conversar sobre parceria</option>
+              </select>
+              <textarea [ngModel]="mensagem()" (ngModelChange)="mensagem.set($event)" name="mensagem" rows="3" placeholder="Fale um pouco sobre sua rotina"></textarea>
+              <button type="submit" class="btn-convite" [disabled]="interesseEnviando()">
+                {{ interesseEnviando() ? 'Enviando…' : 'Receber update' }}
+              </button>
+            </form>
+          }
+
+          @if (interesseMensagem()) {
+            <p class="mensagem-lead">{{ interesseMensagem() }}</p>
+          }
+
+          @if (interesseEnviado()) {
+            <p class="mensagem-lead">Obrigado! Vamos te manter informado.</p>
+          }
+
+          @if (pesquisaUrl()) {
+            <a [href]="pesquisaUrl()" target="_blank" rel="noopener" class="btn-convite btn-convite--secundario">
               Responder a pesquisa (2 min)
             </a>
-            <small>Não vendo nada. Não tenho produto. É pesquisa mesmo.</small>
-          </aside>
-        }
+          }
+        </aside>
       </div>
     }
   </section>

@@ -2,6 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { PrazoService } from './prazo.service';
+import { InteresseService } from './interesse.service';
 import { Justica, ResultadoPrazo, TipoContagem } from './prazo';
 
 /**
@@ -20,6 +21,7 @@ import { Justica, ResultadoPrazo, TipoContagem } from './prazo';
 })
 export class App {
   private readonly service = inject(PrazoService);
+  private readonly interesseService = inject(InteresseService);
 
   readonly dataIntimacao = signal(this.hoje());
   readonly prazoEmDias = signal(15);
@@ -31,6 +33,13 @@ export class App {
   readonly erro = signal<string | null>(null);
   readonly carregando = signal(false);
   readonly memoriaAberta = signal(false);
+  readonly interesseEnviado = signal(false);
+  readonly interesseEnviando = signal(false);
+  readonly interesseMensagem = signal<string | null>(null);
+  readonly nome = signal('');
+  readonly email = signal('');
+  readonly interesse = signal('Conteúdo');
+  readonly mensagem = signal('');
 
   /** Vazio = sem pesquisa configurada; o convite não aparece. */
   readonly pesquisaUrl = signal('');
@@ -85,6 +94,33 @@ export class App {
 
   alternarMemoria(): void {
     this.memoriaAberta.update((v) => !v);
+  }
+
+  enviarInteresse(): void {
+    if (!this.nome() || !this.email()) {
+      this.interesseMensagem.set('Informe nome e e-mail para receber o update.');
+      return;
+    }
+
+    this.interesseEnviando.set(true);
+    this.interesseMensagem.set(null);
+
+    this.interesseService.registrar({
+      nome: this.nome(),
+      email: this.email(),
+      interesse: this.interesse(),
+      mensagem: this.mensagem(),
+    }).subscribe({
+      next: () => {
+        this.interesseEnviado.set(true);
+        this.interesseEnviando.set(false);
+        this.interesseMensagem.set('Obrigado! Vamos te manter atualizado sobre o projeto.');
+      },
+      error: () => {
+        this.interesseEnviando.set(false);
+        this.interesseMensagem.set('Não foi possível registrar o interesse agora. Tente novamente mais tarde.');
+      },
+    });
   }
 
   private hoje(): string {
