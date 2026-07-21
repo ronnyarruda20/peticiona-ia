@@ -246,7 +246,7 @@ O Projuris exibe ISO 27001 (doc 02). Não teremos certificação no lançamento 
 
 ## 🎯 Ordem de ataque e construir × comprar (substitui a antiga "divisão de trabalho")
 
-A tabela "Ronny × Primo" morreu com a saída do sócio (doc 00 §0). Solo, não há trilhos paralelos — há **uma fila, ordenada por dependência** (o caminho crítico do doc 12), e uma regra: **tudo que não é diferencial se compra pronto ou se faz do jeito mais burro que funciona.**
+A antiga tabela de divisão de trabalho entre duas pessoas morreu (doc 00 §0). Solo, não há trilhos paralelos — há **uma fila, ordenada por dependência** (o caminho crítico do doc 12), e uma regra: **tudo que não é diferencial se compra pronto ou se faz do jeito mais burro que funciona.**
 
 ### Ordem de ataque (uma pessoa, uma fila)
 

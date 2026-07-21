@@ -1,0 +1,181 @@
+<header class="topo">
+  <div class="marca">⚖️ Peticiona</div>
+  <nav>
+    <a routerLink="/">← Seu dia</a>
+    <a routerLink="/calculadora">Calculadora</a>
+  </nav>
+</header>
+
+<main>
+  @if (erro(); as e) {
+    <div class="aviso erro"><strong>Não deu certo</strong>{{ e }}</div>
+  }
+
+  @if (dados(); as d) {
+    <section class="titulo">
+      <h1>{{ d.processo.cliente }}</h1>
+      <p>
+        {{ d.processo.numero }} · {{ d.processo.vara }}<br />
+        Contra {{ d.processo.parteContraria }} · {{ d.processo.fase }}
+      </p>
+    </section>
+
+    <!-- ① A publicação como ela chega. O "antes". -->
+    <section class="painel">
+      <h2>Publicação · {{ d.orgao }} · {{ d.dataPublicacao | date: 'dd/MM/yyyy' }}</h2>
+      <div class="publicacao">{{ d.texto }}</div>
+
+      @if (!classificacao()) {
+        <div class="acoes" style="margin-top: 1.1rem">
+          <button type="button" class="primario" (click)="ler()" [disabled]="lendo()">
+            {{ lendo() ? 'Lendo a publicação…' : 'Ler com a IA' }}
+          </button>
+          @if (lendo()) {
+            <span class="carregando">Isso leva alguns segundos — é uma chamada real ao modelo.</span>
+          }
+        </div>
+      }
+    </section>
+
+    <!-- ② O que a IA entendeu. -->
+    @if (classificacao(); as c) {
+      <section class="painel">
+        <h2>Leitura da IA <span class="etiqueta ia">gerado por IA · confira</span></h2>
+
+        <div class="campos">
+          <div class="campo-leitura">
+            <span class="rot">Ato processual</span>
+            <span class="val">{{ c.tipoAto }}</span>
+          </div>
+          <div class="campo-leitura">
+            <span class="rot">Prazo concedido</span>
+            <span class="val">
+              @if (c.prazoEmDias > 0) {
+                {{ c.prazoEmDias }} {{ rotuloContagem(c.tipoContagem) }}
+              } @else {
+                Não abre prazo
+              }
+            </span>
+          </div>
+          <div class="campo-leitura">
+            <span class="rot">Urgência</span>
+            <span class="val">{{ c.urgencia }}</span>
+          </div>
+          <div class="campo-leitura">
+            <span class="rot">Peça sugerida</span>
+            <span class="val">{{ rotuloPeca(c.tipoPecaSugerida) }}</span>
+          </div>
+        </div>
+
+        <div class="campo-leitura" style="margin-bottom: 1rem">
+          <span class="rot">Providência</span>
+          <span class="val">{{ c.providencia }}</span>
+        </div>
+
+        <div class="campo-leitura">
+          <span class="rot">Trecho que sustenta a leitura</span>
+          <p class="citacao">“{{ c.fundamentacao }}”</p>
+        </div>
+
+        <div class="confianca" [class.baixa]="c.confianca < 0.7">
+          <span class="rot" style="font-size: 0.75rem; color: var(--muted)">
+            Confiança da IA: {{ (c.confianca * 100).toFixed(0) }}%
+            @if (c.confianca < 0.7) { — abaixo do limiar, revise antes de agendar }
+          </span>
+          <div class="barra"><span [style.width.%]="c.confianca * 100"></span></div>
+        </div>
+      </section>
+    }
+
+    <!-- ③ O prazo. Calculado, não gerado. -->
+    @if (prazo(); as p) {
+      <section class="painel">
+        <h2>Prazo · calculado pelo motor determinístico</h2>
+
+        <div class="campos">
+          <div class="campo-leitura">
+            <span class="rot">Vence em</span>
+            <span class="val" style="font-size: 1.35rem; color: var(--gold)">
+              {{ p.dataVencimento | date: 'dd/MM/yyyy' }}
+            </span>
+          </div>
+          <div class="campo-leitura">
+            <span class="rot">Contagem começa</span>
+            <span class="val">{{ p.dataInicioContagem | date: 'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="campo-leitura">
+            <span class="rot">Dias não contados</span>
+            <span class="val">{{ diasPulados() }}</span>
+          </div>
+        </div>
+
+        @if (p.avisos.length) {
+          <div class="aviso alerta">
+            <strong>O que este cálculo não garante</strong>
+            @for (a of p.avisos; track a) { <div>· {{ a }}</div> }
+          </div>
+        }
+
+        <details class="memoria">
+          <summary>Ver a memória de cálculo, dia a dia</summary>
+          <ul class="passos">
+            @for (passo of p.passos; track passo.data) {
+              <li [class.pulado]="!passo.contado">
+                <span class="d">{{ passo.data | date: 'dd/MM (EEE)' }}</span>
+                <span>{{ passo.contado ? passo.numero + 'º dia' : passo.motivo }}</span>
+              </li>
+            }
+          </ul>
+          <div style="margin-top: 0.9rem; font-size: 0.85rem; color: var(--muted)">
+            @for (f of p.fundamentacao; track f) { <div>· {{ f }}</div> }
+          </div>
+        </details>
+      </section>
+    }
+
+    <!-- ④ O rascunho. -->
+    @if (classificacao()) {
+      <section class="painel">
+        <h2>Peça</h2>
+
+        @if (!podeRascunhar()) {
+          <p style="color: var(--muted); line-height: 1.6">
+            Esta publicação não pede contestação nem petição simples — os dois tipos de peça
+            do lançamento. Réplica e recurso ficam para depois (corte #3).
+          </p>
+        } @else {
+          <div class="acoes" style="margin-bottom: 1.1rem">
+            <button type="button" class="primario" (click)="rascunhar()" [disabled]="rascunhando()">
+              {{ rascunhando() ? 'Redigindo…' : rascunho() ? 'Gerar outro rascunho' : 'Rascunhar a peça' }}
+            </button>
+            @if (rascunho()) {
+              <button type="button" class="secundario" (click)="baixar()">Baixar</button>
+            }
+            @if (rascunhando()) {
+              <span class="carregando">A peça inteira leva mais tempo que a leitura.</span>
+            }
+          </div>
+
+          @if (rascunho()) {
+            <div class="aviso alerta">
+              <strong>Rascunho gerado por IA — revisão obrigatória</strong>
+              Os trechos em [COLCHETES] são lacunas deliberadas: fatos e precedentes que o
+              modelo não tem e não deve inventar. A responsabilidade pela peça protocolada é
+              sua.
+            </div>
+
+            <textarea
+              class="editor"
+              [ngModel]="rascunho()"
+              (ngModelChange)="rascunho.set($event)"
+              name="rascunho"
+              spellcheck="true"
+            ></textarea>
+          }
+        }
+      </section>
+    }
+  } @else if (!erro()) {
+    <div class="carregando">Carregando…</div>
+  }
+</main>

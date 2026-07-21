@@ -1,0 +1,502 @@
+<title>Peticiona IA — Panorama do Projeto</title>
+
+<style>
+  :root {
+    --paper:      #F5F6F5;
+    --surface:    #FFFFFF;
+    --surface-2:  #ECEFEF;
+    --ink:        #111A1C;
+    --ink-2:      #3E4B4E;
+    --ink-3:      #6C7A7D;
+    --rule:       #D6DCDC;
+    --rule-firm:  #B9C3C3;
+    --accent:     #1F5F6B;
+    --accent-ink: #0E3A43;
+    --amber:      #9A6708;
+    --amber-bg:   #FBF1DC;
+    --red:        #99302A;
+    --red-bg:     #F9E7E5;
+    --green:      #2B6247;
+    --green-bg:   #E3F0E8;
+
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+    --mono: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
+
+    --measure: 68ch;
+    --pad: clamp(1.1rem, 4vw, 2.75rem);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper:      #0C1214;
+      --surface:    #121A1D;
+      --surface-2:  #1A2427;
+      --ink:        #E8EDEC;
+      --ink-2:      #B0BDBD;
+      --ink-3:      #7C8B8C;
+      --rule:       #263336;
+      --rule-firm:  #35474A;
+      --accent:     #63B6C0;
+      --accent-ink: #A6D9DF;
+      --amber:      #E0AA44;
+      --amber-bg:   #2A2113;
+      --red:        #E68A80;
+      --red-bg:     #2C1715;
+      --green:      #7FC49F;
+      --green-bg:   #142519;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper:      #0C1214;
+    --surface:    #121A1D;
+    --surface-2:  #1A2427;
+    --ink:        #E8EDEC;
+    --ink-2:      #B0BDBD;
+    --ink-3:      #7C8B8C;
+    --rule:       #263336;
+    --rule-firm:  #35474A;
+    --accent:     #63B6C0;
+    --accent-ink: #A6D9DF;
+    --amber:      #E0AA44;
+    --amber-bg:   #2A2113;
+    --red:        #E68A80;
+    --red-bg:     #2C1715;
+    --green:      #7FC49F;
+    --green-bg:   #142519;
+  }
+
+  :root[data-theme="light"] {
+    --paper:      #F5F6F5;
+    --surface:    #FFFFFF;
+    --surface-2:  #ECEFEF;
+    --ink:        #111A1C;
+    --ink-2:      #3E4B4E;
+    --ink-3:      #6C7A7D;
+    --rule:       #D6DCDC;
+    --rule-firm:  #B9C3C3;
+    --accent:     #1F5F6B;
+    --accent-ink: #0E3A43;
+    --amber:      #9A6708;
+    --amber-bg:   #FBF1DC;
+    --red:        #99302A;
+    --red-bg:     #F9E7E5;
+    --green:      #2B6247;
+    --green-bg:   #E3F0E8;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: var(--pad);
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+  }
+
+  /* ---------- typography ---------- */
+  h1, h2, h3 { font-family: var(--serif); font-weight: 600; text-wrap: balance; line-height: 1.15; }
+  h1 { font-size: clamp(1.9rem, 5vw, 2.9rem); letter-spacing: -0.02em; }
+  h2 { font-size: clamp(1.25rem, 3vw, 1.6rem); letter-spacing: -0.01em; }
+  h3 { font-size: 1.05rem; }
+  p  { max-width: var(--measure); }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .lede { font-size: 1.05rem; color: var(--ink-2); }
+  .note { font-size: 0.85rem; color: var(--ink-3); max-width: var(--measure); }
+  strong { font-weight: 650; color: var(--ink); }
+  .num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+  /* ---------- header ---------- */
+  .masthead {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 2rem;
+    align-items: flex-end;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--rule-firm);
+    padding-bottom: 1.5rem;
+  }
+  .masthead p { margin-top: 0.5rem; }
+
+  .stamp {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    line-height: 1.5;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1.5px solid var(--amber);
+    color: var(--amber);
+    background: var(--amber-bg);
+    padding: 0.6rem 0.9rem;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .stamp b { display: block; font-size: 0.9rem; letter-spacing: 0.06em; }
+
+  /* ---------- sections ---------- */
+  section { display: flex; flex-direction: column; gap: 1.25rem; }
+  .sec-head { display: flex; flex-direction: column; gap: 0.35rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.7rem; }
+
+  /* ---------- verdict panel ---------- */
+  .verdict {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-left: 5px solid var(--amber);
+    padding: clamp(1.25rem, 3vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .verdict h2 { color: var(--ink); }
+  .verdict .kicker { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber); }
+
+  .action {
+    background: var(--surface-2);
+    border: 1px dashed var(--rule-firm);
+    padding: 1rem 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .action .price { font-family: var(--mono); font-size: 1.5rem; font-weight: 600; color: var(--accent); }
+
+  /* ---------- stat grid ---------- */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .stat { background: var(--surface); padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.25rem; }
+  .stat .v { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 1.45rem; font-weight: 600; letter-spacing: -0.02em; }
+  .stat .k { font-size: 0.78rem; color: var(--ink-3); line-height: 1.35; }
+  .stat.warn .v { color: var(--amber); }
+  .stat.bad  .v { color: var(--red); }
+  .stat.good .v { color: var(--green); }
+
+  /* ---------- tables ---------- */
+  .scroll { overflow-x: auto; border: 1px solid var(--rule); background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; min-width: 40rem; font-size: 0.88rem; }
+  th, td { text-align: left; padding: 0.62rem 0.85rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  thead th { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-3); background: var(--surface-2); white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: none; }
+  td.me { background: var(--surface-2); }
+  .mono-cell { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .yes { color: var(--green); font-weight: 600; }
+  .no  { color: var(--red); }
+  .maybe { color: var(--amber); }
+
+  /* ---------- gate rail ---------- */
+  .gates { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--rule); background: var(--surface); }
+  .gate { display: grid; grid-template-columns: 4.5rem 7.5rem 1fr; gap: 1rem; padding: 0.85rem 1rem; border-bottom: 1px solid var(--rule); align-items: baseline; }
+  .gate:last-child { border-bottom: none; }
+  .gate.fired { background: var(--amber-bg); }
+  .gate .id { font-family: var(--mono); font-size: 0.95rem; font-weight: 600; color: var(--accent); }
+  .gate.fired .id { color: var(--amber); }
+  .gate .when { font-family: var(--mono); font-size: 0.78rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .gate .what { font-size: 0.88rem; }
+
+  /* ---------- scenario cards ---------- */
+  .paths { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; }
+  .path { background: var(--surface); border: 1px solid var(--rule); border-top: 4px solid var(--rule-firm); padding: 1.1rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .path.r { border-top-color: var(--red); }
+  .path.a { border-top-color: var(--amber); }
+  .path.g { border-top-color: var(--green); }
+  .path .cond { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+  .path h3 { font-size: 1rem; }
+  .path p { font-size: 0.86rem; color: var(--ink-2); margin: 0; }
+
+  /* ---------- reality split ---------- */
+  .split { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; }
+  .col { background: var(--surface); border: 1px solid var(--rule); padding: 1.1rem; }
+  .col h3 { margin-bottom: 0.75rem; }
+  .col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.87rem; color: var(--ink-2); }
+  .col li { padding-left: 1.35rem; position: relative; }
+  .col li::before { position: absolute; left: 0; font-family: var(--mono); font-size: 0.8rem; }
+  .col.built li::before { content: "▪"; color: var(--green); }
+  .col.plan  li::before { content: "○"; color: var(--ink-3); }
+  .col.zero  { border-color: var(--red); }
+  .col.zero li { color: var(--ink); font-weight: 550; }
+  .col.zero li::before { content: "0"; color: var(--red); font-weight: 700; }
+  .col.zero .hours { display: block; font-weight: 400; font-size: 0.8rem; color: var(--ink-3); }
+
+  /* ---------- deadline ---------- */
+  .deadline {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-left: 5px solid var(--accent);
+    padding: clamp(1.25rem, 3vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+  .date-badge {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .tasks { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .task { background: var(--surface-2); padding: 0.9rem 1rem; display: flex; flex-direction: column; gap: 0.3rem; }
+  .task .h { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .task .t { font-size: 0.87rem; font-weight: 600; }
+  .task .d { font-size: 0.8rem; color: var(--ink-3); line-height: 1.4; }
+
+  /* ---------- checklist ---------- */
+  ol.steps { list-style: none; counter-reset: s; display: flex; flex-direction: column; gap: 0.9rem; }
+  ol.steps li { counter-increment: s; display: grid; grid-template-columns: 1.9rem 1fr; gap: 0.85rem; align-items: baseline; }
+  ol.steps li::before { content: counter(s); font-family: var(--mono); font-size: 0.8rem; color: var(--accent); border: 1px solid var(--rule-firm); text-align: center; padding: 0.1rem 0; }
+  ol.steps p { margin: 0; font-size: 0.92rem; }
+  ol.steps .lbl { display: block; font-weight: 650; }
+
+  footer { border-top: 1px solid var(--rule); padding-top: 1.25rem; }
+
+  a { color: var(--accent); text-underline-offset: 2px; }
+  a:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  @media (max-width: 34rem) {
+    .gate { grid-template-columns: 3.2rem 1fr; row-gap: 0.2rem; }
+    .gate .what { grid-column: 1 / -1; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div>
+      <span class="eyebrow">Panorama do projeto · 20 jul 2026</span>
+      <h1>Peticiona IA</h1>
+      <p class="lede">Copiloto jurídico para o advogado autônomo: a intimação chega, a IA classifica, o prazo entra na agenda e a peça nasce rascunhada.</p>
+    </div>
+    <div class="stamp">
+      Gate G5<br>
+      <b>Amarelo</b>
+      Verificação pendente
+    </div>
+  </header>
+
+  <section class="verdict">
+    <span class="kicker">O que mudou hoje</span>
+    <h2>Existe um concorrente fazendo quase isso, por R$&nbsp;89,90, agora.</h2>
+    <p>O <strong>ApolloIA</strong> vende geração de contestações e petições, monitoramento de publicações por OAB via fontes do CNJ, alerta antes do prazo e notificação por e-mail e WhatsApp — tudo num produto só, mais barato que o Solo de R$&nbsp;119 planejado, e disponível <strong>15 meses antes</strong> do nosso lançamento.</p>
+    <p>Isso aciona o gate G5, escrito a frio em julho: <em>“concorrente relevante lança geração de peças + ingestão + prazos integrados antes do nosso beta ⇒ reavaliar a tese imediatamente”.</em> Ele está <strong>amarelo, não vermelho</strong>, por três lacunas verificadas: o Apollo não calcula prazo processual (as 55 calculadoras dele são financeiras), não tem contexto dos autos, e não está confirmado que a peça nasça da intimação em vez de uma conversa.</p>
+    <div class="action">
+      <span class="eyebrow">Decisão que destrava tudo</span>
+      <span class="price">R$ 89,90 · 1 mês · 5 contestações reais</span>
+      <p class="note">Assinar o Apollo Start e testar em campo é o que separa “a lacuna existe” de “a lacuna acabou”. É uma decisão de R$&nbsp;90 travando uma decisão de 775 horas. Nenhuma hora nova de desenvolvimento antes disso.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="eyebrow">Os números que decidem</span>
+      <h2>A conta do projeto, sem anestesia</h2>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="v">775h</span><span class="k">Esforço da Fase 1 (595h + 30% buffer)</span></div>
+      <div class="stat"><span class="v">12,5h</span><span class="k">Capacidade real por semana, solo</span></div>
+      <div class="stat warn"><span class="v">14–18</span><span class="k">Meses até lançar, intervalo honesto</span></div>
+      <div class="stat bad"><span class="v">R$ 0</span><span class="k">MRR até out/2027</span></div>
+      <div class="stat good"><span class="v">~70%</span><span class="k">Margem bruta esperada</span></div>
+      <div class="stat good"><span class="v">11</span><span class="k">Assinantes para o break-even</span></div>
+      <div class="stat"><span class="v">R$ 800</span><span class="k">Custo fixo mensal no pico pré-receita</span></div>
+      <div class="stat bad"><span class="v">R$ 78–117k</span><span class="k">O que as mesmas 780h renderiam de freela</span></div>
+    </div>
+    <p class="note">A margem nunca foi o problema deste projeto. O problema é o tempo — e, desde hoje, também a janela: cada mês de desenvolvimento é um mês em que a lacuna pode fechar sozinha.</p>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="eyebrow">Estágio real</span>
+      <h2>O que existe contra o que está no papel</h2>
+    </div>
+    <div class="split">
+      <div class="col built">
+        <h3>Construído e testado</h3>
+        <ul>
+          <li>Motor determinístico de prazos — dias úteis, feriados forenses, recesso, prorrogação</li>
+          <li>Memória de cálculo dia a dia, com fundamentação legal</li>
+          <li>19 testes JUnit cobrindo os casos que erram na vida real</li>
+          <li>Calculadora pública Angular 21 + API Spring Boot 3.3 / Java 21</li>
+          <li>Deploy Docker em jar único, rodando no Railway</li>
+          <li>Captura de e-mails de interesse (lista de espera)</li>
+        </ul>
+      </div>
+      <div class="col plan">
+        <h3>Especificado, não construído</h3>
+        <ul>
+          <li>Ingestão DJEN / Comunica CNJ — 90h, o bloco mais caro</li>
+          <li>Classificação de intimações por IA, com fila de baixa confiança</li>
+          <li>Redator com RAG sobre os autos — 95h, o coração do produto</li>
+          <li>Editor TipTap com wrapper Angular próprio — 105h, risco técnico nº 1</li>
+          <li>Onboarding por OAB via DataJud, CRUD, dashboard, agenda</li>
+          <li>Landing, LGPD, cobrança por link manual</li>
+        </ul>
+      </div>
+    </div>
+    <p class="note">Traduzindo: está pronta a parte que nenhum concorrente tem — e que sozinha não vende. Falta inteira a parte que o mercado paga — e que o concorrente já entrega.</p>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="eyebrow">Campo de batalha</span>
+      <h2>Peticiona (out/2027) contra o que já está no ar</h2>
+    </div>
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Capacidade</th>
+            <th scope="col">Peticiona</th>
+            <th scope="col">ApolloIA</th>
+            <th scope="col">iiLEX</th>
+            <th scope="col">Estag.ia</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Gera peças com IA</th><td class="me yes">Sim · 1 nicho, 2 tipos</td><td class="yes">Sim · 12+ tipos, 8 áreas</td><td class="no">Não · só resume</td><td class="no">Não</td></tr>
+          <tr><th scope="row">Peça nasce da intimação</th><td class="me yes">Sim</td><td class="maybe">Não confirmado</td><td class="no">Não</td><td class="no">Não</td></tr>
+          <tr><th scope="row">Contexto dos autos (RAG)</th><td class="me yes">Sim, por tenant</td><td class="no">Não</td><td class="no">Não</td><td class="no">Não</td></tr>
+          <tr><th scope="row">Ingestão de publicações</th><td class="me yes">DJEN + Comunica</td><td class="yes">Fontes CNJ, por OAB</td><td class="yes">Diários + sistemas</td><td class="maybe">Base CNJ, com ressalva</td></tr>
+          <tr><th scope="row">Prazo calculado + memória</th><td class="me yes">Sim · já construído</td><td class="no">Não</td><td class="no">Não confirmado</td><td class="no">Não</td></tr>
+          <tr><th scope="row">Alerta de prazo</th><td class="me yes">E-mail</td><td class="yes">E-mail + WhatsApp</td><td class="yes">Sim</td><td class="maybe">Agenda manual</td></tr>
+          <tr><th scope="row">Gestão / financeiro</th><td class="me maybe">CRUD básico</td><td class="yes">Completo</td><td class="yes">Completo + timesheet</td><td class="no">Não</td></tr>
+          <tr><th scope="row">Preço de entrada</th><td class="me mono-cell">R$ 119</td><td class="mono-cell">R$ 89,90</td><td class="mono-cell">Sob consulta</td><td class="mono-cell">R$ 69,90</td></tr>
+          <tr><th scope="row">Disponível</th><td class="me no mono-cell">out/2027</td><td class="yes mono-cell">agora</td><td class="yes mono-cell">agora</td><td class="yes mono-cell">agora</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Dos dez micro-SaaS jurídicos verificados, <strong>nenhum calcula prazo processual</strong> — e dois escrevem no próprio site que não devem ser usados para prazo fatal. É a única exclusividade que sobrou intacta. A pergunta aberta é se ela sustenta um produto sozinha, e a resposta honesta hoje é: provavelmente não. Ela sustenta a <em>confiança</em> num produto cujo motivo de compra é a peça.</p>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="eyebrow">Trilha de decisão</span>
+      <h2>Os gates, e onde estamos neles</h2>
+    </div>
+    <div class="gates">
+      <div class="gate"><span class="id">G0</span><span class="when">set/2026</span><span class="what">15 entrevistas, dor confirmada, nicho decidido — <strong>não iniciado</strong></span></div>
+      <div class="gate"><span class="id">G1</span><span class="when">fev/2027</span><span class="what">Intimação real classificada e prazo calculado, em produção</span></div>
+      <div class="gate"><span class="id">G2</span><span class="when">jul/2027</span><span class="what">Fluxo do aha completo, ponta a ponta, com as 2 peças</span></div>
+      <div class="gate"><span class="id">G3</span><span class="when">set/2027</span><span class="what">NPS dos betas ≥ 40, zero prazo errado, ≥ 6 dispostos a pagar</span></div>
+      <div class="gate"><span class="id">G4</span><span class="when">jan/2028</span><span class="what">≥ 35 pagantes e churn ≤ 8%/mês, ou reavaliação formal</span></div>
+      <div class="gate fired"><span class="id">G5</span><span class="when">contínuo</span><span class="what"><strong>ACIONADO EM 20/07/2026.</strong> ApolloIA entrega peças + ingestão + alerta de prazo por R$ 89,90. Amarelo até o teste de campo</span></div>
+    </div>
+    <p class="note">O G5 não dispara uma vez só. A barreira de entrada neste mercado é baixa em execução técnica: dos dez concorrentes indie levantados, nove são operação de uma a duas pessoas e quatro registraram o domínio nos últimos oito meses. Se é barato para nós, é barato contra nós.</p>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="eyebrow">Depois do teste</span>
+      <h2>As três saídas, decididas antes de saber o resultado</h2>
+    </div>
+    <div class="paths">
+      <div class="path r">
+        <span class="cond">Se as peças forem boas e nascerem da intimação</span>
+        <h3>Vermelho — encerrar cedo e barato</h3>
+        <p>A tese como está morreu: alguém ocupou o quadrante antes, mais barato. Encerrar custa o que já foi gasto, e nada mais. O motor de prazos vira calculadora pública e ímã de leads para qualquer coisa futura.</p>
+      </div>
+      <div class="path a">
+        <span class="cond">Se as peças forem boas mas o fluxo for manual</span>
+        <h3>Amarelo — refazer o escopo para 2027</h3>
+        <p>O diferencial encolhe para integração + autos + prazo. Isso ainda vende, mas não em 15 meses: exige cortar o escopo de novo e chegar ao beta antes que a lacuna feche. Cronograma e preço precisam ser reescritos, não ajustados.</p>
+      </div>
+      <div class="path g">
+        <span class="cond">Se as peças forem genéricas e rasas</span>
+        <h3>Verde — a aposta de nicho ganha força</h3>
+        <p>Amplitude sem profundidade é o ponto fraco estrutural de quem cobre 8 áreas com 37 agentes. Uma contestação trabalhista impecável derrota trinta peças medianas — mas o cronograma de 15 meses e o preço de R$ 119 continuam abertos para revisão.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="eyebrow">Parecer</span>
+      <h2>O que o inventário do repositório revela</h2>
+    </div>
+    <div class="split">
+      <div class="col built">
+        <h3>Produzido até hoje</h3>
+        <ul>
+          <li>16 documentos de estratégia, alguns excelentes</li>
+          <li>Motor de prazos, 19 testes, deploy em produção</li>
+          <li>Análise competitiva em 5 camadas, preços conferidos</li>
+          <li>Gates escritos a frio, com critério de encerramento</li>
+          <li>Auditoria de 27 bugs em workflows n8n</li>
+          <li>Conector MCP validado</li>
+        </ul>
+      </div>
+      <div class="col zero">
+        <h3>Contatos com o mundo real</h3>
+        <ul>
+          <li>Conversas com advogado que não é parente<span class="hours">custo: 40 min cada</span></li>
+          <li>Entrevistas do G0<span class="hours">custo: ~2h cada, decide o projeto inteiro</span></li>
+          <li>Candidaturas enviadas<span class="hours">custo: ~30 min cada</span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="note">Isso não é preguiça — é o oposto. Toda vez que aparece uma tarefa de contato, aparece junto uma tarefa técnica que parece pré-requisito dela: o robô antes de aplicar, o motor antes de entrevistar, a análise antes de validar. Todas foram bem-feitas. Nenhuma era pré-requisito de nada.</p>
+    <p class="note">Isso decide mais que qualquer concorrente, porque um SaaS de nicho para advogado autônomo <strong>é</strong> um negócio de conversa: 15 entrevistas, 10 betas com onboarding assistido, indicação, suporte. O <span class="num">08-modelo-de-negocio.md</span> chama isso de “a premissa mais frágil” — e é a única que nunca foi testada.</p>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="eyebrow">Forçando a decisão</span>
+      <h2>30 dias, com o resultado combinado antes</h2>
+    </div>
+    <div class="deadline">
+      <span class="date-badge">Prazo: 20 de agosto de 2026 · ~27h no total · nada disso é código</span>
+      <div class="tasks">
+        <div class="task"><span class="h">~4h</span><span class="t">Teste de campo do Apollo</span><span class="d">Protocolo pronto no doc 15, com tabelas para preencher</span></div>
+        <div class="task"><span class="h">~16h</span><span class="t">8 entrevistas</span><span class="d">Não 15 — o §7 do doc 14 manda parar em 8 se o placar for claro</span></div>
+        <div class="task"><span class="h">~5h</span><span class="t">10 candidaturas</span><span class="d">Vagas Java sênior, manualmente, sem esperar o robô</span></div>
+        <div class="task"><span class="h">~2h</span><span class="t">Situação da SLU</span><span class="d">Se houver vedação a administrar, nada mais importa</span></div>
+      </div>
+      <div class="scroll">
+        <table>
+          <thead>
+            <tr><th scope="col">Situação em 20/08/2026</th><th scope="col">Decisão, sem renegociar</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Entrevistas feitas · dor confirmada · Apollo fraco</td><td class="yes">O projeto vive. Refazer escopo com dado real, não com hipótese</td></tr>
+            <tr><td>Entrevistas feitas · dor confirmada · Apollo forte</td><td class="maybe">Repensar a tese. Existe cliente, mas o lugar já está ocupado</td></tr>
+            <tr><td>Entrevistas feitas · dor não confirmada</td><td class="yes">Encerrar — e isso é vitória. 750h economizadas por ~R$ 90</td></tr>
+            <tr><td><strong>Entrevistas não feitas</strong></td><td class="no"><strong>Encerrar.</strong> Um SaaS que exige 15 conversas para nascer e 100 para crescer não será tocado por quem não teve 8 em um mês</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">A última linha é a única que não depende de nenhum advogado responder nada — e é informação sobre <em>qual projeto é o certo</em>, não sobre o valor de quem o tocou até aqui.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="eyebrow">Se encerrar</span>
+      <h2>O que sobrevive de qualquer jeito</h2>
+    </div>
+    <ol class="steps">
+      <li><p><span class="lbl">A calculadora de prazos, pública e gratuita</span>Custa quase nada para manter, é útil de verdade, e é portfólio de Angular 21 + Spring Boot em produção — o que serve direto ao trilho da recolocação.</p></li>
+      <li><p><span class="lbl">O motor como componente vendável</span>Nenhum dos dez concorrentes calcula prazo, e dois avisam no site que não servem para prazo fatal. Existe venda de API aí — mas o mercado são 10 a 20 indies sem caixa. É salvamento de ativo, não pivô: não construir nada novo, só oferecer o que já existe.</p></li>
+      <li><p><span class="lbl">Os documentos</span>Este repositório demonstra um raciocínio de produto que a maioria das startups financiadas não produz. Vale em entrevista de emprego e vale no próximo projeto.</p></li>
+    </ol>
+  </section>
+
+  <footer>
+    <p class="note">Fontes: documentação do projeto em <span class="num">docs/00</span>–<span class="num">16</span>; preços do ApolloIA conferidos no endpoint público da própria plataforma, do Estag.ia e do LegalDash nas páginas oficiais de planos, todos em 20/07/2026. iiLEX não publica preço. Tudo que não pôde ser confirmado está marcado como tal na tabela e no <span class="num">02-analise-competitiva.md</span>.</p>
+    <p class="note">As seções “Parecer”, “30 dias” e “Se encerrar” são <strong>opinião</strong>, e estão desenvolvidas no <span class="num">16-parecer.md</span> — inclusive a seção onde esse parecer pode estar errado. O restante desta página é levantamento. A distinção é proposital: você pode discordar do parecer sem discordar dos números.</p>
+  </footer>
+
+</div>

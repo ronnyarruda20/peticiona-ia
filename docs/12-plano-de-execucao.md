@@ -6,7 +6,7 @@
 
 ## 1. 🧮 A conta, aberta (uma pessoa só)
 
-Capacidade mensal: 12,5h/semana × ~4,3 semanas = **~54h/mês**. Em 14 meses: ~756h nominais para 775h necessárias — a fração que falta (≈0,3 mês) é exatamente por isso que o intervalo honesto do doc 00 é 14–18, não 14 cravado. **E dessas ~54h/mês saem TAMBÉM validação, GTM e suporte de beta** — não existe mais "o Ronny cobre a validação enquanto o primo desenvolve".
+Capacidade mensal: 12,5h/semana × ~4,3 semanas = **~54h/mês**. Em 14 meses: ~756h nominais para 775h necessárias — a fração que falta (≈0,3 mês) é exatamente por isso que o intervalo honesto do doc 00 é 14–18, não 14 cravado. **E dessas ~54h/mês saem TAMBÉM validação, GTM e suporte de beta** — não existe mais a divisão em que uma pessoa cobria a validação enquanto a outra desenvolvia.
 
 Blocos do doc 00 §3, já com os cortes 1–5 aplicados:
 
@@ -193,6 +193,6 @@ Emprego aperta, alguém adoece, cansa. O plano assume que isso acontece; o que e
 |---|---|---|---|
 | 7.1 | **Bus factor = 1.** Doença, acidente, pico no emprego: o projeto PARA. Não há trilho paralelo nem quem cubra | 2 semanas paradas = 2 semanas de atraso, sempre, sem exceção | Buffer 30% + cenário 18 meses como realista; documentação (ADRs, diário, demos gravadas) para retomada barata — inclusive por outra pessoa, num cenário de venda/sociedade futura |
 | 7.2 | **Burnout.** 12,5h/semana TODA semana por 14–18 meses, em cima de um emprego, sem sócio para dividir frustração | O cronograma já é o anti-burnout: assume 12,5h e não 20, proíbe sprint heroico (§5.4) | Marcos mensais pequenos e demonstráveis (dopamina de progresso); demo gravada como celebração mínima; deslizar é sempre preferível a esmagar |
-| 7.3 | **GTM e dev competem pelas MESMAS horas.** As 15 entrevistas, a lista de espera, o conteúdo e o suporte do beta saíam "de graça" no plano antigo porque o primo cobria o dev. Não cobre mais | Validação ≈ 30h ≈ 3 semanas de capacidade; suporte de beta ≈ 40h ≈ 1 mês. Está tudo DENTRO do §2 — se o GTM crescer além disso, o dev atrasa na mesma proporção | GTM em janelas concentradas (M1–2 validação; M12+ recrutamento/conteúdo); meta de lista reduzida (150, não 200); aceitar funil menor no ano 1 (doc 00 §7 já assume) |
+| 7.3 | **GTM e dev competem pelas MESMAS horas.** As 15 entrevistas, a lista de espera, o conteúdo e o suporte do beta saíam "de graça" no plano antigo porque havia uma segunda pessoa cobrindo o dev. Não há mais | Validação ≈ 30h ≈ 3 semanas de capacidade; suporte de beta ≈ 40h ≈ 1 mês. Está tudo DENTRO do §2 — se o GTM crescer além disso, o dev atrasa na mesma proporção | GTM em janelas concentradas (M1–2 validação; M12+ recrutamento/conteúdo); meta de lista reduzida (150, não 200); aceitar funil menor no ano 1 (doc 00 §7 já assume) |
 | 7.4 | **Curadoria contínua sem redundância.** Feriados, prompts, suite — antes dividido, agora tudo do Ronny | Feriado municipal errado = prazo errado = a catástrofe do doc 09 | Auditoria mensal de feriados em calendário com alarme; erro achado vira caso da tabela-verdade ANTES do fix (doc 13 §5) |
 | 7.5 | **Isolamento de decisão.** Sem segunda opinião de arquitetura, decisão ruim do M2 aparece como retrabalho no M8 | O buffer de 30% existe em parte por isso (doc 00 §3.4) | ADRs + revisão pontual do amigo dev nos pontos críticos (§5.3) + spike antes de compromissos caros (TipTap) |

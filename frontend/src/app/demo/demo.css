@@ -1,0 +1,250 @@
+/*
+  Estilos compartilhados pelas telas da demonstração.
+
+  Doc 10 aplicado: densidade alta (advogado quer a informação toda na tela, não
+  paginada), estado do sistema sempre visível, e o que a IA produziu sempre
+  marcado como tal — nunca disfarçado de fato do sistema.
+*/
+
+:host { display: block; min-height: 100vh; }
+
+.topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: var(--ink);
+  color: #fff;
+  border-bottom: 3px solid var(--gold);
+}
+.marca { font-weight: 700; font-size: 1.05rem; }
+.topo nav { display: flex; gap: 1.25rem; align-items: center; }
+.topo a {
+  color: var(--gold-soft);
+  text-decoration: none;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.topo a:hover { color: #fff; text-decoration: underline; }
+
+main {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem 4rem;
+}
+
+.titulo { margin-bottom: 1.5rem; }
+.titulo h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); letter-spacing: -0.02em; }
+.titulo p { color: var(--muted); margin-top: 0.4rem; line-height: 1.55; }
+
+/* ── Avisos ─────────────────────────────────────────────── */
+.aviso {
+  border-radius: 0.6rem;
+  padding: 0.9rem 1.1rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
+}
+.aviso.alerta { background: var(--warn-bg); color: var(--warn); border: 1px solid #e8d3a4; }
+.aviso.erro { background: var(--red-bg); color: var(--red); border: 1px solid #eebfb9; }
+.aviso strong { display: block; margin-bottom: 0.2rem; }
+
+/* ── Contadores ─────────────────────────────────────────── */
+.contadores {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 0.9rem;
+  margin-bottom: 1.75rem;
+}
+.contador {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 0.7rem;
+  padding: 1rem 1.1rem;
+}
+.contador .n { font-size: 1.9rem; font-weight: 700; line-height: 1; }
+.contador .rot {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.contador.destaque .n { color: var(--gold); }
+
+/* ── Painel e lista ─────────────────────────────────────── */
+.painel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  padding: 1.4rem;
+  margin-bottom: 1.5rem;
+}
+.painel > h2 {
+  font-size: 1.05rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.lista { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.item {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--line-strong);
+  border-radius: 0.6rem;
+  padding: 0.95rem 1.1rem;
+  background: var(--surface-2);
+}
+.item:hover { border-color: var(--gold-soft); background: var(--gold-bg); }
+.item.urgente { border-left-color: var(--red); }
+.item.pendente { border-left-color: var(--gold); }
+.item.pronto { border-left-color: #3f7a53; }
+
+.item .cab {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+.item .cliente { font-weight: 600; }
+.item .proc { font-size: 0.8rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.item .ato { margin-top: 0.45rem; font-size: 0.92rem; }
+.item .prov { margin-top: 0.25rem; font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+
+.etiquetas { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.6rem; }
+.etiqueta {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.3rem;
+  background: var(--line);
+  color: var(--muted);
+  font-weight: 600;
+}
+.etiqueta.vence { background: var(--ink); color: #fff; font-variant-numeric: tabular-nums; }
+.etiqueta.alta { background: var(--red-bg); color: var(--red); }
+.etiqueta.revisao { background: var(--warn-bg); color: var(--warn); }
+.etiqueta.ia { background: var(--gold-bg); color: var(--gold); }
+
+/* ── Botões ─────────────────────────────────────────────── */
+.acoes { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+button {
+  font: inherit;
+  font-weight: 600;
+  padding: 0.65rem 1.1rem;
+  border-radius: 0.45rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+button.primario { background: var(--ink); color: #fff; }
+button.primario:hover:not(:disabled) { background: var(--ink-hover); }
+button.secundario { background: var(--surface); color: var(--ink); border-color: var(--line-strong); }
+button.secundario:hover:not(:disabled) { border-color: var(--ink); }
+button:disabled { opacity: 0.55; cursor: progress; }
+
+/* ── Publicação bruta ───────────────────────────────────── */
+.publicacao {
+  font-family: 'Cascadia Mono', Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 1.75;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 22rem;
+  overflow-y: auto;
+}
+
+/* ── Leitura da IA ──────────────────────────────────────── */
+.campos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.campo-leitura .rot {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin-bottom: 0.25rem;
+}
+.campo-leitura .val { font-weight: 600; line-height: 1.4; }
+
+.citacao {
+  border-left: 3px solid var(--gold-soft);
+  padding: 0.5rem 0 0.5rem 0.9rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* Barra de confiança — a incerteza da IA precisa ser visível, não escondida. */
+.confianca { margin-top: 1rem; }
+.confianca .barra {
+  height: 0.4rem;
+  background: var(--line);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 0.3rem;
+}
+.confianca .barra span { display: block; height: 100%; background: #3f7a53; }
+.confianca.baixa .barra span { background: var(--warn); }
+
+/* ── Memória de cálculo ─────────────────────────────────── */
+.memoria { margin-top: 1rem; }
+.memoria summary { cursor: pointer; font-weight: 600; font-size: 0.9rem; }
+.passos {
+  list-style: none;
+  padding: 0;
+  margin-top: 0.8rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 0.3rem;
+}
+.passos li {
+  font-size: 0.82rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 0.3rem;
+  background: var(--surface-2);
+  display: flex;
+  gap: 0.5rem;
+}
+.passos li.pulado { color: var(--muted); }
+.passos li .d { font-variant-numeric: tabular-nums; font-weight: 600; min-width: 5.5rem; }
+
+/* ── Editor do rascunho ─────────────────────────────────── */
+.editor {
+  width: 100%;
+  min-height: 32rem;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  padding: 1.5rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 0.5rem;
+  background: var(--input-bg);
+  color: var(--fg);
+  resize: vertical;
+}
+
+.carregando {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}

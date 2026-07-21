@@ -10,10 +10,11 @@ A concorrência não é uma lista de softwares de gestão. São **quatro camadas
 |---|---|---|
 | 1. IA genérica | ChatGPT, Gemini, Claude | "IA que redige já existe e é quase de graça" |
 | 2. Dados + IA jurídica | Jusbrasil (Jus IA), Lexter, Turivius, Looplex, Juit | "IA jurídica brasileira já existe" |
-| 3. Software de gestão | Astrea, MaisJurídico, Advbox, Projuris, Legal One | "Software de escritório já existe" |
+| 3. Software de gestão | Astrea, MaisJurídico, Advbox, Projuris, Legal One, **iiLEX**, LegalDash | "Software de escritório já existe" |
 | 4. Calculadoras de prazo gratuitas | Prazo Fácil, Prazito, Legalcloud, ProJuris, OAB-PR, Cálculo Jurídico | "Calcular prazo já é de graça na internet" |
+| **5. Micro-SaaS de IA jurídica indie** | **ApolloIA**, Estag.ia | **"Já existe um que faz tudo isso por R$ 89,90"** |
 
-Nossa tese só se sustenta se respondermos às quatro — em especial a primeira, que será **a objeção nº 1 nas entrevistas de validação**. A camada 4 foi acrescentada em 19/07/2026 e **não ameaça o produto, mas ameaçava o plano de aquisição** (ver `07-go-to-market.md`).
+Nossa tese só se sustenta se respondermos às cinco. A camada 1 será **a objeção nº 1 nas entrevistas de validação**. A camada 4 foi acrescentada em 19/07/2026 e **não ameaça o produto, mas ameaçava o plano de aquisição** (ver `07-go-to-market.md`). **A camada 5 foi acrescentada em 20/07/2026 e é a única que ameaça a tese inteira — ver o bloco do G5 no `00-premissas.md` §8.**
 
 ---
 
@@ -180,29 +181,67 @@ Isso não mata a tese. Mata o atalho.
 
 ---
 
+## 🔴 Camada 5: os micro-SaaS indie de IA jurídica
+
+> Camada descoberta em **20/07/2026**, a partir de um diretório de micro-SaaS (find-my-saas.com/categories/legal). Registro do erro de método: as camadas 1–4 foram levantadas olhando para **incumbentes e para o topo do mercado**. O concorrente que mais se aproxima da nossa tese não tem marca, não tem imprensa, não tem LinkedIn e não aparece em nenhuma busca por "software jurídico" — **e já está vendendo.**
+
+### ApolloIA — o concorrente frontal (dispara o G5)
+
+- **O que é:** plataforma de IA jurídica self-service para advogados **e estudantes de Direito**. Preços públicos e conferidos no endpoint `apolloia.com.br/api/plans/active` em 20/07/2026
+- **Preço:** Start **R$ 89,90** (anual R$ 74,90) · Pro **R$ 139,90** · Expert **R$ 269,90** · Enterprise R$ 269,90/usuário. Trial de 7 dias no Start
+- **O que entrega:** geração de peças (petição inicial, **contestação cível e trabalhista**, recursos, apelações, agravos, alegações finais — 12+ tipos, 8 áreas, "37 agentes") · base própria de jurisprudência com 25M+ decisões rastreáveis · **monitoramento de publicações por OAB/termo via "fontes oficiais do CNJ"** com alerta antes do prazo e notificação por e-mail **e WhatsApp** (Pro+, 300–500 processos) · gestão de processos/clientes/financeiro/agenda · export Word e PDF · Pix e Stripe
+- **Posicionamento:** anti-alucinação explícito, com comparativo direto contra o ChatGPT no site — *"cada peça nasce de jurisprudência real das fontes oficiais"*. **É o mesmo argumento que planejávamos usar.**
+- **Fraquezas verificadas:**
+  - ❌ **Não calcula prazo processual.** As "55+ calculadoras" são financeiras (rescisão, juros, atualização monetária). Há alerta e agenda; não há contagem com memória de cálculo
+  - ❌ Sem sinal de **RAG sobre os autos do tenant** — o contexto vem do que o usuário conta no chat
+  - ⚠️ **NÃO CONFIRMADO** se a peça nasce da intimação monitorada ou se o fluxo é sempre conversacional — é a pergunta que decide o tamanho da nossa lacuna
+  - ⚠️ Amplitude suspeita: 37 agentes × 8 áreas é o perfil clássico de profundidade zero. **Não verificado** — exige teste em campo
+  - ❌ Sem CNPJ, endereço, fundadores ou páginas institucionais; contato único por WhatsApp (DDD 73). Zero imprensa, zero LinkedIn — **pode ser produto sem clientes**
+
+### Estag.ia — IA jurídica analítica, não redatora
+
+- **Preço:** R$ 69,90 / R$ 149,90 / R$ 299,90 (assinatura + créditos); Escritório a partir de R$ 39,90/advogado. Trial de 7 dias + 50 créditos
+- **O que entrega:** parecer jurimétrico, análise de risco de admissibilidade (Súmulas 7, 182, 211), 9 agentes por área, **arena de simulação de sustentação oral**, banco de teses e jurisprudência do STJ, OCR até 1.000 páginas
+- **Não redige peças** — confirmado por ausência total dos termos "petição/peça/minuta" no site
+- **O disclaimer mais revelador do mercado**, no próprio site: *"Não deve ser utilizado como ferramenta única para controle de prazos fatais ou urgentes"* — admissão pública de que a base do CNJ, sozinha, não é confiável para prazo
+- Empresa não identificada; `/sobre`, `/termos` e `/politica-de-privacidade` retornam **404**
+
+### O que a camada 5 ensina sobre a barreira de entrada
+
+Levantamos 10 produtos indie. **Nove são operação de 1–2 pessoas**; cinco têm domínio registrado em nome de pessoa física com Gmail; quatro registraram o domínio nos últimos 8 meses. Nenhum publica CNPJ.
+
+> **A barreira de entrada neste mercado é baixa em execução técnica e alta em confiança institucional.** Não é a tecnologia que nos protege — qualquer pessoa monta um Apollo. O que quase ninguém tem é CNPJ, endereço, termos, DPA e um rosto. Isso é diferencial barato num público que vive de formalidade (ver oportunidade #4 do panorama).
+
+E ensina o inverso também: **se é barato para nós, é barato contra nós.** O G5 não vai disparar uma única vez; vai disparar de novo a cada seis meses.
+
+---
+
 ## 🎯 Síntese: as 7 lacunas, revisitadas com honestidade
 
 A versão anterior desta tabela dizia que "ninguém" cobria as 7 lacunas. Com ChatGPT e a camada de dados/IA no mapa, algumas já não estão tão vazias. Versão honesta:
 
 | # | Lacuna original | Status real hoje | O que segue defensável |
 |---|---|---|---|
-| 1 | Geração de peças com IA | **Já não é lacuna.** Jus IA e Lexter geram peças; ChatGPT também | A lacuna real é mais estreita: peça gerada **a partir da intimação, com contexto automático dos autos**, dentro do fluxo com prazo calculado. Isso ninguém entrega |
+| 1 | Geração de peças com IA | **Já não é lacuna.** Jus IA e Lexter geram peças; ChatGPT também; **ApolloIA gera 12+ tipos a R$ 89,90** | ⚠️ **REESCRITO 20/07/2026.** A versão anterior dizia que "peça gerada a partir da intimação, dentro do fluxo com prazo calculado, ninguém entrega" — **o Apollo entrega 2 dos 3 (peça + ingestão com alerta) e não entrega só o prazo calculado**. A lacuna sobrevivente é estreitíssima: **peça que nasce da intimação com contexto dos autos (RAG por tenant) + prazo determinístico com memória**. Se ela basta para sustentar um produto é exatamente o que o teste de campo do G5 precisa responder |
 | 2 | WhatsApp verdadeiramente automatizado | Continua vazia (Astrea é semi-manual) — mas **nós também não entregamos na Fase 1** (Fase 2, meses 9–14) | Lacuna válida para a Fase 2; proibido usá-la em copy de lançamento |
 | 3 | Onboarding self-service < 10 min | Astrea importa por OAB mas exige configuração; Jus IA/Lexter são instantâneos porém não montam o escritório | Onboarding que termina com **processos importados, intimações classificadas e prazos na agenda** em < 10 min |
-| 4 | Preço público + IA profunda | **Enfraquecida:** Jusbrasil e Lexter têm preço público + IA que redige | Reformulada: preço público + IA que redige + **gestão do fluxo (prazos, processos, agenda)** num produto só. Quem tem as três? Ninguém |
+| 4 | Preço público + IA profunda | **Morta.** Jusbrasil, Lexter e **ApolloIA (R$ 89,90 — abaixo do nosso Solo de R$ 119)** têm preço público + IA que redige | ⚠️ **REESCRITO 20/07/2026.** A pergunta "preço público + IA que redige + gestão do fluxo, quem tem as três? Ninguém" **tem resposta agora: o ApolloIA tem, e mais barato que nós.** Preço deixou de ser argumento até de conversão — ver `08` §Precificação, que precisa ser revisto |
 | 5 | "Dia pronto" (daily brief inteligente) | Continua vazia — todos mostram dashboards passivos | Intacta. É a materialização do nosso posicionamento |
 | 6 | Foco de nicho por área do direito | Continua vazia (Advbox parcial, via configuração; Lexter é generalista) | Intacta — 1 nicho na Fase 1 (hipótese: trabalhista), 4 tipos de peça afiados > 40 genéricos |
 | 7 | Régua de cobrança de honorários (Pix + lembretes) | Continua vazia — financeiro dos concorrentes é registro passivo | Lacuna válida, mas é nossa **Fase 2**; não prometer no lançamento |
 
-**Resumo em uma frase:** a defesa não é "ninguém tem IA" (mentira em 2026); é **"ninguém liga a IA ao fluxo real do advogado — da intimação ao prazo à peça — a preço de solo"**.
+**Resumo em uma frase:** ⚠️ a frase anterior — *"ninguém liga a IA ao fluxo real do advogado — da intimação ao prazo à peça — a preço de solo"* — **está factualmente errada desde 20/07/2026**. O ApolloIA liga peça + ingestão + alerta a R$ 89,90. O que resta é: **"ninguém liga a IA aos AUTOS e ao prazo CALCULADO"** — e ainda não sabemos se isso, sozinho, vende.
 
 ## Estratégia anti-cópia (o que fazer quando eles reagirem)
 
-Os concorrentes **vão** adicionar (mais) IA generativa. Nossa defesa:
+> ⚰️ **Item 1 desta lista estava REVOGADO desde a reescrita solo do `00-premissas.md` e continuava aqui por descuido.** Corrigido em 20/07/2026. Ver `01-visao-e-posicionamento.md` §Estratégia anti-cópia, que é a versão canônica.
 
-1. **Velocidade** — somos 2 devs sem legado; os incumbentes de gestão têm bases de código de 10–20 anos
-2. **Dados de nicho** — quanto mais peças geradas e corrigidas pelos usuários, melhor nosso RAG/avaliação por área do direito (efeito de rede de dados)
-3. **Marca de categoria** — ser conhecido como "o software de IA", não "o software que adicionou IA"
-4. **Custo estrutural** — sem equipe de vendas nem consultores de implantação, sustentamos margem (~70% esperada) em preços que os incumbentes não sustentam
-5. **Contra o Jusbrasil especificamente** — não dá para vencê-lo em dados nem em distribuição; dá para vencê-lo em **profundidade de fluxo**: o DNA dele é audiência e pesquisa, o nosso é operação. Se ele descer para gestão operacional, competimos em foco de nicho e velocidade — e monitoramos esse movimento trimestralmente
+Os concorrentes **vão** adicionar (mais) IA generativa — e os indies já adicionaram. Nossa defesa:
+
+1. ~~**Velocidade** — somos 2 devs sem legado~~ ⚰️ **REVOGADO.** Somos **1 dev a 12,5h/semana**. Em velocidade bruta perdemos para todo mundo, inclusive para um indie solo full-time como o Apollo aparenta ser. Velocidade não é defesa nossa; é vantagem deles
+2. **Dados de nicho** — quanto mais peças geradas e corrigidas pelos usuários, melhor nosso RAG/avaliação por área do direito (efeito de rede de dados). **Continua válido, mas só começa a valer meses depois dos primeiros usuários** — não protege o lançamento
+3. **Marca de categoria** — ser conhecido como "o software de IA", não "o software que adicionou IA". **Enfraquecido:** chegar em out/2027 numa categoria onde indies vendem desde 2026 é chegar depois, não primeiro
+4. **Custo estrutural** — sem equipe de vendas nem consultores, sustentamos margem (~70%) em preços que os incumbentes não sustentam. **Continua válido contra incumbentes; inútil contra indies, que têm a mesma estrutura de custo**
+5. **Contra o Jusbrasil** — não dá para vencê-lo em dados nem em distribuição; dá para vencê-lo em **profundidade de fluxo**: o DNA dele é audiência e pesquisa, o nosso é operação
 6. **Contra o ChatGPT** — não competimos em modelo (usamos os mesmos por API); competimos em **contexto e fluxo**, que ele estruturalmente não tem
+7. **🆕 Contra os indies (camada 5)** — não dá para vencê-los em velocidade nem em preço. As duas defesas reais são **profundidade de nicho** (eles vão largo: 8 áreas, 37 agentes) e **confiança institucional** (CNPJ, endereço, DPA, rosto — nenhum deles tem). Ambas são baratas de construir e nenhuma é copiável rápido por quem escolheu operar no anonimato

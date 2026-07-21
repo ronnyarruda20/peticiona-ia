@@ -102,6 +102,93 @@ Devolve o vencimento, a data de início da contagem, a memória de cálculo comp
 
 `GET /actuator/health` — usado pelo health check do Railway.
 
+---
+
+# 🎭 Fatia 2: MVP de apresentação
+
+> **Isto é uma demonstração, não o produto.** Serve para um cliente ver o aha moment
+> funcionando de ponta a ponta antes de existirem 775h de MVP. Estado em memória,
+> dados semeados, sem autenticação, sem banco. Reiniciar o serviço zera tudo.
+
+## O fluxo que ela demonstra
+
+```
+publicação do DJEN → IA lê e classifica → motor calcula o prazo
+                   → IA rascunha a peça → advogado revisa e exporta
+```
+
+É o fluxo canônico do `00-premissas.md` §1, com **três** dos cinco passos reais e dois
+simulados: a captação DJEN e o `.docx` formatado ficaram de fora (o rascunho exporta
+`.txt`).
+
+## A fronteira que a demo torna visível
+
+A tela de intimação existe para mostrar, com o cliente olhando, **onde a IA entra e
+onde ela não entra**:
+
+| A IA faz | O código determinístico faz |
+|---|---|
+| Lê a publicação e extrai o **número de dias** | Calcula a **data de vencimento** |
+| Sugere a providência e o tipo de peça | Produz a memória de cálculo dia a dia |
+| Redige o rascunho | — |
+
+`ClassificacaoIntimacao` **não tem campo de data**, de propósito. O modelo devolve
+dias; a data nasce no `CalculadoraPrazo`. É a regra nº 1 do `06-estrategia-ia.md`
+transformada em assinatura de tipo, e não em disciplina de quem escreve o prompt.
+
+Duas outras travas estão no código, não na esperança:
+
+- **Confiança exposta.** `ClassificacaoIntimacao.confianca` abaixo de 0,7 marca a
+  intimação para revisão e a tela mostra a barra. Incerteza da IA é informação do
+  usuário, não detalhe interno.
+- **Rascunho com lacunas.** O prompt do `Redator` proíbe jurisprudência inventada e
+  manda deixar `[COLCHETES]` onde faltar fato. Peça que parece pronta convida a
+  protocolar sem ler.
+
+## Configuração
+
+A demo faz **chamadas reais** ao Claude (`claude-opus-4-8`). Precisa da variável:
+
+```
+ANTHROPIC_API_KEY=sk-ant-...
+```
+
+No Railway: **Variables**. Local: exporte no shell antes de subir o back.
+
+**Nunca** no código, no repositório ou no `/api/config` — aquele endpoint é público e
+tudo que ele devolve é visível no navegador de qualquer visitante.
+
+Sem a chave a aplicação **sobe normalmente**: a calculadora funciona, o painel carrega e
+avisa na tela que a IA está indisponível; os dois endpoints de IA respondem 503 com
+mensagem explicando o que falta. Derrubar tudo por causa de uma variável ausente seria
+pior.
+
+## API da demo
+
+```http
+GET  /api/demo/dashboard                      # contadores + fila de intimações
+GET  /api/demo/intimacoes/{id}                # publicação, processo, leitura, rascunho
+POST /api/demo/intimacoes/{id}/classificar    # IA lê + motor calcula → devolve os dois
+POST /api/demo/intimacoes/{id}/rascunhar      # IA redige a peça
+POST /api/demo/reiniciar                      # volta ao estado inicial entre ensaios
+```
+
+## Rotas do front
+
+| Rota | O que é |
+|---|---|
+| `/` | "Seu dia" — o painel |
+| `/intimacoes/:id` | O fluxo inteiro numa tela |
+| `/calculadora` | A calculadora pública, sem cadastro (fatia 1) |
+
+## Antes de apresentar
+
+1. `POST /api/demo/reiniciar` — ou o botão no rodapé do painel.
+2. Abra a intimação **i1** (contestação, 15 dias). É o caso mais forte: publicação longa
+   em caixa alta, prazo claro, peça no escopo.
+3. Diga que a classificação leva alguns segundos e o rascunho leva mais. É chamada real
+   ao modelo — a espera é honesta e vale mais do que um mock instantâneo.
+
 ## Próximo passo do código
 
 Nenhum, até as entrevistas do `14-roteiro-de-entrevistas.md` acontecerem. A regra de

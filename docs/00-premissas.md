@@ -9,7 +9,7 @@
 
 | # | Mudança | Consequência |
 |---|---|---|
-| 1 | **O sócio (primo, back/infra) saiu do projeto.** | Capacidade caiu de 25h/semana (2 × 12,5h) para **12,5h/semana**. Não há mais: revisão de código por outra pessoa, paralelismo entre trilhos front/back, backlog "não-bloqueado" para cobrir ausências, divisão de GTM/dev. Toda a conta de 840h ÷ 25h/semana ≈ 8 meses está **morta**. |
+| 1 | **O projeto passou a ser solo.** | Capacidade caiu de 25h/semana (2 × 12,5h) para **12,5h/semana**. Não há mais: revisão de código por outra pessoa, paralelismo entre trilhos front/back, backlog "não-bloqueado" para cobrir ausências, divisão de GTM/dev. Toda a conta de 840h ÷ 25h/semana ≈ 8 meses está **morta**. |
 | 2 | **O perfil técnico real do Ronny é outro.** Os docs o descreviam como "UI/UX, front-end". Errado: ele é **programador fullstack Angular + Java**. | A stack do doc 05 (Next.js/React/Tailwind/shadcn + NestJS/FastAPI) foi escolhida para um time de dois com especialista de back. Nenhuma dessas tecnologias é dele. Stack trocada (ver §0.1). A decisão "NestJS × FastAPI" deixou de existir. |
 
 ### 0.1 Stack nova (DECIDIDA — não é decisão em aberto)
@@ -242,7 +242,48 @@ Preços **R$ 119 / R$ 229 / R$ 449**, cotas **12 / 40 / 120 peças·mês**, chat
 | G2 — Feature-complete | fim jul/2027 (mês 12) | Fluxo do aha ponta a ponta com as 2 peças | Beta desliza; se deslizar > 2 meses, acionar conversa de viabilidade (§9.5) |
 | G3 — Lançamento | fim set/2027 (mês 14) | NPS betas ≥ 40; zero prazo errado; ≥ 2 peças/sem/usuário ativo; ≥ 6 betas dispostos a pagar | Lançamento desliza (janela até jan/2028). **Nunca lançar cobrando com prazo errado em produção** |
 | **G4 — Continuidade** | **jan/2028 (mês 18)** | **≥ 35 pagantes E churn ≤ 8%/mês** | **Reavaliação formal: pivotar nicho, preço ou encerrar. Critério escrito a frio em jul/2026 — não se renegocia a quente** |
-| **G5 — Competição (novo, permanente)** | contínuo | Concorrente relevante (Astrea/Advbox/novo entrante) lança **geração de peças + ingestão + prazos integrados** antes do nosso beta | Reavaliar a tese IMEDIATAMENTE: a janela de 14–18 meses só faz sentido se ninguém a fechar antes. Opções: cortar mais escopo e antecipar beta, ou encerrar cedo e barato |
+| **G5 — Competição (permanente)** | contínuo | Concorrente relevante (Astrea/Advbox/novo entrante) lança **geração de peças + ingestão + prazos integrados** antes do nosso beta | Reavaliar a tese IMEDIATAMENTE: a janela de 14–18 meses só faz sentido se ninguém a fechar antes. Opções: cortar mais escopo e antecipar beta, ou encerrar cedo e barato |
+
+### 🔴 G5 — ACIONADO EM 20/07/2026 (status: amarelo, pendente de verificação em campo)
+
+O **ApolloIA** (apolloia.com.br) vende **hoje**, a **R$ 89,90–269,90/mês** com trial de 7 dias:
+
+- geração de peças por IA — petição inicial, **contestação cível e trabalhista**, recursos, apelações, agravos, alegações finais (12+ tipos, 8 áreas, "37 agentes")
+- base própria de jurisprudência (25M+ decisões, rastreáveis à origem) com posicionamento anti-alucinação explícito
+- **monitoramento de publicações por OAB/termo via "fontes oficiais do CNJ"**, 300–500 processos conforme plano
+- **alerta antes do prazo**, notificação por e-mail **e WhatsApp**, agenda, gestão de processos/clientes/financeiro
+- export Word/PDF · Pix e Stripe · servidores no Brasil, LGPD declarada
+
+Preços conferidos no endpoint público `apolloia.com.br/api/plans/active` em 20/07/2026. Empresa não identificada (sem CNPJ, sem endereço, sem fundadores; contato único por WhatsApp DDD 73) — porém com execução técnica madura (Next.js, microserviço de documentos, portal de assinatura completo).
+
+**O que isso significa, sem anestesia:**
+
+| Premissa nossa | Status |
+|---|---|
+| "Ninguém liga a IA ao fluxo real do advogado — da intimação ao prazo à peça — a preço de solo" (doc 02) | **FALSA desde antes de ser escrita.** O Apollo entrega os três |
+| Solo a R$ 119 é "entrada agressiva, abaixo do Astrea (R$ 146)" (doc 08) | **Enfraquecida.** Apollo Start custa R$ 89,90 (R$ 74,90 no anual) |
+| WhatsApp é arma de retenção da Fase 2 (2028) | **Já é tabela de entrada do concorrente** (plano Pro, R$ 139,90) |
+| Escopo de lançamento: 1 nicho, 2 tipos de peça | **Menor que o do concorrente que já está no ar** (8 áreas, 12+ peças) |
+
+**O que ainda NÃO foi verificado (e decide o gate):**
+
+1. **Qualidade real das peças.** 37 agentes em 8 áreas é o perfil clássico de amplitude sem profundidade. Não usamos o produto.
+2. **A peça nasce da intimação?** O fluxo descrito é conversacional ("conte os fatos do seu jeito") — não confirmado que o monitoramento alimente o redator automaticamente. Se não alimenta, a integração ponta a ponta continua vaga.
+3. **Contexto dos autos.** Sem sinal de RAG por tenant sobre o acervo do advogado.
+4. **Prazo.** Não calcula contagem — as "55+ calculadoras" são financeiras (rescisão, juros, atualização). Alerta de prazo existe; cálculo com memória, não.
+5. **Tração.** Zero cobertura de imprensa, zero LinkedIn, zero menção em ConJur/Migalhas. Pode ser produto sem clientes.
+
+**Ação obrigatória antes de mais qualquer hora de dev:** assinar o Apollo Start (R$ 89,90, 1 mês), gerar **5 contestações trabalhistas com casos reais** e responder por escrito os itens 1–3 acima. É uma decisão de R$ 90 que destrava uma decisão de 775h.
+
+**Regra de decisão, escrita a frio:**
+
+| Achado do teste | Consequência |
+|---|---|
+| Peças **boas** e nascem da intimação | **G5 disparou em vermelho.** A tese como está morreu. Encerrar cedo e barato, ou repivotar para algo que o Apollo estruturalmente não faz |
+| Peças **boas** mas o fluxo é manual (colar/conversar) | Amarelo permanece. Nosso diferencial encolhe para "integração + autos + prazo". Escopo e cronograma precisam ser refeitos para chegar em 2027, não 2028 |
+| Peças **medíocres** (genéricas, sem profundidade de nicho) | Janela aberta. A tese de nicho ganha força — mas o preço de R$ 119 e o cronograma de 15 meses continuam de pé para revisão |
+
+Registrado também: **iiLEX** (iilex.com.br, empresa de 2015, ~18 pessoas, Porto Alegre) faz captura automática de intimações dos diários + criação automática de prazos + agenda + IA que resume publicações. Não gera peças. Preço sob consulta, sem trial, ICP de escritório estruturado — não é o Dr. João, mas fecha o flanco de cima.
 
 ---
 
@@ -295,5 +336,5 @@ Preços **R$ 119 / R$ 229 / R$ 449**, cotas **12 / 40 / 120 peças·mês**, chat
 | Founding | 50 primeiros: 30% off 12 meses + preço congelado |
 | Churn | 5%/mês ano 1; meta 4% ano 2 |
 | MRR | Lançamento (out/27): R$ 1,5k (14) · M18 (jan/28): R$ 4,7k (~45) · M24 (jul/28): R$ 16k (~125) · M30 (jan/29): R$ 40k (~270) |
-| Gates | G2 feature-complete jul/2027 · G3 lançamento set/2027 · **G4 jan/2028: <35 pagantes ou churn >8% ⇒ reavaliar** · **G5 contínuo: concorrente lança geração de peças antes do beta ⇒ reavaliar tese** |
-| Veredito | Viável na margem e no custo; **o risco é o tempo**: ~15 meses até receita, ~2,5 anos até R$ 40k MRR, com bus factor 1. Só começar aceitando explicitamente esse prazo |
+| Gates | G2 feature-complete jul/2027 · G3 lançamento set/2027 · **G4 jan/2028: <35 pagantes ou churn >8% ⇒ reavaliar** · **G5 🔴 ACIONADO 20/07/2026 (amarelo) — ApolloIA já vende peças + ingestão + alerta de prazo a R$ 89,90. Teste de campo obrigatório antes de retomar o dev (§8)** |
+| Veredito | ⚠️ **EM REVISÃO desde 20/07/2026.** O veredito anterior — *"viável na margem e no custo; o risco é o tempo"* — pressupunha janela aberta. Com o G5 em amarelo, o risco deixou de ser só o tempo e passou a ser **a existência da lacuna**. Nenhuma hora nova de dev antes do teste de campo do §8 |

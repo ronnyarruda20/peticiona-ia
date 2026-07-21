@@ -1,0 +1,99 @@
+<header class="topo">
+  <div class="marca">⚖️ Peticiona</div>
+  <nav>
+    <a routerLink="/">Seu dia</a>
+    <a routerLink="/calculadora">Calculadora</a>
+  </nav>
+</header>
+
+<main>
+  <section class="titulo">
+    <h1>Seu dia</h1>
+    <p>
+      As publicações que chegaram, o que cada uma pede e quando vence.
+      A IA lê e sugere; a data-limite vem do motor de prazos, não do modelo.
+    </p>
+  </section>
+
+  @if (erro(); as e) {
+    <div class="aviso erro"><strong>Erro</strong>{{ e }}</div>
+  }
+
+  @if (dados(); as d) {
+    @if (!d.iaDisponivel) {
+      <div class="aviso alerta">
+        <strong>IA indisponível neste ambiente</strong>
+        A variável <code>ANTHROPIC_API_KEY</code> não está configurada. A leitura das
+        intimações e a redação das peças vão responder erro; a calculadora de prazos
+        continua funcionando normalmente.
+      </div>
+    }
+
+    <div class="contadores">
+      <div class="contador destaque">
+        <div class="n">{{ d.naoLidas }}</div>
+        <span class="rot">Não lidas</span>
+      </div>
+      <div class="contador">
+        <div class="n">{{ d.prazosNaAgenda }}</div>
+        <span class="rot">Prazos na agenda</span>
+      </div>
+      <div class="contador">
+        <div class="n">{{ d.rascunhosProntos }}</div>
+        <span class="rot">Rascunhos prontos</span>
+      </div>
+      <div class="contador">
+        <div class="n">{{ d.aguardandoRevisao }}</div>
+        <span class="rot">Baixa confiança</span>
+      </div>
+    </div>
+
+    <section class="painel">
+      <h2>Intimações</h2>
+
+      <div class="lista">
+        @for (i of d.intimacoes; track i.id) {
+          <a class="item {{ classe(i) }}" [routerLink]="['/intimacoes', i.id]">
+            <div class="cab">
+              <span class="cliente">{{ i.cliente }}</span>
+              <span class="proc">{{ i.numeroProcesso }}</span>
+            </div>
+
+            @if (i.tipoAto) {
+              <div class="ato">{{ i.tipoAto }}</div>
+              <div class="prov">{{ i.providencia }}</div>
+            } @else {
+              <div class="ato">Publicação ainda não lida</div>
+              <div class="prov">
+                {{ i.orgao }} · publicada em {{ i.dataPublicacao | date: 'dd/MM/yyyy' }}
+              </div>
+            }
+
+            <div class="etiquetas">
+              @if (i.dataVencimento) {
+                <span class="etiqueta vence">
+                  Vence {{ i.dataVencimento | date: 'dd/MM' }}
+                  @if (diasRestantes(i.dataVencimento); as n) {
+                    · {{ n }} {{ n === 1 ? 'dia' : 'dias' }}
+                  }
+                </span>
+              }
+              @if (i.urgencia === 'ALTA') { <span class="etiqueta alta">Urgente</span> }
+              @if (i.precisaRevisao) { <span class="etiqueta revisao">Revisar leitura da IA</span> }
+              @if (i.temRascunho) { <span class="etiqueta ia">Rascunho pronto</span> }
+              @if (i.situacao === 'NAO_LIDA') { <span class="etiqueta">Ler com a IA →</span> }
+            </div>
+          </a>
+        }
+      </div>
+    </section>
+
+    <div class="acoes">
+      <button type="button" class="secundario" (click)="reiniciar()" [disabled]="reiniciando()">
+        {{ reiniciando() ? 'Reiniciando…' : 'Reiniciar demonstração' }}
+      </button>
+    </div>
+  } @else if (!erro()) {
+    <div class="carregando">Carregando o painel…</div>
+  }
+</main>

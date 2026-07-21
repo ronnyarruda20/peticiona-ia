@@ -16,8 +16,7 @@
   Docker/Jenkins, GraphQL). Forte em setor público/jurídico (Ministério
   Público de MT) e financeiro (Poupex/integração CIP).
 - Em recolocação profissional; o Peticiona IA é o projeto de negócio
-  próprio (com o primo como sócio técnico) — visão: fonte de renda
-  recorrente escalável.
+  próprio, tocado solo — visão: fonte de renda recorrente escalável.
 - Restrições importantes: **custo mínimo de infraestrutura** (sem renda
   fixa no momento), e o dono **não gosta de vender** — o produto precisa
   se vender por demonstração e onboarding simples.

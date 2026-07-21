@@ -143,7 +143,7 @@ O runner da suite é um teste JUnit parametrizado sobre `/eval/casos/` que chama
 ### Cálculo de prazo: 100%, sem exceção
 
 - É código determinístico (doc 06/11): a "suite" é a **tabela-verdade** — ≥100 casos `{entrada → data_limite esperada}` cobrindo recesso, feriado estadual/municipal, prorrogação por fim de semana, virada de ano, contagem CLT×CPC. JUnit puro, roda em todo commit. **Qualquer caso falhando = build vermelho.**
-- **Dupla conferência sem par** (o "primo calcula, advogado confere" morreu): cada caso da tabela registra a **fonte externa** que o valida — print/link da calculadora oficial do tribunal — no próprio arquivo do caso; o advogado parceiro confere uma **amostra** (~20 casos) uma vez. Caso sem fonte externa não entra na tabela: o Ronny conferindo o próprio cálculo não é conferência.
+- **Dupla conferência sem par** (a antiga divisão "um calcula, o advogado confere" morreu): cada caso da tabela registra a **fonte externa** que o valida — print/link da calculadora oficial do tribunal — no próprio arquivo do caso; o advogado parceiro confere uma **amostra** (~20 casos) uma vez. Caso sem fonte externa não entra na tabela: o Ronny conferindo o próprio cálculo não é conferência.
 - Erro achado em produção → vira caso da tabela ANTES do fix (regression test).
 - O que não é testável por unidade: a **curadoria de feriados** (dado, não código). Auditoria mensal com alarme de calendário — dono: Ronny, porque não há mais ninguém (doc 12 §7.4).
 

@@ -106,6 +106,21 @@ Se **não**:
 
 🔎 **Medindo:** a objeção nº 1 do doc `02`. Se ele já usa e resolve, o redator não é diferencial — é paridade. Se ele usa e se queixa de coisas específicas (inventou julgado, não conhece o processo, tem que colar tudo na mão), **cada queixa é uma feature do nosso produto** e a tese vive.
 
+#### 🆕 Bloco 4b — IA jurídica PAGA · 3 min (acrescentado em 20/07/2026)
+
+O roteiro original só perguntava sobre ChatGPT. Desde o acionamento do G5 (`00` §8), existe uma resposta pior que "uso ChatGPT": **"eu pago por uma IA jurídica"**.
+
+> **"Além do ChatGPT, você já testou alguma IA feita pra advogado? Jusbrasil, Lexter, alguma dessas de gerar petição?"**
+
+- "Chegou a pagar? Quanto? Por quanto tempo?"
+- "Largou? Por quê?" → **cave o motivo**: preço, qualidade da peça, inventou jurisprudência, não confiou
+- "Usa hoje pra quê exatamente?"
+- Se ele não conhece nenhuma: **anote isso.** Distribuição ruim do concorrente é oportunidade real
+
+🔎 **Medindo:** o G5 em campo. Um advogado que **já paga** R$ 89,90 numa IA jurídica e continua pagando é a prova mais dura possível de que a categoria existe e está ocupada. Um que pagou e largou é ouro — o motivo do abandono é o nosso posicionamento pronto, dito com as palavras dele.
+
+⚠️ **Não mencione o ApolloIA pelo nome.** Se ele citar espontaneamente, é sinal de que o concorrente tem distribuição. Se você planta o nome, você destrói o dado.
+
 ### Bloco 5 — Dinheiro e tentativas passadas · 5 min
 
 - "Que softwares você usa hoje? Quanto paga por mês, somando tudo?"
@@ -217,6 +232,9 @@ Esta seção é a razão de o documento existir. Sem ela, 15 entrevistas viram 1
 | **Prazo espontâneo ≤ 5/15** | O medo é hipótese nossa | ❌ A cunha do prazo morre. Reavaliar o projeto inteiro. |
 | **Peça repetitiva espontânea ≥ 8/15 E ChatGPT "não resolve"/"resolve em parte" ≥ 8/15** | Dor real, substituto não cobre | ✅ **A cunha do redator existe.** O produto de ~15 meses se justifica. |
 | **ChatGPT "resolve" ≥ 8/15** | O substituto grátis já ganhou | ❌ **A tese central do projeto morre.** Não construir o redator. |
+| 🆕 **≥ 5/15 já PAGAM IA jurídica hoje** (Bloco 4b) | A categoria existe e está ocupada; não somos criadores de categoria, somos o oitavo entrante | ❌ **Sinal mais grave que o do ChatGPT.** Substituto grátis se combate com integração; substituto pago e adotado se combate com produto melhor — que a 12,5h/semana nós não fazemos. Reavaliar a tese inteira |
+| 🆕 **≥ 3/15 pagaram IA jurídica e LARGARAM** | Categoria validada, execução dos incumbentes ruim | ✅ **O melhor cenário possível.** O motivo do abandono é o nosso posicionamento, dito com as palavras deles. Transcrever literal |
+| 🆕 **0/15 conhecem qualquer IA jurídica paga** | Concorrentes sem distribuição | ✅ Janela mais aberta do que a análise competitiva sugere — o problema deles é chegar ao cliente, não o produto |
 | **≥ 5/15 pedem financeiro/gestão espontaneamente** | A advogada não era ruído | ⚠️ Nosso escopo falha no critério de eliminação deles. Repensar a Fase 1. |
 | **≥ 5/15 topam testar com data marcada** | Demanda real, não educação | ✅ Sinal verde independente do resto |
 | **0 indicações de colegas em 15 entrevistas** | Ninguém acredita o bastante pra queimar reputação | 🚩 Sinal vermelho grave, mesmo com tudo mais positivo |
@@ -224,7 +242,13 @@ Esta seção é a razão de o documento existir. Sem ela, 15 entrevistas viram 1
 **Os quatro desfechos possíveis:**
 
 1. **Prazo forte + redator forte** → o projeto do doc `00` se justifica. Mas eu ainda começaria pelo prazo e adicionaria o redator com usuários pagantes financiando. Você descobre no meio, não no fim.
-2. **Prazo forte + redator fraco (ChatGPT resolve)** → **construa só o produto de prazo.** ~5 meses, preço menor, cunha defensável. É o cenário que eu considero mais provável.
+2. **Prazo forte + redator fraco (ChatGPT resolve)** → ⚠️ **CORRIGIDO EM 20/07/2026 — a versão anterior dizia "construa só o produto de prazo, ~5 meses, cunha defensável".**
+
+   **Isso estava errado, e o próprio `02` §Camada 4 já dizia por quê:** cálculo de prazo é commodity gratuita — sete calculadoras públicas, uma delas da OAB. E ingestão de diário + agenda já vem embutida no Astrea (R$ 146) e no MaisJurídico (R$ 57). Um produto de prazo isolado não é um produto: é uma feature que três categorias de software já entregam de graça ou embutida.
+
+   **A leitura correta:** prazo é o que faz o advogado **confiar**; peça é o que faz ele **comprar**. Se o redator não se sustenta, não existe produto — existe um componente. Nesse cenário a decisão é **encerrar** (`16-parecer.md` §4) ou repensar a tese em cima de outra dor, **não** construir 5 meses de calculadora com automação em volta.
+
+   *Origem da correção: o Ronny rejeitou a versão anterior em uma frase — "não vejo ninguém pagando por um projeto só pra calcular datas" — e estava certo. Registrado porque a regra de decisão precisa estar correta ANTES das entrevistas, não ser reinterpretada depois delas.*
 3. **Prazo fraco + redator forte** → cunha estranha, mas real. Reescreva a tese em torno da peça e mate o "Seu dia".
 4. **Os dois fracos** → **não construa.** Você economizou 750h e descobriu por R$ 0. Isso não é fracasso, é o melhor retorno de investimento do projeto.
 
