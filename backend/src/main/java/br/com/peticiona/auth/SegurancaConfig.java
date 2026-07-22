@@ -33,11 +33,11 @@ public class SegurancaConfig {
     /** O caminho do callback, também usado pelo filtro de token. */
     static final String ROTA_CALLBACK = "/api/demo/intimacoes/*/resultado";
 
-    private final RegistroDeUsuario registroDeUsuario;
+    private final UsuarioOidcService usuarioOidcService;
     private final TokenDeCallbackFilter tokenDeCallback;
 
-    public SegurancaConfig(RegistroDeUsuario registroDeUsuario, TokenDeCallbackFilter tokenDeCallback) {
-        this.registroDeUsuario = registroDeUsuario;
+    public SegurancaConfig(UsuarioOidcService usuarioOidcService, TokenDeCallbackFilter tokenDeCallback) {
+        this.usuarioOidcService = usuarioOidcService;
         this.tokenDeCallback = tokenDeCallback;
     }
 
@@ -60,7 +60,9 @@ public class SegurancaConfig {
                 // Sem isto o Spring gera a própria página em /login e ela sequestra a rota
                 // do Angular: o usuário veria um "Please sign in" cru no lugar da nossa tela.
                 .loginPage("/login")
-                .userInfoEndpoint(info -> info.userService(registroDeUsuario))
+                // oidcUserService, e não userService: o escopo tem openid, então o login é
+                // OpenID Connect e o userService comum nunca seria chamado.
+                .userInfoEndpoint(info -> info.oidcUserService(usuarioOidcService))
                 .defaultSuccessUrl("/", true))
 
             .logout(sair -> sair
