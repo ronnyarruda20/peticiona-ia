@@ -57,6 +57,9 @@ public class SegurancaConfig {
                 .anyRequest().authenticated())
 
             .oauth2Login(login -> login
+                // Sem isto o Spring gera a própria página em /login e ela sequestra a rota
+                // do Angular: o usuário veria um "Please sign in" cru no lugar da nossa tela.
+                .loginPage("/login")
                 .userInfoEndpoint(info -> info.userService(registroDeUsuario))
                 .defaultSuccessUrl("/", true))
 
