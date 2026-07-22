@@ -28,6 +28,12 @@ public class Intimacao {
     /** Último rascunho gerado. Nulo = nada rascunhado ainda. */
     private String rascunho;
 
+    /** Verdadeiro entre o disparo do fluxo de IA e a chegada do callback. */
+    private boolean processando;
+
+    /** O que deu errado no fluxo, para a tela dizer algo melhor que "erro". */
+    private String erroIa;
+
     public Intimacao(String id, String processoId, LocalDate dataPublicacao, String orgao, String texto) {
         this.id = id;
         this.processoId = processoId;
@@ -51,8 +57,34 @@ public class Intimacao {
     public String getRascunho() { return rascunho; }
     public void setRascunho(String rascunho) { this.rascunho = rascunho; }
 
-    /** O estado que o dashboard mostra na coluna "situação". */
+    public boolean isProcessando() { return processando; }
+    public String getErroIa() { return erroIa; }
+
+    /** Entrou na fila do fluxo de IA. Limpa o erro anterior: é uma tentativa nova. */
+    public void marcarProcessando() {
+        this.processando = true;
+        this.erroIa = null;
+    }
+
+    /** O fluxo terminou, com resultado ou com erro. Nos dois casos a espera acabou. */
+    public void marcarFalha(String motivo) {
+        this.processando = false;
+        this.erroIa = motivo;
+    }
+
+    public void marcarConcluido() {
+        this.processando = false;
+        this.erroIa = null;
+    }
+
+    /**
+     * O estado que o dashboard mostra na coluna "situação".
+     *
+     * <p>PROCESSANDO vem primeiro: enquanto o fluxo roda, é isso que o advogado precisa ver,
+     * mesmo que já exista uma classificação de uma rodada anterior.
+     */
     public String getSituacao() {
+        if (processando) return "PROCESSANDO";
         if (rascunho != null) return "RASCUNHO_PRONTO";
         if (classificacao != null) return "PRAZO_NA_AGENDA";
         return "NAO_LIDA";

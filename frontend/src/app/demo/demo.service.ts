@@ -1,12 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import {
-  Dashboard,
-  DetalheIntimacao,
-  RespostaClassificacao,
-  RespostaRascunho,
-} from './demo';
+import { Dashboard, DetalheIntimacao, RespostaProcessamento } from './demo';
 
 @Injectable({ providedIn: 'root' })
 export class DemoService {
@@ -23,14 +18,14 @@ export class DemoService {
     return this.http.get<DetalheIntimacao>(`${this.api}/intimacoes/${id}`);
   }
 
-  /** A IA lê a publicação; o motor determinístico devolve a data. Pode levar alguns segundos. */
-  classificar(id: string): Observable<RespostaClassificacao> {
-    return this.http.post<RespostaClassificacao>(`${this.api}/intimacoes/${id}/classificar`, {});
-  }
-
-  /** A IA rascunha a peça. Mais lento que a classificação — a tela precisa mostrar isso. */
-  rascunhar(id: string): Observable<RespostaRascunho> {
-    return this.http.post<RespostaRascunho>(`${this.api}/intimacoes/${id}/rascunhar`, {});
+  /**
+   * Entrega a intimação ao fluxo de IA e volta na hora, com 202.
+   *
+   * <p>Ler e rascunhar acontecem lá, e levam minutos. Quem acompanha o resultado é o
+   * polling em {@link intimacao} — esta chamada só enfileira.
+   */
+  processar(id: string): Observable<RespostaProcessamento> {
+    return this.http.post<RespostaProcessamento>(`${this.api}/intimacoes/${id}/processar`, {});
   }
 
   /** Devolve o acervo ao estado inicial, para reapresentar do zero. */

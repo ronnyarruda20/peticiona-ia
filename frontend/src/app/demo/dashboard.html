@@ -82,6 +82,7 @@
               @if (i.precisaRevisao) { <span class="etiqueta revisao">Revisar leitura da IA</span> }
               @if (i.temRascunho) { <span class="etiqueta ia">Rascunho pronto</span> }
               @if (i.situacao === 'NAO_LIDA') { <span class="etiqueta">Ler com a IA →</span> }
+              @if (i.situacao === 'PROCESSANDO') { <span class="etiqueta ia">IA trabalhando…</span> }
             </div>
           </a>
         }

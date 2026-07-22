@@ -34,8 +34,9 @@ export class Intimacao {
   readonly rascunho = signal<string>('');
 
   readonly lendo = signal(false);
-  readonly rascunhando = signal(false);
   readonly erro = signal<string | null>(null);
+
+  private polling: ReturnType<typeof setInterval> | null = null;
 
   readonly classificacao = computed<Classificacao | null>(() => this.dados()?.classificacao ?? null);
 
@@ -59,42 +60,84 @@ export class Intimacao {
       next: (d) => {
         this.dados.set(d);
         this.rascunho.set(d.rascunho ?? '');
+        this.prazo.set(d.prazo ?? null);
+
+        // Recarregar a página no meio do processamento não pode perder o resultado.
+        if (d.processando) {
+          this.lendo.set(true);
+          this.acompanhar();
+        }
       },
       error: () => this.erro.set('Não encontrei essa intimação.'),
     });
   }
 
+  /**
+   * Dispara o fluxo de IA. Ele lê e, quando a peça está no escopo, já rascunha.
+   *
+   * <p>A resposta é só um 202: o trabalho leva minutos e acontece fora daqui. Quem traz o
+   * resultado é o {@link acompanhar}.
+   */
   ler(): void {
     this.lendo.set(true);
     this.erro.set(null);
 
-    this.service.classificar(this.id()).subscribe({
-      next: (r) => {
-        this.dados.update((d) => (d ? { ...d, classificacao: r.classificacao } : d));
-        this.prazo.set(r.prazo ?? null);
-        this.lendo.set(false);
-      },
+    this.service.processar(this.id()).subscribe({
+      next: () => this.acompanhar(),
       error: (e) => {
-        this.erro.set(e?.error?.erro ?? 'A leitura falhou. Tente de novo.');
+        this.erro.set(e?.error?.erro ?? 'Não consegui enviar a intimação para a IA.');
         this.lendo.set(false);
       },
     });
   }
 
-  rascunhar(): void {
-    this.rascunhando.set(true);
-    this.erro.set(null);
+  /**
+   * Pergunta o estado a cada 3s até o fluxo terminar.
+   *
+   * <p>O teto de 100 tentativas (5 min) existe para a tela não girar para sempre se o
+   * callback nunca chegar. Um spinner eterno é pior que uma mensagem de falha: ele não
+   * diz ao advogado que ele precisa agir.
+   */
+  private acompanhar(): void {
+    this.pararPolling();
 
-    this.service.rascunhar(this.id()).subscribe({
-      next: (r) => {
-        this.rascunho.set(r.rascunho);
-        this.rascunhando.set(false);
-      },
-      error: (e) => {
-        this.erro.set(e?.error?.erro ?? 'A redação falhou. Tente de novo.');
-        this.rascunhando.set(false);
-      },
-    });
+    let tentativas = 0;
+    this.polling = setInterval(() => {
+      if (++tentativas > 100) {
+        this.pararPolling();
+        this.lendo.set(false);
+        this.erro.set('A IA não respondeu a tempo. A intimação continua na fila — recarregue em instantes.');
+        return;
+      }
+
+      this.service.intimacao(this.id()).subscribe({
+        next: (d) => {
+          this.dados.set(d);
+          this.prazo.set(d.prazo ?? null);
+          if (d.rascunho) this.rascunho.set(d.rascunho);
+
+          if (!d.processando) {
+            this.pararPolling();
+            this.lendo.set(false);
+            if (d.erroIa) this.erro.set(d.erroIa);
+          }
+        },
+        error: () => {
+          // Uma falha isolada de rede não derruba o acompanhamento; a próxima volta tenta.
+        },
+      });
+    }, 3000);
+  }
+
+  private pararPolling(): void {
+    if (this.polling !== null) {
+      clearInterval(this.polling);
+      this.polling = null;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.pararPolling();
   }
 
   /**

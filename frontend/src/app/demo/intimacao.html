@@ -31,7 +31,10 @@
             {{ lendo() ? 'Lendo a publicação…' : 'Ler com a IA' }}
           </button>
           @if (lendo()) {
-            <span class="carregando">Isso leva alguns segundos — é uma chamada real ao modelo.</span>
+            <span class="carregando">
+              A IA lê a publicação e já rascunha a peça. Leva um a dois minutos — pode
+              acompanhar por aqui.
+            </span>
           }
         </div>
       }
@@ -145,13 +148,13 @@
           </p>
         } @else {
           <div class="acoes" style="margin-bottom: 1.1rem">
-            <button type="button" class="primario" (click)="rascunhar()" [disabled]="rascunhando()">
-              {{ rascunhando() ? 'Redigindo…' : rascunho() ? 'Gerar outro rascunho' : 'Rascunhar a peça' }}
+            <button type="button" class="primario" (click)="ler()" [disabled]="lendo()">
+              {{ lendo() ? 'Redigindo…' : rascunho() ? 'Gerar outro rascunho' : 'Rascunhar a peça' }}
             </button>
             @if (rascunho()) {
               <button type="button" class="secundario" (click)="baixar()">Baixar</button>
             }
-            @if (rascunhando()) {
+            @if (lendo()) {
               <span class="carregando">A peça inteira leva mais tempo que a leitura.</span>
             }
           </div>

@@ -1,8 +1,7 @@
 package br.com.peticiona.demo;
 
+import br.com.peticiona.ia.FluxoIa;
 import br.com.peticiona.ia.IaIndisponivelException;
-import br.com.peticiona.ia.LeitorIntimacao;
-import br.com.peticiona.ia.Redator;
 import br.com.peticiona.prazo.CalculadoraPrazo;
 import br.com.peticiona.prazo.Justica;
 import br.com.peticiona.prazo.ResultadoPrazo;
@@ -44,15 +43,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class DemoController {
 
     private final AcervoDemo acervo;
-    private final LeitorIntimacao leitor;
-    private final Redator redator;
+    private final FluxoIa fluxo;
     private final CalculadoraPrazo calculadora;
 
-    public DemoController(AcervoDemo acervo, LeitorIntimacao leitor, Redator redator,
-                          CalculadoraPrazo calculadora) {
+    public DemoController(AcervoDemo acervo, FluxoIa fluxo, CalculadoraPrazo calculadora) {
         this.acervo = acervo;
-        this.leitor = leitor;
-        this.redator = redator;
+        this.fluxo = fluxo;
         this.calculadora = calculadora;
     }
 
@@ -76,7 +72,7 @@ public class DemoController {
         long revisao = linhas.stream().filter(l -> Boolean.TRUE.equals(l.get("precisaRevisao"))).count();
 
         return Map.of(
-                "iaDisponivel", leitor.disponivel(),
+                "iaDisponivel", fluxo.disponivel(),
                 "hoje", LocalDate.now().toString(),
                 "naoLidas", naoLidas,
                 "prazosNaAgenda", comPrazo,
@@ -95,55 +91,32 @@ public class DemoController {
         corpo.put("processo", p);
         corpo.put("classificacao", i.getClassificacao());
         corpo.put("rascunho", i.getRascunho());
+        // A memória de cálculo acompanha o prazo sempre. Um prazo sem o dia a dia que o
+        // produziu é um número que o advogado não tem como conferir — e ele responde por ele.
+        corpo.put("prazo", memoriaDeCalculo(i));
         return corpo;
     }
 
     /**
-     * Passo 1 e 2 do fluxo: a IA lê a publicação, o motor determinístico calcula a data.
+     * Entrega a intimação ao fluxo de IA e devolve na hora.
      *
-     * <p>A resposta traz a memória de cálculo junto — dia a dia, com o motivo de cada
-     * dia contado ou pulado. Sem ela o advogado não tem como assumir o prazo.
+     * <p>Um clique só cobre leitura e redação: o fluxo classifica e, quando a peça está no
+     * escopo, já rascunha. Responde {@code 202} — a tela acompanha por
+     * {@code GET /intimacoes/{id}} até {@code situacao} sair de PROCESSANDO.
      */
-    @PostMapping("/intimacoes/{id}/classificar")
-    public Map<String, Object> classificar(@PathVariable String id) {
+    @PostMapping("/intimacoes/{id}/processar")
+    public ResponseEntity<Map<String, Object>> processar(@PathVariable String id) {
         Intimacao i = buscar(id);
         Processo p = acervo.processo(i.getProcessoId()).orElseThrow();
 
-        // ── A IA lê. Ela devolve DIAS, nunca uma data. ──
-        ClassificacaoIntimacao c = leitor.classificar(i, p);
-        i.setClassificacao(c);
-
-        Map<String, Object> corpo = new java.util.LinkedHashMap<>();
-        corpo.put("classificacao", c);
-
-        // ── O motor determinístico calcula. Aqui, e só aqui, nasce uma data. ──
-        if (c.prazoEmDias() > 0) {
-            ResultadoPrazo prazo = calculadora.calcular(
-                    i.getDataPublicacao(),
-                    c.prazoEmDias(),
-                    "DIAS_CORRIDOS".equals(c.tipoContagem())
-                            ? TipoContagem.DIAS_CORRIDOS
-                            : TipoContagem.DIAS_UTEIS,
-                    Justica.TRABALHISTA,
-                    true);
-            i.setDataVencimento(prazo.dataVencimento());
-            corpo.put("prazo", prazo);
+        if (i.isProcessando()) {
+            // Clicar duas vezes não pode virar duas peças cobradas.
+            return ResponseEntity.accepted()
+                    .body(Map.of("situacao", i.getSituacao(), "aviso", "Esta intimação já está na fila."));
         }
 
-        corpo.put("situacao", i.getSituacao());
-        return corpo;
-    }
-
-    /** Passo 3: a IA rascunha a peça. Sempre rascunho — a revisão humana é obrigatória. */
-    @PostMapping("/intimacoes/{id}/rascunhar")
-    public Map<String, Object> rascunhar(@PathVariable String id) {
-        Intimacao i = buscar(id);
-        Processo p = acervo.processo(i.getProcessoId()).orElseThrow();
-
-        String texto = redator.rascunhar(i, p, i.getDataVencimento());
-        i.setRascunho(texto);
-
-        return Map.of("rascunho", texto, "situacao", i.getSituacao());
+        fluxo.disparar(i, p);
+        return ResponseEntity.accepted().body(Map.of("situacao", i.getSituacao()));
     }
 
     /**
@@ -164,20 +137,15 @@ public class DemoController {
         Intimacao i = buscar(id);
 
         if (corpo.classificacao() == null) {
+            i.marcarFalha(corpo.motivo() == null ? "O fluxo não devolveu classificação." : corpo.motivo());
             throw new IllegalArgumentException("O resultado não trouxe classificação.");
         }
         i.setClassificacao(corpo.classificacao());
+        i.marcarConcluido();
 
         // A data continua nascendo de um só lugar, mesmo vindo o resto de fora.
-        if (corpo.classificacao().prazoEmDias() > 0 && !corpo.classificacao().precisaRevisao()) {
-            ResultadoPrazo prazo = calculadora.calcular(
-                    i.getDataPublicacao(),
-                    corpo.classificacao().prazoEmDias(),
-                    "DIAS_CORRIDOS".equals(corpo.classificacao().tipoContagem())
-                            ? TipoContagem.DIAS_CORRIDOS
-                            : TipoContagem.DIAS_UTEIS,
-                    Justica.TRABALHISTA,
-                    true);
+        ResultadoPrazo prazo = memoriaDeCalculo(i);
+        if (prazo != null) {
             i.setDataVencimento(prazo.dataVencimento());
         }
 
@@ -215,6 +183,28 @@ public class DemoController {
 
     // ── infraestrutura ────────────────────────────────────────────
 
+    /**
+     * Refaz a conta do prazo para exibição — mesma entrada, mesmo motor, mesmo resultado.
+     *
+     * <p>Recalcular em vez de guardar é de propósito: o que a tela mostra vem do
+     * {@link CalculadoraPrazo} agora, não de um snapshot que pode ter envelhecido junto com
+     * o calendário de feriados.
+     */
+    private ResultadoPrazo memoriaDeCalculo(Intimacao i) {
+        ClassificacaoIntimacao c = i.getClassificacao();
+        if (c == null || c.prazoEmDias() <= 0 || c.precisaRevisao()) {
+            return null;
+        }
+        return calculadora.calcular(
+                i.getDataPublicacao(),
+                c.prazoEmDias(),
+                "DIAS_CORRIDOS".equals(c.tipoContagem())
+                        ? TipoContagem.DIAS_CORRIDOS
+                        : TipoContagem.DIAS_UTEIS,
+                Justica.TRABALHISTA,
+                true);
+    }
+
     private Intimacao buscar(String id) {
         return acervo.intimacao(id).orElseThrow(
                 () -> new IllegalArgumentException("Intimação não encontrada: " + id));
@@ -231,6 +221,8 @@ public class DemoController {
         linha.put("numeroProcesso", p.numero());
         linha.put("cliente", p.cliente());
         linha.put("situacao", i.getSituacao());
+        linha.put("processando", i.isProcessando());
+        linha.put("erroIa", i.getErroIa());
         linha.put("temRascunho", i.getRascunho() != null);
         linha.put("tipoAto", c == null ? null : c.tipoAto());
         linha.put("providencia", c == null ? null : c.providencia());

@@ -31,7 +31,11 @@ export interface LinhaIntimacao {
   dataPublicacao: string;
   numeroProcesso: string;
   cliente: string;
-  situacao: 'NAO_LIDA' | 'PRAZO_NA_AGENDA' | 'RASCUNHO_PRONTO';
+  situacao: 'NAO_LIDA' | 'PROCESSANDO' | 'PRAZO_NA_AGENDA' | 'RASCUNHO_PRONTO';
+  /** Verdadeiro entre o disparo do fluxo de IA e a chegada do resultado. */
+  processando: boolean;
+  /** Preenchido quando o fluxo falhou — a tela mostra o motivo em vez de um erro genérico. */
+  erroIa: string | null;
   temRascunho: boolean;
   tipoAto: string | null;
   providencia: string | null;
@@ -41,7 +45,7 @@ export interface LinhaIntimacao {
 }
 
 export interface Dashboard {
-  /** Falso quando ANTHROPIC_API_KEY não está configurada — a tela avisa em vez de quebrar. */
+  /** Falso quando o fluxo de IA não está configurado — a tela avisa em vez de quebrar. */
   iaDisponivel: boolean;
   hoje: string;
   naoLidas: number;
@@ -56,16 +60,12 @@ export interface DetalheIntimacao extends LinhaIntimacao {
   processo: Processo;
   classificacao: Classificacao | null;
   rascunho: string | null;
+  /** Nulo quando não há prazo. Vem do motor determinístico, com a memória de cálculo. */
+  prazo: ResultadoPrazo | null;
 }
 
-export interface RespostaClassificacao {
-  classificacao: Classificacao;
-  /** Ausente quando a publicação não abre prazo. Vem do motor determinístico. */
-  prazo?: ResultadoPrazo;
+/** Resposta do disparo: 202 e nada mais. O resultado chega depois, por polling. */
+export interface RespostaProcessamento {
   situacao: string;
-}
-
-export interface RespostaRascunho {
-  rascunho: string;
-  situacao: string;
+  aviso?: string;
 }
