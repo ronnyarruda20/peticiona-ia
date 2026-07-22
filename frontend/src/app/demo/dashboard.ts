@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { DemoService } from './demo.service';
+import { AuthService } from '../auth/auth.service';
 import { Dashboard as DashboardDados, LinhaIntimacao } from './demo';
 
 /**
@@ -19,10 +20,19 @@ import { Dashboard as DashboardDados, LinhaIntimacao } from './demo';
 })
 export class Dashboard {
   private readonly service = inject(DemoService);
+  private readonly auth = inject(AuthService);
+
+  /** Já resolvido pelo guard antes desta tela existir — aqui é só leitura. */
+  readonly usuario = this.auth.usuario;
 
   readonly dados = signal<DashboardDados | null>(null);
   readonly erro = signal<string | null>(null);
   readonly reiniciando = signal(false);
+
+  sair(evento: Event): void {
+    evento.preventDefault();
+    this.auth.sair();
+  }
 
   constructor() {
     this.carregar();

@@ -10,6 +10,7 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,11 +48,17 @@ public class FluxoIa {
 
     private final String webhook;
     private final String baseUrl;
+    private final String callbackToken;
+    private final EstadoDoFluxo estado;
 
     public FluxoIa(@Value("${N8N_WEBHOOK_URL:}") String webhook,
-                   @Value("${APP_BASE_URL:}") String baseUrl) {
+                   @Value("${APP_BASE_URL:}") String baseUrl,
+                   @Value("${peticiona.callback-token:}") String callbackToken,
+                   EstadoDoFluxo estado) {
         this.webhook = webhook == null ? "" : webhook.trim();
         this.baseUrl = baseUrl == null ? "" : baseUrl.trim().replaceAll("/+$", "");
+        this.callbackToken = callbackToken == null ? "" : callbackToken.trim();
+        this.estado = estado;
 
         if (!disponivel()) {
             log.warn("Fluxo de IA desligado: defina N8N_WEBHOOK_URL e APP_BASE_URL. "
@@ -75,18 +82,24 @@ public class FluxoIa {
             throw new IaIndisponivelException();
         }
 
+        UUID id = intimacao.getId();
+
         Map<String, Object> corpo = new LinkedHashMap<>();
-        corpo.put("intimacaoId", intimacao.getId());
-        corpo.put("callbackUrl", baseUrl + "/api/demo/intimacoes/" + intimacao.getId() + "/resultado");
-        corpo.put("numero", processo.numero());
-        corpo.put("cliente", processo.cliente());
-        corpo.put("parteContraria", processo.parteContraria());
-        corpo.put("vara", processo.vara());
-        corpo.put("fase", processo.fase());
-        corpo.put("resumo", processo.resumo());
+        corpo.put("intimacaoId", id.toString());
+        corpo.put("callbackUrl", baseUrl + "/api/demo/intimacoes/" + id + "/resultado");
+        corpo.put("numero", processo.getNumero());
+        corpo.put("cliente", processo.getCliente());
+        corpo.put("parteContraria", processo.getParteContraria());
+        corpo.put("vara", processo.getVara());
+        corpo.put("fase", processo.getFase());
+        corpo.put("resumo", processo.getResumo());
         corpo.put("orgao", intimacao.getOrgao());
         corpo.put("dataPublicacao", intimacao.getDataPublicacao().toString());
         corpo.put("texto", intimacao.getTexto());
+        // O n8n devolve este segredo no cabeçalho X-Peticiona-Token ao chamar o callback.
+        // Mandá-lo no payload evita configurá-lo em dois lugares e ficar com valores
+        // divergentes entre o backend e o workflow.
+        corpo.put("callbackToken", callbackToken);
 
         String payload;
         try {
@@ -101,23 +114,28 @@ public class FluxoIa {
                 .POST(HttpRequest.BodyPublishers.ofString(payload))
                 .build();
 
+        // Marcado dentro da transação de quem chamou: se o commit falhar, a intimação não
+        // fica presa em "processando" para sempre.
         intimacao.marcarProcessando();
 
         http.sendAsync(req, HttpResponse.BodyHandlers.ofString())
                 .thenAccept(resp -> {
                     if (resp.statusCode() >= 300) {
                         log.error("O fluxo de IA recusou a intimação {}: HTTP {} — {}",
-                                intimacao.getId(), resp.statusCode(), resp.body());
-                        intimacao.marcarFalha("O fluxo de IA respondeu HTTP " + resp.statusCode() + ".");
+                                id, resp.statusCode(), resp.body());
+                        registrarFalha(id, "O fluxo de IA respondeu HTTP " + resp.statusCode() + ".");
                     } else {
-                        log.info("Intimação {} entregue ao fluxo de IA.", intimacao.getId());
+                        log.info("Intimação {} entregue ao fluxo de IA.", id);
                     }
                 })
                 .exceptionally(e -> {
-                    log.error("Não consegui falar com o fluxo de IA para a intimação {}.",
-                            intimacao.getId(), e);
-                    intimacao.marcarFalha("Não consegui falar com o fluxo de IA.");
+                    log.error("Não consegui falar com o fluxo de IA para a intimação {}.", id, e);
+                    registrarFalha(id, "Não consegui falar com o fluxo de IA.");
                     return null;
                 });
+    }
+
+    private void registrarFalha(UUID id, String motivo) {
+        estado.registrarFalha(id, motivo);
     }
 }

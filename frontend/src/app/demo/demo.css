@@ -29,6 +29,20 @@
 }
 .topo a:hover { color: #fff; text-decoration: underline; }
 
+/* Quem está logado. Discreto: é informação de contexto, não ação. */
+.topo .usuario {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 14rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.topo .usuario img { border-radius: 50%; }
+
 main {
   max-width: 72rem;
   margin: 0 auto;

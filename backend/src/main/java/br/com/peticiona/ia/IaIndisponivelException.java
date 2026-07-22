@@ -1,7 +1,7 @@
 package br.com.peticiona.ia;
 
 /**
- * A chave da API não está configurada neste ambiente.
+ * O fluxo de IA não está configurado neste ambiente.
  *
  * <p>Vira 503 na borda, com uma mensagem que diz o que fazer — em vez de um stack trace
  * que não ajuda ninguém no meio de uma apresentação.
@@ -9,7 +9,8 @@ package br.com.peticiona.ia;
 public class IaIndisponivelException extends RuntimeException {
 
     public IaIndisponivelException() {
-        super("Os recursos de IA estão indisponíveis: a variável ANTHROPIC_API_KEY não está "
-                + "configurada neste ambiente. A calculadora de prazos segue funcionando.");
+        super("Os recursos de IA estão indisponíveis: configure N8N_WEBHOOK_URL (onde o fluxo "
+                + "escuta) e APP_BASE_URL (para onde ele devolve o resultado). A calculadora de "
+                + "prazos segue funcionando.");
     }
 }

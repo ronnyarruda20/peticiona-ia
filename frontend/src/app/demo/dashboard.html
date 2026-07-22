@@ -3,6 +3,13 @@
   <nav>
     <a routerLink="/">Seu dia</a>
     <a routerLink="/calculadora">Calculadora</a>
+    @if (usuario(); as u) {
+      <span class="usuario" [title]="u.email">
+        @if (u.fotoUrl) { <img [src]="u.fotoUrl" alt="" width="24" height="24" /> }
+        {{ u.nome ?? u.email }}
+      </span>
+      <a href="#" (click)="sair($event)">Sair</a>
+    }
   </nav>
 </header>
 
@@ -23,9 +30,9 @@
     @if (!d.iaDisponivel) {
       <div class="aviso alerta">
         <strong>IA indisponível neste ambiente</strong>
-        A variável <code>ANTHROPIC_API_KEY</code> não está configurada. A leitura das
-        intimações e a redação das peças vão responder erro; a calculadora de prazos
-        continua funcionando normalmente.
+        O fluxo de IA não está configurado (<code>N8N_WEBHOOK_URL</code> e
+        <code>APP_BASE_URL</code>). A leitura das intimações e a redação das peças vão
+        responder erro; a calculadora de prazos continua funcionando normalmente.
       </div>
     }
 
