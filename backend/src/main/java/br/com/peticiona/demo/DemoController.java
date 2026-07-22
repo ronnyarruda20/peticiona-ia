@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -144,6 +145,66 @@ public class DemoController {
 
         return Map.of("rascunho", texto, "situacao", i.getSituacao());
     }
+
+    /**
+     * Recebe de volta o que o fluxo do n8n produziu para uma intimação.
+     *
+     * <p>O fluxo é assíncrono por necessidade: rascunhar uma peça leva minutos, e prender
+     * uma requisição HTTP por esse tempo é convite a timeout e a retry duplicando peça. O
+     * n8n confirma o recebimento na hora e chama este endpoint quando termina.
+     *
+     * <p><b>Repare no que o corpo NÃO traz: a data-limite.</b> Vem o número de dias e o
+     * regime de contagem; a data nasce aqui, no {@link CalculadoraPrazo} — o mesmo motor
+     * determinístico do fluxo síncrono. Fosse o n8n a mandar a data pronta, existiriam dois
+     * caminhos capazes de produzir prazo, e um deles passaria por um LLM (doc 06).
+     */
+    @PostMapping("/intimacoes/{id}/resultado")
+    public Map<String, Object> receberResultado(@PathVariable String id,
+                                                @RequestBody ResultadoIa corpo) {
+        Intimacao i = buscar(id);
+
+        if (corpo.classificacao() == null) {
+            throw new IllegalArgumentException("O resultado não trouxe classificação.");
+        }
+        i.setClassificacao(corpo.classificacao());
+
+        // A data continua nascendo de um só lugar, mesmo vindo o resto de fora.
+        if (corpo.classificacao().prazoEmDias() > 0 && !corpo.classificacao().precisaRevisao()) {
+            ResultadoPrazo prazo = calculadora.calcular(
+                    i.getDataPublicacao(),
+                    corpo.classificacao().prazoEmDias(),
+                    "DIAS_CORRIDOS".equals(corpo.classificacao().tipoContagem())
+                            ? TipoContagem.DIAS_CORRIDOS
+                            : TipoContagem.DIAS_UTEIS,
+                    Justica.TRABALHISTA,
+                    true);
+            i.setDataVencimento(prazo.dataVencimento());
+        }
+
+        if (corpo.rascunho() != null && !corpo.rascunho().isBlank()) {
+            i.setRascunho(corpo.rascunho());
+        }
+
+        return Map.of(
+                "id", i.getId(),
+                "situacao", i.getSituacao(),
+                "dataVencimento", i.getDataVencimento() == null ? "" : i.getDataVencimento().toString());
+    }
+
+    /**
+     * O que o n8n devolve ao fim do fluxo.
+     *
+     * @param classificacao a leitura da publicação — dias e regime, nunca data
+     * @param rascunho      a minuta, ou nulo quando o fluxo não rascunhou
+     * @param status        o desfecho do fluxo, para diagnóstico
+     * @param motivo        por que não rascunhou, quando for o caso
+     */
+    public record ResultadoIa(
+            ClassificacaoIntimacao classificacao,
+            String rascunho,
+            String status,
+            String motivo
+    ) {}
 
     /** Devolve a demo ao estado inicial — o botão "recomeçar" entre ensaios. */
     @PostMapping("/reiniciar")
