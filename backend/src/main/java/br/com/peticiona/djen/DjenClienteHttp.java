@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import java.net.InetSocketAddress;
+import java.net.ProxySelector;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -39,20 +41,36 @@ public class DjenClienteHttp implements DjenCliente {
     private static final int ITENS_POR_PAGINA = 100;
     private static final int MAXIMO_DE_PAGINAS = 20;
 
-    private final HttpClient http = HttpClient.newBuilder()
-            .connectTimeout(Duration.ofSeconds(15))
-            .followRedirects(HttpClient.Redirect.NORMAL)
-            .build();
-
     private final ObjectMapper json = new ObjectMapper()
             .registerModule(new JavaTimeModule())
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     private final String base;
+    private final HttpClient http;
 
+    /**
+     * @param proxyHost host de um proxy no Brasil, ou vazio. A API do CNJ fica atrás de um
+     *                  CloudFront que bloqueia requisições de fora do país; o Railway roda nos
+     *                  EUA. Sem esse proxy, toda consulta volta 403. Vazio = chamada direta,
+     *                  que funciona em desenvolvimento (máquina no Brasil) e nos testes.
+     */
     public DjenClienteHttp(
-            @Value("${peticiona.djen.url:https://comunicaapi.pje.jus.br/api/v1/comunicacao}") String base) {
+            @Value("${peticiona.djen.url:https://comunicaapi.pje.jus.br/api/v1/comunicacao}") String base,
+            @Value("${peticiona.djen.proxy-host:}") String proxyHost,
+            @Value("${peticiona.djen.proxy-port:8888}") int proxyPort) {
         this.base = base;
+
+        HttpClient.Builder builder = HttpClient.newBuilder()
+                .connectTimeout(Duration.ofSeconds(15))
+                .followRedirects(HttpClient.Redirect.NORMAL);
+
+        if (proxyHost != null && !proxyHost.isBlank()) {
+            builder.proxy(ProxySelector.of(new InetSocketAddress(proxyHost.trim(), proxyPort)));
+            log.info("DJEN: consultas roteadas pelo proxy {}:{} (egress no Brasil).", proxyHost, proxyPort);
+        } else {
+            log.info("DJEN: consultas diretas, sem proxy. Fora do Brasil isso volta HTTP 403.");
+        }
+        this.http = builder.build();
     }
 
     @Override
