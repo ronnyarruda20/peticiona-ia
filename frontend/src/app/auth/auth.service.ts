@@ -65,6 +65,24 @@ export class AuthService {
     );
   }
 
+  /** Dispara a busca no DJEN sem esperar a rotina das 8h. */
+  sincronizarAgora(): Observable<unknown> {
+    return this.http.post('/api/me/sincronizar', {});
+  }
+
+  /**
+   * Exclui a conta e todo o acervo. O e-mail vai como confirmação, para o backend recusar
+   * um clique acidental — exclusão é irreversível.
+   */
+  excluirConta(email: string): Observable<unknown> {
+    return this.http.delete('/api/me', { params: { confirmacao: email } });
+  }
+
+  /** Relê os dados do usuário — depois de trocar OAB ou sincronizar, para a tela atualizar. */
+  recarregar(): Observable<UsuarioLogado | null> {
+    return this.carregar();
+  }
+
   private aposSair(): void {
     this.usuario.set(null);
     // Recarrega em vez de navegar: descarta qualquer estado de tela do usuário anterior.

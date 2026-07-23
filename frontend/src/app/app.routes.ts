@@ -34,6 +34,12 @@ export const routes: Routes = [
     title: 'Sua OAB · Peticiona',
   },
   {
+    path: 'perfil',
+    canActivate: [autenticado],
+    loadComponent: () => import('./auth/perfil').then((m) => m.Perfil),
+    title: 'Sua conta · Peticiona',
+  },
+  {
     path: 'calculadora',
     loadComponent: () => import('./calculadora/calculadora').then((m) => m.Calculadora),
     title: 'Calculadora de prazos',

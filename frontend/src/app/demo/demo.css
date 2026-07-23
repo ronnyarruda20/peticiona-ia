@@ -42,6 +42,8 @@
   text-overflow: ellipsis;
 }
 .topo .usuario img { border-radius: 50%; }
+.topo a.usuario { text-transform: none; letter-spacing: normal; }
+.topo a.usuario:hover { color: #fff; }
 
 /* Cartão de confirmação de cliente — aparece antes da lista quando há pendência. */
 .painel.confirmar { border-left: 3px solid var(--gold); }

@@ -4,10 +4,10 @@
     <a routerLink="/">Seu dia</a>
     <a routerLink="/calculadora">Calculadora</a>
     @if (usuario(); as u) {
-      <span class="usuario" [title]="u.email">
+      <a class="usuario" routerLink="/perfil" [title]="'Sua conta — ' + u.email">
         @if (u.fotoUrl) { <img [src]="u.fotoUrl" alt="" width="24" height="24" /> }
         {{ u.nome ?? u.email }}
-      </span>
+      </a>
       <a href="#" (click)="sair($event)">Sair</a>
     }
   </nav>

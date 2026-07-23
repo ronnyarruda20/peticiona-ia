@@ -1,0 +1,124 @@
+<header class="topo">
+  <div class="marca">⚖️ Peticiona</div>
+  <nav>
+    <a routerLink="/">Seu dia</a>
+    <a routerLink="/calculadora">Calculadora</a>
+    <a href="#" (click)="sair($event)">Sair</a>
+  </nav>
+</header>
+
+<main>
+  @if (usuario(); as u) {
+    <section class="titulo">
+      <h1>Sua conta</h1>
+      <p>Seus dados, sua OAB e as buscas no diário.</p>
+    </section>
+
+    @if (erro(); as e) {
+      <div class="aviso erro"><strong>Não deu certo</strong>{{ e }}</div>
+    }
+
+    <!-- ① Conta (Google, só leitura) -->
+    <section class="painel">
+      <h2>Identidade</h2>
+      <div class="conta">
+        @if (u.fotoUrl) { <img [src]="u.fotoUrl" alt="" width="56" height="56" /> }
+        <div>
+          <div class="nome">{{ u.nome ?? '—' }}</div>
+          <div class="email">{{ u.email }}</div>
+        </div>
+      </div>
+      <p class="nota">Nome e foto vêm da sua conta Google. Para mudá-los, altere no Google.</p>
+    </section>
+
+    <!-- ② OAB -->
+    <section class="painel">
+      <h2>Sua OAB</h2>
+      <p class="ajuda">É com ela que buscamos suas publicações no DJEN.</p>
+      <form (ngSubmit)="salvarOab()" class="form-oab">
+        <div class="linha">
+          <label>
+            <span>Número</span>
+            <input type="text" inputmode="numeric" name="numero"
+              [ngModel]="oabNumero()" (ngModelChange)="oabNumero.set($event)"
+              [disabled]="salvandoOab()" />
+          </label>
+          <label class="uf">
+            <span>UF</span>
+            <input type="text" maxlength="2" name="uf" style="text-transform: uppercase"
+              [ngModel]="oabUf()" (ngModelChange)="oabUf.set($event)"
+              [disabled]="salvandoOab()" />
+          </label>
+        </div>
+        <button type="submit" class="primario" [disabled]="salvandoOab()">
+          {{ salvandoOab() ? 'Salvando…' : 'Salvar OAB' }}
+        </button>
+        @if (oabSalva()) {
+          <span class="ok">Salvo. Buscando as publicações desta OAB…</span>
+        }
+      </form>
+    </section>
+
+    <!-- ③ Sincronização -->
+    <section class="painel">
+      <h2>Busca no diário</h2>
+      @if (u.djenSincronizadoAte) {
+        <p class="ajuda">
+          Última busca até <strong>{{ u.djenSincronizadoAte | date: 'dd/MM/yyyy' }}</strong>.
+          A rotina roda todo dia às 8h.
+        </p>
+      } @else {
+        <p class="ajuda">Ainda não sincronizamos. Cadastre a OAB ou busque agora.</p>
+      }
+      @if (u.djenErro) {
+        <div class="aviso alerta">
+          <strong>A última busca falhou</strong>{{ u.djenErro }}
+        </div>
+      }
+      <button type="button" class="secundario" (click)="sincronizar()" [disabled]="sincronizando()">
+        {{ sincronizando() ? 'Buscando…' : 'Buscar publicações agora' }}
+      </button>
+    </section>
+
+    <!-- ④ IA -->
+    <section class="painel">
+      <h2>Inteligência artificial</h2>
+      <p class="ajuda">
+        Você tem <strong>{{ u.execucoesRestantesHoje }}</strong> leituras/redações de IA
+        disponíveis hoje. O limite se renova amanhã.
+      </p>
+    </section>
+
+    <!-- ⑤ Zona de perigo -->
+    <section class="painel perigo">
+      <h2>Excluir minha conta</h2>
+      <p class="ajuda">
+        Apaga sua conta e todo o acervo — processos, intimações e rascunhos. Não há como
+        desfazer.
+      </p>
+
+      @if (!confirmandoExclusao()) {
+        <button type="button" class="destrutivo" (click)="confirmandoExclusao.set(true)">
+          Excluir minha conta
+        </button>
+      } @else {
+        <div class="confirmar-exclusao">
+          <label>
+            <span>Para confirmar, digite seu e-mail: <strong>{{ u.email }}</strong></span>
+            <input type="email" name="confirmacao" autocomplete="off"
+              [ngModel]="emailDigitado()" (ngModelChange)="emailDigitado.set($event)"
+              [disabled]="excluindo()" />
+          </label>
+          <div class="acoes">
+            <button type="button" class="secundario" (click)="confirmandoExclusao.set(false)"
+              [disabled]="excluindo()">Cancelar</button>
+            <button type="button" class="destrutivo" (click)="excluir()"
+              [disabled]="!podeExcluir() || excluindo()">
+              {{ excluindo() ? 'Excluindo…' : 'Excluir definitivamente' }}
+            </button>
+          </div>
+        </div>
+      }
+    </section>
+  }
+</main>

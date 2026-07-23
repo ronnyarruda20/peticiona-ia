@@ -1,14 +1,20 @@
 package br.com.peticiona.auth;
 
+import br.com.peticiona.demo.IntimacaoRepository;
+import br.com.peticiona.demo.ProcessoRepository;
 import br.com.peticiona.djen.RotinaDjen;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /** Quem sou eu — é por aqui que o front decide entre mostrar a tela ou mandar para o login. */
@@ -18,11 +24,17 @@ public class MeController {
 
     private final UsuarioAtual usuarioAtual;
     private final UsuarioRepository usuarios;
+    private final ProcessoRepository processos;
+    private final IntimacaoRepository intimacoes;
     private final RotinaDjen rotina;
 
-    public MeController(UsuarioAtual usuarioAtual, UsuarioRepository usuarios, RotinaDjen rotina) {
+    public MeController(UsuarioAtual usuarioAtual, UsuarioRepository usuarios,
+                        ProcessoRepository processos, IntimacaoRepository intimacoes,
+                        RotinaDjen rotina) {
         this.usuarioAtual = usuarioAtual;
         this.usuarios = usuarios;
+        this.processos = processos;
+        this.intimacoes = intimacoes;
         this.rotina = rotina;
     }
 
@@ -78,8 +90,62 @@ public class MeController {
 
     public record OabRequest(String numero, String uf) {}
 
+    /**
+     * Busca as publicações agora, sem esperar a rotina das 8h.
+     *
+     * <p>Útil logo depois de cadastrar a OAB ou quando chega intimação no meio do dia. Roda
+     * assíncrono (a busca leva segundos ou minutos) e responde {@code 202}; a tela acompanha
+     * pelo {@code djenUltimaSincronizacao} do {@code GET /api/me}.
+     */
+    @PostMapping("/sincronizar")
+    public ResponseEntity<Map<String, Object>> sincronizarAgora() {
+        Usuario u = usuarioAtual.obrigatorio();
+        if (!u.temOab()) {
+            return ResponseEntity.badRequest().body(Map.of(
+                    "erro", "Cadastre sua OAB antes de buscar publicações."));
+        }
+        rotina.cargaInicial(u);
+        return ResponseEntity.accepted().body(Map.of("status", "buscando"));
+    }
+
+    /**
+     * Exclui a conta e todo o acervo — o direito de exclusão da LGPD.
+     *
+     * <p>Irreversível, então protegido contra o clique acidental: só executa quando o
+     * parâmetro {@code confirmacao} bate com o e-mail da conta, no mesmo espírito do GitHub.
+     *
+     * <p>As FKs têm {@code ON DELETE CASCADE}, mas as limpezas são explícitas mesmo assim —
+     * a exclusão de dado de cliente não deve depender de um detalhe de configuração do banco
+     * para acontecer por inteiro.
+     */
+    @DeleteMapping
+    @Transactional
+    public ResponseEntity<Map<String, String>> excluirConta(
+            @RequestParam(required = false) String confirmacao, HttpServletRequest req) {
+        Usuario u = usuarioAtual.obrigatorio();
+
+        if (confirmacao == null || !confirmacao.equalsIgnoreCase(u.getEmail())) {
+            return ResponseEntity.badRequest().body(Map.of(
+                    "erro", "Digite seu e-mail para confirmar a exclusão."));
+        }
+
+        intimacoes.deleteByUsuario(u);
+        processos.deleteByUsuario(u);
+        usuarios.delete(u);
+
+        // Sem sessão não sobra rastro de login apontando para um usuário que não existe mais.
+        req.getSession().invalidate();
+
+        return ResponseEntity.ok(Map.of("status", "conta excluída"));
+    }
+
     @ExceptionHandler(UsuarioAtual.NaoAutenticadoException.class)
     public ResponseEntity<Map<String, String>> naoAutenticado(UsuarioAtual.NaoAutenticadoException e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("erro", e.getMessage()));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> entradaInvalida(IllegalArgumentException e) {
+        return ResponseEntity.badRequest().body(Map.of("erro", e.getMessage()));
     }
 }
