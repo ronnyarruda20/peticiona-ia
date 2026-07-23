@@ -66,6 +66,16 @@ class SegurancaConfigTest {
     }
 
     @Test
+    @DisplayName("as rotas de navegação do SPA servem o HTML sem exigir login")
+    void rotasDoSpaSaoPublicas() throws Exception {
+        // O HTML e o guard do front cuidam do acesso; o servidor só entrega a casca. Sem
+        // isto, abrir /perfil ou /comecar direto (ou dar F5) devolvia 401 em vez da tela.
+        for (String rota : new String[] {"/login", "/comecar", "/perfil"}) {
+            mockMvc.perform(get(rota)).andExpect(status().isOk());
+        }
+    }
+
+    @Test
     @DisplayName("o callback do n8n recusa quem não traz o segredo")
     void callbackSemTokenEhRecusado() throws Exception {
         mockMvc.perform(post("/api/demo/intimacoes/{id}/resultado", java.util.UUID.randomUUID())

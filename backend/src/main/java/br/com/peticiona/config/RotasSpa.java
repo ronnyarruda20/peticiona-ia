@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class RotasSpa {
 
-    @RequestMapping({"/login", "/calculadora", "/intimacoes/**"})
+    @RequestMapping({"/login", "/comecar", "/perfil", "/calculadora", "/intimacoes/**"})
     public String index() {
         return "forward:/index.html";
     }

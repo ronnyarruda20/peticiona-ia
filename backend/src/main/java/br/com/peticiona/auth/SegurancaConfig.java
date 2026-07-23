@@ -45,8 +45,10 @@ public class SegurancaConfig {
     public SecurityFilterChain filtros(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(rotas -> rotas
-                // O front Angular e suas rotas de navegação.
-                .requestMatchers("/", "/login", "/calculadora", "/index.html", "/favicon.ico",
+                // O front Angular e suas rotas de navegação. O HTML é público em todas —
+                // quem protege o conteúdo é o /api, e o guard do front redireciona no 401.
+                .requestMatchers("/", "/login", "/comecar", "/perfil", "/calculadora",
+                        "/index.html", "/favicon.ico",
                         "/*.js", "/*.css", "/assets/**", "/media/**").permitAll()
                 // Ímã de leads e configuração pública.
                 .requestMatchers("/api/prazos/**", "/api/interesses", "/api/config").permitAll()
