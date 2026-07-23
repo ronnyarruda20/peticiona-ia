@@ -25,7 +25,20 @@
       <h2>Publicação · {{ d.orgao }} · {{ d.dataPublicacao | date: 'dd/MM/yyyy' }}</h2>
       <div class="publicacao">{{ d.texto }}</div>
 
-      @if (!classificacao()) {
+      @if (d.link) {
+        <p style="margin-top: 0.8rem; font-size: 0.85rem">
+          <a [href]="d.link" target="_blank" rel="noopener">Conferir no PJe ↗</a>
+        </p>
+      }
+
+      @if (d.aguardaCliente) {
+        <div class="aviso alerta" style="margin-top: 1.1rem">
+          <strong>Confirme seu cliente antes de acionar a IA</strong>
+          Volte ao <a routerLink="/">Seu dia</a> e diga qual das partes você representa neste
+          processo. A peça é redigida para defender o seu cliente — sem isso, ela sairia do
+          lado errado.
+        </div>
+      } @else if (!classificacao()) {
         <div class="acoes" style="margin-top: 1.1rem">
           <button type="button" class="primario" (click)="ler()" [disabled]="lendo()">
             {{ lendo() ? 'Lendo a publicação…' : 'Ler com a IA' }}

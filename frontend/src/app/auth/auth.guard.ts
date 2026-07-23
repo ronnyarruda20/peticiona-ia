@@ -14,12 +14,35 @@ export const autenticado: CanActivateFn = () => {
   const auth = inject(AuthService);
   const router = inject(Router);
 
+  const decidir = (u: ReturnType<typeof auth.usuario>) => {
+    if (!u) return router.createUrlTree(['/login']);
+    // Sem OAB não há o que mostrar no "Seu dia" — manda cadastrar antes.
+    if (!u.oabNumero) return router.createUrlTree(['/comecar']);
+    return true;
+  };
+
   const conhecido = auth.usuario();
   if (conhecido !== undefined) {
-    return conhecido ? true : router.createUrlTree(['/login']);
+    return decidir(conhecido);
   }
+  return auth.carregar().pipe(map(decidir));
+};
 
-  return auth.carregar().pipe(map((u) => (u ? true : router.createUrlTree(['/login']))));
+/** Quem já tem OAB não precisa passar de novo pelo onboarding. */
+export const semOab: CanActivateFn = () => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+
+  const decidir = (u: ReturnType<typeof auth.usuario>) => {
+    if (!u) return router.createUrlTree(['/login']);
+    return u.oabNumero ? router.createUrlTree(['/']) : true;
+  };
+
+  const conhecido = auth.usuario();
+  if (conhecido !== undefined) {
+    return decidir(conhecido);
+  }
+  return auth.carregar().pipe(map(decidir));
 };
 
 /**

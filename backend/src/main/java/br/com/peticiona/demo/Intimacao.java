@@ -89,8 +89,34 @@ public class Intimacao {
     @Column(name = "criado_em", nullable = false)
     private Instant criadoEm = Instant.now();
 
+    // ── Origem no DJEN ────────────────────────────────────────────
+    /** Chave de deduplicação do CNJ. Nulo nas intimações semeadas. */
+    @Column(name = "djen_hash")
+    private String djenHash;
+
+    @Column(name = "djen_id")
+    private Long djenId;
+
+    /** Comprovante no PJe — é onde o advogado confere a publicação na fonte. */
+    private String link;
+
+    @Column(name = "tipo_comunicacao")
+    private String tipoComunicacao;
+
     protected Intimacao() {
         // exigido pelo JPA
+    }
+
+    /** Intimação vinda de uma publicação real do DJEN. */
+    public static Intimacao doDjen(Usuario usuario, Processo processo, LocalDate dataPublicacao,
+                                   String orgao, String texto, String djenHash, Long djenId,
+                                   String link, String tipoComunicacao) {
+        Intimacao i = new Intimacao(usuario, processo, dataPublicacao, orgao, texto);
+        i.djenHash = djenHash;
+        i.djenId = djenId;
+        i.link = link;
+        i.tipoComunicacao = tipoComunicacao;
+        return i;
     }
 
     public Intimacao(Usuario usuario, Processo processo, LocalDate dataPublicacao,
@@ -110,6 +136,11 @@ public class Intimacao {
     public LocalDate getDataPublicacao() { return dataPublicacao; }
     public String getOrgao() { return orgao; }
     public String getTexto() { return texto; }
+
+    public String getDjenHash() { return djenHash; }
+    public Long getDjenId() { return djenId; }
+    public String getLink() { return link; }
+    public String getTipoComunicacao() { return tipoComunicacao; }
 
     /** Remonta o record a partir das colunas. Nulo enquanto a IA não leu. */
     public ClassificacaoIntimacao getClassificacao() {

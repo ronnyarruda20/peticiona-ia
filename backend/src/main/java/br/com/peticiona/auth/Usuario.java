@@ -58,6 +58,18 @@ public class Usuario {
     @Column(name = "ultimo_acesso_em")
     private Instant ultimoAcessoEm;
 
+    // ── Sincronização com o DJEN ──────────────────────────────────
+    /** Até que data já buscamos publicações. Nulo = nunca sincronizou. */
+    @Column(name = "djen_sincronizado_ate")
+    private LocalDate djenSincronizadoAte;
+
+    @Column(name = "djen_ultima_sincronizacao")
+    private Instant djenUltimaSincronizacao;
+
+    /** Motivo da última falha. A tela avisa: acervo desatualizado parece completo. */
+    @Column(name = "djen_erro", columnDefinition = "text")
+    private String djenErro;
+
     protected Usuario() {
         // exigido pelo JPA
     }
@@ -114,4 +126,32 @@ public class Usuario {
     public int getExecucoesNoDia() { return execucoesNoDia; }
     public Instant getCriadoEm() { return criadoEm; }
     public Instant getUltimoAcessoEm() { return ultimoAcessoEm; }
+
+    /** Tem OAB cadastrada? Sem ela não há o que buscar no DJEN. */
+    public boolean temOab() {
+        return oabNumero != null && !oabNumero.isBlank()
+                && oabUf != null && !oabUf.isBlank();
+    }
+
+    public LocalDate getDjenSincronizadoAte() { return djenSincronizadoAte; }
+    public Instant getDjenUltimaSincronizacao() { return djenUltimaSincronizacao; }
+    public String getDjenErro() { return djenErro; }
+
+    public void registrarSincronizacao(LocalDate ate) {
+        this.djenSincronizadoAte = ate;
+        this.djenUltimaSincronizacao = Instant.now();
+        this.djenErro = null;
+    }
+
+    /**
+     * A busca falhou.
+     *
+     * <p>{@code djenSincronizadoAte} fica como estava de propósito: na próxima tentativa a
+     * janela recomeça de onde parou, e o dia que não foi buscado não vira um buraco
+     * silencioso na agenda.
+     */
+    public void registrarFalhaDeSincronizacao(String motivo) {
+        this.djenUltimaSincronizacao = Instant.now();
+        this.djenErro = motivo;
+    }
 }

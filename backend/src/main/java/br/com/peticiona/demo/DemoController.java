@@ -51,14 +51,17 @@ public class DemoController {
     private final CalculadoraPrazo calculadora;
     private final UsuarioAtual usuarioAtual;
     private final IntimacaoRepository intimacoes;
+    private final ProcessoRepository processos;
 
     public DemoController(AcervoDemo acervo, FluxoIa fluxo, CalculadoraPrazo calculadora,
-                          UsuarioAtual usuarioAtual, IntimacaoRepository intimacoes) {
+                          UsuarioAtual usuarioAtual, IntimacaoRepository intimacoes,
+                          ProcessoRepository processos) {
         this.acervo = acervo;
         this.fluxo = fluxo;
         this.calculadora = calculadora;
         this.usuarioAtual = usuarioAtual;
         this.intimacoes = intimacoes;
+        this.processos = processos;
     }
 
     /** O "Seu dia": contadores, fila de intimações e prazos ordenados por vencimento. */
@@ -128,6 +131,17 @@ public class DemoController {
             // Clicar duas vezes não pode virar duas peças cobradas.
             return ResponseEntity.accepted()
                     .body(Map.of("situacao", i.getSituacao(), "aviso", "Esta intimação já está na fila."));
+        }
+
+        // A IA escreve a peça defendendo alguém. Sem saber de que lado o advogado está, ela
+        // escreveria para o lado errado — e uma contestação redigida contra o próprio
+        // cliente é muito pior que nenhuma contestação.
+        Processo p = i.getProcesso();
+        if (p != null && p.aguardaConfirmacaoDeCliente()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of(
+                    "erro", "Antes de acionar a IA, diga qual das partes é seu cliente neste processo.",
+                    "processoId", p.getId().toString(),
+                    "situacao", i.getSituacao()));
         }
 
         // O cadastro é aberto e cada execução gasta crédito de modelo — dinheiro real.
@@ -202,6 +216,51 @@ public class DemoController {
             String status,
             String motivo
     ) {}
+
+    /**
+     * Processos em que ainda não sabemos de que lado o advogado está.
+     *
+     * <p>A API do CNJ entrega as partes com seus polos e os advogados com sua OAB, mas não
+     * diz qual advogado representa qual parte. Esta é a lista do que precisa da resposta
+     * humana — uma vez por processo, não a cada publicação.
+     */
+    @GetMapping("/processos/pendentes")
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> processosPendentes() {
+        Usuario dono = usuarioAtual.obrigatorio();
+        return processos.findByUsuarioAndClientePoloIsNullAndOrigem(dono, "DJEN").stream()
+                .map(p -> {
+                    Map<String, Object> m = new java.util.LinkedHashMap<>();
+                    m.put("id", p.getId().toString());
+                    m.put("numero", p.getNumero());
+                    m.put("vara", p.getVara());
+                    m.put("tribunal", p.getTribunal());
+                    m.put("classe", p.getClasse());
+                    m.put("partesPoloAtivo", p.getPartesPoloAtivo());
+                    m.put("partesPoloPassivo", p.getPartesPoloPassivo());
+                    return m;
+                })
+                .toList();
+    }
+
+    /** O advogado diz de que lado está, e o processo passa a servir aos prompts. */
+    @PostMapping("/processos/{id}/cliente")
+    @Transactional
+    public Map<String, Object> confirmarCliente(@PathVariable String id, @RequestBody PoloRequest req) {
+        Usuario dono = usuarioAtual.obrigatorio();
+        Processo p = processos.findByIdAndUsuario(uuid(id), dono).orElseThrow(
+                () -> new IllegalArgumentException("Processo não encontrado: " + id));
+
+        p.confirmarCliente(req.polo());
+
+        return Map.of(
+                "id", p.getId().toString(),
+                "cliente", String.valueOf(p.getCliente()),
+                "parteContraria", String.valueOf(p.getParteContraria()));
+    }
+
+    /** @param polo {@code "A"} para polo ativo, {@code "P"} para passivo */
+    public record PoloRequest(String polo) {}
 
     /** Devolve o acervo ao estado inicial — o botão "recomeçar" entre ensaios. */
     @PostMapping("/reiniciar")
@@ -286,6 +345,12 @@ public class DemoController {
         linha.put("urgencia", c == null ? null : c.urgencia());
         linha.put("precisaRevisao", c != null && c.precisaRevisao());
         linha.put("dataVencimento", i.getDataVencimento() == null ? null : i.getDataVencimento().toString());
+        // O botão de IA fica bloqueado enquanto isto for verdadeiro — e a tela precisa
+        // saber disso antes do clique, não depois do 409.
+        linha.put("aguardaCliente", p != null && p.aguardaConfirmacaoDeCliente());
+        linha.put("processoId", p == null ? null : p.getId().toString());
+        linha.put("link", i.getLink());
+        linha.put("origem", p == null ? "DEMO" : p.getOrigem());
         return linha;
     }
 

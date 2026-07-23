@@ -1,0 +1,53 @@
+<main class="entrada">
+  <section class="cartao">
+    <div class="marca">⚖️ Peticiona</div>
+
+    <h1>Qual é a sua OAB?</h1>
+    <p class="sub">
+      É com ela que buscamos suas publicações no Diário de Justiça Eletrônico Nacional.
+      Seus prazos aparecem aqui automaticamente, sem você garimpar o diário.
+    </p>
+
+    <form (ngSubmit)="salvar()" class="form-oab">
+      <div class="linha">
+        <label>
+          <span>Número</span>
+          <input
+            type="text"
+            inputmode="numeric"
+            placeholder="123456"
+            [ngModel]="numero()"
+            (ngModelChange)="numero.set($event)"
+            name="numero"
+            [disabled]="salvando()"
+            autofocus />
+        </label>
+        <label class="uf">
+          <span>UF</span>
+          <input
+            type="text"
+            maxlength="2"
+            placeholder="MG"
+            [ngModel]="uf()"
+            (ngModelChange)="uf.set($event)"
+            name="uf"
+            [disabled]="salvando()"
+            style="text-transform: uppercase" />
+        </label>
+      </div>
+
+      @if (erro(); as e) {
+        <p class="erro-inline">{{ e }}</p>
+      }
+
+      <button type="submit" class="google" [disabled]="salvando()">
+        {{ salvando() ? 'Buscando suas publicações…' : 'Buscar meus prazos' }}
+      </button>
+    </form>
+
+    <p class="nota">
+      Buscamos os últimos 30 dias agora e, a partir daí, todo dia de manhã. A conferência
+      do diário continua sendo sua responsabilidade — a busca é um auxílio, não a substitui.
+    </p>
+  </section>
+</main>

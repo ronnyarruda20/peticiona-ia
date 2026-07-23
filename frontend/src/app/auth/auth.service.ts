@@ -12,6 +12,11 @@ export interface UsuarioLogado {
   oabUf: string | null;
   /** Quanto ainda dá para usar hoje — melhor avisar antes do que recusar depois. */
   execucoesRestantesHoje: number;
+  /** Até que dia já buscamos publicações. Nulo = nunca sincronizou. */
+  djenSincronizadoAte: string | null;
+  djenUltimaSincronizacao: string | null;
+  /** Motivo da última falha de sincronização, para a tela avisar. */
+  djenErro: string | null;
 }
 
 /**

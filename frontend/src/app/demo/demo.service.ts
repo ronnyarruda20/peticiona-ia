@@ -1,7 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Dashboard, DetalheIntimacao, RespostaProcessamento } from './demo';
+import {
+  Dashboard,
+  DetalheIntimacao,
+  ProcessoPendente,
+  RespostaProcessamento,
+} from './demo';
 
 @Injectable({ providedIn: 'root' })
 export class DemoService {
@@ -26,6 +31,16 @@ export class DemoService {
    */
   processar(id: string): Observable<RespostaProcessamento> {
     return this.http.post<RespostaProcessamento>(`${this.api}/intimacoes/${id}/processar`, {});
+  }
+
+  /** Processos vindos do DJEN esperando o advogado dizer de que lado está. */
+  processosPendentes(): Observable<ProcessoPendente[]> {
+    return this.http.get<ProcessoPendente[]>(`${this.api}/processos/pendentes`);
+  }
+
+  /** O advogado confirma o polo; a partir daí o processo serve aos prompts da IA. */
+  confirmarCliente(processoId: string, polo: 'A' | 'P'): Observable<unknown> {
+    return this.http.post(`${this.api}/processos/${processoId}/cliente`, { polo });
   }
 
   /** Devolve o acervo ao estado inicial, para reapresentar do zero. */

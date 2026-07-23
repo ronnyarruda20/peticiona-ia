@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { DemoService } from './demo.service';
 import { AuthService } from '../auth/auth.service';
-import { Dashboard as DashboardDados, LinhaIntimacao } from './demo';
+import { Dashboard as DashboardDados, LinhaIntimacao, ProcessoPendente } from './demo';
 
 /**
  * "Seu dia" — a primeira tela que o advogado abre.
@@ -29,13 +29,48 @@ export class Dashboard {
   readonly erro = signal<string | null>(null);
   readonly reiniciando = signal(false);
 
+  /** Processos do DJEN esperando o advogado dizer de que lado está. */
+  readonly pendentes = signal<ProcessoPendente[]>([]);
+  /** O id do processo em confirmação, para travar só o cartão clicado. */
+  readonly confirmando = signal<string | null>(null);
+
   sair(evento: Event): void {
     evento.preventDefault();
     this.auth.sair();
   }
 
+  /**
+   * O advogado escolheu de que lado está. Só depois disto a IA pode rodar no processo.
+   *
+   * <p>Recarregar o painel inteiro é de propósito: confirmar o cliente muda o cartão de
+   * confirmação, as etiquetas das intimações daquele processo e a disponibilidade do botão
+   * de IA — mais simples e menos sujeito a erro do que remendar cada um na mão.
+   */
+  confirmar(processoId: string, polo: 'A' | 'P'): void {
+    this.confirmando.set(processoId);
+    this.service.confirmarCliente(processoId, polo).subscribe({
+      next: () => {
+        this.confirmando.set(null);
+        this.carregar();
+        this.carregarPendentes();
+      },
+      error: (e) => {
+        this.confirmando.set(null);
+        this.erro.set(e?.error?.erro ?? 'Não consegui confirmar o cliente. Tente de novo.');
+      },
+    });
+  }
+
+  private carregarPendentes(): void {
+    this.service.processosPendentes().subscribe({
+      next: (p) => this.pendentes.set(p),
+      error: () => this.pendentes.set([]),
+    });
+  }
+
   constructor() {
     this.carregar();
+    this.carregarPendentes();
   }
 
   carregar(): void {

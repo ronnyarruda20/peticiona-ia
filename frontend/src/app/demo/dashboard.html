@@ -55,6 +55,42 @@
       </div>
     </div>
 
+    @if (pendentes().length) {
+      <section class="painel confirmar">
+        <h2>Confirme seu cliente</h2>
+        <p class="ajuda">
+          O diário traz as partes, mas não diz qual você representa. Antes de acionar a IA
+          num processo, diga de que lado você está — a peça é redigida para defender o seu
+          cliente.
+        </p>
+
+        @for (p of pendentes(); track p.id) {
+          <div class="processo-pendente">
+            <div class="num">{{ p.numero }}</div>
+            @if (p.vara) { <div class="vara">{{ p.vara }}</div> }
+            <div class="lados">
+              <button
+                type="button"
+                class="lado"
+                [disabled]="confirmando() === p.id || !p.partesPoloAtivo"
+                (click)="confirmar(p.id, 'A')">
+                <span class="rot">Represento (polo ativo)</span>
+                <span class="partes">{{ p.partesPoloAtivo || '— sem parte neste polo —' }}</span>
+              </button>
+              <button
+                type="button"
+                class="lado"
+                [disabled]="confirmando() === p.id || !p.partesPoloPassivo"
+                (click)="confirmar(p.id, 'P')">
+                <span class="rot">Represento (polo passivo)</span>
+                <span class="partes">{{ p.partesPoloPassivo || '— sem parte neste polo —' }}</span>
+              </button>
+            </div>
+          </div>
+        }
+      </section>
+    }
+
     <section class="painel">
       <h2>Intimações</h2>
 
@@ -88,8 +124,13 @@
               @if (i.urgencia === 'ALTA') { <span class="etiqueta alta">Urgente</span> }
               @if (i.precisaRevisao) { <span class="etiqueta revisao">Revisar leitura da IA</span> }
               @if (i.temRascunho) { <span class="etiqueta ia">Rascunho pronto</span> }
-              @if (i.situacao === 'NAO_LIDA') { <span class="etiqueta">Ler com a IA →</span> }
+              @if (i.situacao === 'NAO_LIDA' && i.aguardaCliente) {
+                <span class="etiqueta revisao">Confirme o cliente acima</span>
+              } @else if (i.situacao === 'NAO_LIDA') {
+                <span class="etiqueta">Ler com a IA →</span>
+              }
               @if (i.situacao === 'PROCESSANDO') { <span class="etiqueta ia">IA trabalhando…</span> }
+              @if (i.origem === 'DJEN') { <span class="etiqueta">DJEN</span> }
             </div>
           </a>
         }

@@ -24,4 +24,7 @@ public interface IntimacaoRepository extends JpaRepository<Intimacao, UUID> {
     void deleteByUsuario(Usuario usuario);
 
     boolean existsByUsuario(Usuario usuario);
+
+    /** Já importamos esta publicação para este advogado? */
+    boolean existsByUsuarioAndDjenHash(Usuario usuario, String djenHash);
 }

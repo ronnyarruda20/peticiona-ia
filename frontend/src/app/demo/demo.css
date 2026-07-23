@@ -43,6 +43,37 @@
 }
 .topo .usuario img { border-radius: 50%; }
 
+/* Cartão de confirmação de cliente — aparece antes da lista quando há pendência. */
+.painel.confirmar { border-left: 3px solid var(--gold); }
+.painel.confirmar .ajuda { color: var(--muted); line-height: 1.55; margin-bottom: 1.1rem; }
+.processo-pendente { padding: 0.9rem 0; border-top: 1px solid rgba(0, 0, 0, 0.06); }
+.processo-pendente:first-of-type { border-top: none; }
+.processo-pendente .num { font-weight: 600; }
+.processo-pendente .vara { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.6rem; }
+.processo-pendente .lados { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.processo-pendente .lado {
+  flex: 1;
+  min-width: 14rem;
+  text-align: left;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid #cbd2df;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.processo-pendente .lado:hover:not(:disabled) { border-color: var(--gold); background: var(--gold-bg); }
+.processo-pendente .lado:disabled { opacity: 0.5; cursor: not-allowed; }
+.processo-pendente .lado .rot {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.processo-pendente .lado .partes { font-size: 0.9rem; line-height: 1.4; }
+
 main {
   max-width: 72rem;
   margin: 0 auto;

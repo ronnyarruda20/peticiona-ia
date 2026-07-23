@@ -37,6 +37,12 @@ export interface LinhaIntimacao {
   /** Preenchido quando o fluxo falhou — a tela mostra o motivo em vez de um erro genérico. */
   erroIa: string | null;
   temRascunho: boolean;
+  /** O processo ainda não tem cliente definido: a IA fica bloqueada até o advogado dizer. */
+  aguardaCliente: boolean;
+  processoId: string | null;
+  /** Link do PJe, quando a intimação veio do DJEN. Nulo nas semeadas. */
+  link: string | null;
+  origem: 'DEMO' | 'DJEN';
   tipoAto: string | null;
   providencia: string | null;
   urgencia: string | null;
@@ -68,4 +74,16 @@ export interface DetalheIntimacao extends LinhaIntimacao {
 export interface RespostaProcessamento {
   situacao: string;
   aviso?: string;
+}
+
+/** Processo do DJEN em que o advogado ainda não disse de que lado está. */
+export interface ProcessoPendente {
+  id: string;
+  numero: string;
+  vara: string | null;
+  tribunal: string | null;
+  classe: string | null;
+  /** As partes de cada polo, para o advogado escolher qual é o cliente. */
+  partesPoloAtivo: string | null;
+  partesPoloPassivo: string | null;
 }

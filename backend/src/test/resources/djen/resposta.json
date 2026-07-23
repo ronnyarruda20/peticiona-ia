@@ -1,0 +1,923 @@
+{
+  "status": "success",
+  "count": 10000,
+  "items": [
+    {
+      "id": 675844753,
+      "data_disponibilizacao": "2026-07-23",
+      "siglaTribunal": "TRT5",
+      "tipoComunicacao": "Intimação",
+      "nomeOrgao": "34ª Vara do Trabalho de Salvador",
+      "idOrgao": 44718,
+      "texto": "PODER JUDICIÁRIO  JUSTIÇA DO TRABALHO  TRIBUNAL REGIONAL DO TRABALHO DA 5ª REGIÃO  34ª VARA DO TRABALHO DE SALVADOR  ATOrd 0000300-83.2026.5.05.0034  RECLAMANTE: FRANCIANE DOS SANTOS DE FRANCA  RECLAMADO: OKE SOLUCAO EM GESTAO DE PESSOAS LTDA E OUTROS (20)  INTIMAÇÃO  Fica V. Sa. intimado para tomar ciência do Despacho ID b01a25b proferido nos autos.  DESPACHO Vista à parte autora da petição de id 7820783.   Aguarde-se a audiência designada.  SALVADOR/BA, 21 de julho de 2026.  MONIQUE FERNANDES SANTOS MATOS  Juíza do Trabalho<br><br>Intimado(s) / Citado(s)<br> - BANCO SANTANDER (BRASIL) S.A.<br> - BANCO BTG PACTUAL S.A.<br> - BANCO BRADESCO S.A.<br> - BANCO SAFRA S A<br> - DM SOCIEDADE DE CREDITO DIRETO S.A.<br> - FACTA FINANCEIRA S.A. CREDITO, FINANCIAMENTO E INVESTIMENTO<br> - BANCO OLE CONSIGNADO S.A.<br> - BANCO DO ESTADO DO RIO GRANDE DO SUL SA<br> - ICRED SOLUCOES FINANCEIRAS S.A<br> - BANCO BARI DE INVESTIMENTOS E FINANCIAMENTOS S.A.<br> - OKE SOLUCAO EM GESTAO DE PESSOAS LTDA<br> - ITAU UNIBANCO S.A.<br> - BANCO AGIBANK S.A<br> - BANCO BMG S.A<br> - BANCO PAN S.A.<br> - BANCO C6 CONSIGNADO S.A.<br> - BANCO MERCANTIL DO BRASIL SA<br> - BANCO ORIGINAL DO AGRONEGOCIO S/A<br> - BANCO DAYCOVAL S/A<br> - PARANA BANCO S/A<br>",
+      "numero_processo": "00003008320265050034",
+      "meio": "D",
+      "link": "https://pje.trt5.jus.br/pjekz/validacao/26072122335540600000122915569?instancia=1",
+      "tipoDocumento": "Notificação",
+      "nomeClasse": "AçãO TRABALHISTA - RITO ORDINáRIO",
+      "codigoClasse": "985",
+      "numeroComunicacao": 83,
+      "ativo": true,
+      "hash": "XqOELQJvRbVNCGvFXTNDWLrRyo3rGz",
+      "status": "P",
+      "motivo_cancelamento": null,
+      "data_cancelamento": null,
+      "datadisponibilizacao": "23/07/2026",
+      "meiocompleto": "Diário de Justiça Eletrônico Nacional",
+      "numeroprocessocommascara": "0000300-83.2026.5.05.0034",
+      "destinatarios": [
+        {
+          "nome": "BANCO AGIBANK S.A",
+          "comunicacao_id": 675844753,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO BARI DE INVESTIMENTOS E FINANCIAMENTOS S.A.",
+          "comunicacao_id": 675844753,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO BMG S.A",
+          "comunicacao_id": 675844753,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO BRADESCO S.A.",
+          "comunicacao_id": 675844753,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO BTG PACTUAL S.A.",
+          "comunicacao_id": 675844753,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO C6 CONSIGNADO S.A.",
+          "comunicacao_id": 675844753,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO DAYCOVAL S/A",
+          "comunicacao_id": 675844753,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO DO ESTADO DO RIO GRANDE DO SUL SA",
+          "comunicacao_id": 675844753,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO MERCANTIL DO BRASIL SA",
+          "comunicacao_id": 675844753,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO OLE CONSIGNADO S.A.",
+          "comunicacao_id": 675844753,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO ORIGINAL DO AGRONEGOCIO S/A",
+          "comunicacao_id": 675844753,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO PAN S.A.",
+          "comunicacao_id": 675844753,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO SAFRA S A",
+          "comunicacao_id": 675844753,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO SANTANDER (BRASIL) S.A.",
+          "comunicacao_id": 675844753,
+          "polo": "P"
+        },
+        {
+          "nome": "DM SOCIEDADE DE CREDITO DIRETO S.A.",
+          "comunicacao_id": 675844753,
+          "polo": "P"
+        },
+        {
+          "nome": "FACTA FINANCEIRA S.A. CREDITO, FINANCIAMENTO E INVESTIMENTO",
+          "comunicacao_id": 675844753,
+          "polo": "P"
+        },
+        {
+          "nome": "FRANCIANE DOS SANTOS DE FRANCA",
+          "comunicacao_id": 675844753,
+          "polo": "A"
+        },
+        {
+          "nome": "ICRED SOLUCOES FINANCEIRAS S.A",
+          "comunicacao_id": 675844753,
+          "polo": "P"
+        },
+        {
+          "nome": "ITAU UNIBANCO S.A.",
+          "comunicacao_id": 675844753,
+          "polo": "P"
+        },
+        {
+          "nome": "OKE SOLUCAO EM GESTAO DE PESSOAS LTDA",
+          "comunicacao_id": 675844753,
+          "polo": "P"
+        },
+        {
+          "nome": "PARANA BANCO S/A",
+          "comunicacao_id": 675844753,
+          "polo": "P"
+        },
+        {
+          "nome": "PRATA DIGITAL LTDA",
+          "comunicacao_id": 675844753,
+          "polo": "P"
+        }
+      ],
+      "destinatarioadvogados": [
+        {
+          "id": 1251966105,
+          "comunicacao_id": 675844753,
+          "advogado_id": 1581865,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 1581865,
+            "nome": "LUANA KAREN FRANCA DE OLIVEIRA",
+            "numero_oab": "479247",
+            "uf_oab": "SP"
+          }
+        },
+        {
+          "id": 1251966059,
+          "comunicacao_id": 675844753,
+          "advogado_id": 1403131,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 1403131,
+            "nome": "RAFAEL DE SOUZA LACERDA",
+            "numero_oab": "300694",
+            "uf_oab": "SP"
+          }
+        },
+        {
+          "id": 1251966097,
+          "comunicacao_id": 675844753,
+          "advogado_id": 785359,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 785359,
+            "nome": "ANNA LUIZA DE MAGALHAES TEIXEIRA",
+            "numero_oab": "132542",
+            "uf_oab": "MG"
+          }
+        },
+        {
+          "id": 1251966058,
+          "comunicacao_id": 675844753,
+          "advogado_id": 2751807,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 2751807,
+            "nome": "MARISSOL JESUS FILLA",
+            "numero_oab": "17245",
+            "uf_oab": "PR"
+          }
+        },
+        {
+          "id": 1251966107,
+          "comunicacao_id": 675844753,
+          "advogado_id": 3348622,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 3348622,
+            "nome": "ALFONSO DE BELLIS",
+            "numero_oab": "25818",
+            "uf_oab": "RS"
+          }
+        },
+        {
+          "id": 1251966084,
+          "comunicacao_id": 675844753,
+          "advogado_id": 4377047,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 4377047,
+            "nome": "PATRYCIA BECKER COSTA",
+            "numero_oab": "129200",
+            "uf_oab": "RS"
+          }
+        },
+        {
+          "id": 1251966078,
+          "comunicacao_id": 675844753,
+          "advogado_id": 1483050,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 1483050,
+            "nome": "JULIANO DE OSTI GAMA E SILVA",
+            "numero_oab": "71428",
+            "uf_oab": "RS"
+          }
+        },
+        {
+          "id": 1251966073,
+          "comunicacao_id": 675844753,
+          "advogado_id": 1452276,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 1452276,
+            "nome": "NILSON APARECIDO SANTOS JUNIOR",
+            "numero_oab": "307967",
+            "uf_oab": "SP"
+          }
+        },
+        {
+          "id": 1251966075,
+          "comunicacao_id": 675844753,
+          "advogado_id": 1385987,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 1385987,
+            "nome": "BRUNO MIARELLI DUARTE",
+            "numero_oab": "93776",
+            "uf_oab": "MG"
+          }
+        },
+        {
+          "id": 1251966064,
+          "comunicacao_id": 675844753,
+          "advogado_id": 3501611,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 3501611,
+            "nome": "FELIPE SOARES FREIRE",
+            "numero_oab": "117941",
+            "uf_oab": "MG"
+          }
+        },
+        {
+          "id": 1251966069,
+          "comunicacao_id": 675844753,
+          "advogado_id": 3503792,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 3503792,
+            "nome": "GUSTAVO DADALT",
+            "numero_oab": "79517",
+            "uf_oab": "RS"
+          }
+        },
+        {
+          "id": 1251966112,
+          "comunicacao_id": 675844753,
+          "advogado_id": 3458276,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 3458276,
+            "nome": "MARIA CAROLINA ALMEIDA RIBEIRO DE MIRANDA",
+            "numero_oab": "15283",
+            "uf_oab": "BA"
+          }
+        },
+        {
+          "id": 1251966068,
+          "comunicacao_id": 675844753,
+          "advogado_id": 1377215,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 1377215,
+            "nome": "PAULO ROBERTO VIGNA",
+            "numero_oab": "173477",
+            "uf_oab": "SP"
+          }
+        },
+        {
+          "id": 1251966090,
+          "comunicacao_id": 675844753,
+          "advogado_id": 3442496,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 3442496,
+            "nome": "GUSTAVO GERBASI GOMES DIAS",
+            "numero_oab": "25254",
+            "uf_oab": "BA"
+          }
+        },
+        {
+          "id": 1251966111,
+          "comunicacao_id": 675844753,
+          "advogado_id": 3591319,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 3591319,
+            "nome": "LUIS OTAVIO CAMARGO PINTO",
+            "numero_oab": "86906",
+            "uf_oab": "SP"
+          }
+        },
+        {
+          "id": 1251966065,
+          "comunicacao_id": 675844753,
+          "advogado_id": 2907018,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 2907018,
+            "nome": "JOAO PEDRO EYLER POVOA",
+            "numero_oab": "88922",
+            "uf_oab": "RJ"
+          }
+        },
+        {
+          "id": 1251966060,
+          "comunicacao_id": 675844753,
+          "advogado_id": 1411030,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 1411030,
+            "nome": "RICARDO LOPES GODOY",
+            "numero_oab": "77167",
+            "uf_oab": "MG"
+          }
+        },
+        {
+          "id": 1251966102,
+          "comunicacao_id": 675844753,
+          "advogado_id": 3029235,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 3029235,
+            "nome": "NICOLAI TRINDADE FERNANDES MASCARENHAS",
+            "numero_oab": "22386",
+            "uf_oab": "BA"
+          }
+        },
+        {
+          "id": 1251966061,
+          "comunicacao_id": 675844753,
+          "advogado_id": 2887244,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 2887244,
+            "nome": "EDUARDO CHALFIN",
+            "numero_oab": "45394",
+            "uf_oab": "BA"
+          }
+        },
+        {
+          "id": 1251966100,
+          "comunicacao_id": 675844753,
+          "advogado_id": 1416191,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 1416191,
+            "nome": "IZABELLA ROSA DOS SANTOS VAZ",
+            "numero_oab": "150621",
+            "uf_oab": "MG"
+          }
+        },
+        {
+          "id": 1251966110,
+          "comunicacao_id": 675844753,
+          "advogado_id": 2872914,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 2872914,
+            "nome": "ARNALDO HENRIQUE ANDRADE DA SILVA",
+            "numero_oab": "10176",
+            "uf_oab": "PA"
+          }
+        },
+        {
+          "id": 1251966094,
+          "comunicacao_id": 675844753,
+          "advogado_id": 1391684,
+          "created_at": "2026-07-22T07:00:17",
+          "updated_at": "2026-07-22T07:00:17",
+          "advogado": {
+            "id": 1391684,
+            "nome": "SANDRA CALABRESE SIMAO",
+            "numero_oab": "13271",
+            "uf_oab": "PR"
+          }
+        }
+      ]
+    },
+    {
+      "id": 675844919,
+      "data_disponibilizacao": "2026-07-23",
+      "siglaTribunal": "TRT5",
+      "tipoComunicacao": "Intimação",
+      "nomeOrgao": "34ª Vara do Trabalho de Salvador",
+      "idOrgao": 44718,
+      "texto": "PODER JUDICIÁRIO  JUSTIÇA DO TRABALHO  TRIBUNAL REGIONAL DO TRABALHO DA 5ª REGIÃO  34ª VARA DO TRABALHO DE SALVADOR  ATOrd 0000300-83.2026.5.05.0034  RECLAMANTE: FRANCIANE DOS SANTOS DE FRANCA  RECLAMADO: OKE SOLUCAO EM GESTAO DE PESSOAS LTDA E OUTROS (20)  INTIMAÇÃO  Fica V. Sa. intimado para tomar ciência do Despacho ID b01a25b proferido nos autos.  DESPACHO Vista à parte autora da petição de id 7820783.   Aguarde-se a audiência designada.  SALVADOR/BA, 21 de julho de 2026.  MONIQUE FERNANDES SANTOS MATOS  Juíza do Trabalho<br><br>Intimado(s) / Citado(s)<br> - FRANCIANE DOS SANTOS DE FRANCA<br>",
+      "numero_processo": "00003008320265050034",
+      "meio": "D",
+      "link": "https://pje.trt5.jus.br/pjekz/validacao/26072122335540600000122915569?instancia=1",
+      "tipoDocumento": "Notificação",
+      "nomeClasse": "AçãO TRABALHISTA - RITO ORDINáRIO",
+      "codigoClasse": "985",
+      "numeroComunicacao": 89,
+      "ativo": true,
+      "hash": "QJDEM7aXR8EyTNBurTVzl916oWe2dL",
+      "status": "P",
+      "motivo_cancelamento": null,
+      "data_cancelamento": null,
+      "datadisponibilizacao": "23/07/2026",
+      "meiocompleto": "Diário de Justiça Eletrônico Nacional",
+      "numeroprocessocommascara": "0000300-83.2026.5.05.0034",
+      "destinatarios": [
+        {
+          "nome": "BANCO AGIBANK S.A",
+          "comunicacao_id": 675844919,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO BARI DE INVESTIMENTOS E FINANCIAMENTOS S.A.",
+          "comunicacao_id": 675844919,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO BMG S.A",
+          "comunicacao_id": 675844919,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO BRADESCO S.A.",
+          "comunicacao_id": 675844919,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO BTG PACTUAL S.A.",
+          "comunicacao_id": 675844919,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO C6 CONSIGNADO S.A.",
+          "comunicacao_id": 675844919,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO DAYCOVAL S/A",
+          "comunicacao_id": 675844919,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO DO ESTADO DO RIO GRANDE DO SUL SA",
+          "comunicacao_id": 675844919,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO MERCANTIL DO BRASIL SA",
+          "comunicacao_id": 675844919,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO OLE CONSIGNADO S.A.",
+          "comunicacao_id": 675844919,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO ORIGINAL DO AGRONEGOCIO S/A",
+          "comunicacao_id": 675844919,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO PAN S.A.",
+          "comunicacao_id": 675844919,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO SAFRA S A",
+          "comunicacao_id": 675844919,
+          "polo": "P"
+        },
+        {
+          "nome": "BANCO SANTANDER (BRASIL) S.A.",
+          "comunicacao_id": 675844919,
+          "polo": "P"
+        },
+        {
+          "nome": "DM SOCIEDADE DE CREDITO DIRETO S.A.",
+          "comunicacao_id": 675844919,
+          "polo": "P"
+        },
+        {
+          "nome": "FACTA FINANCEIRA S.A. CREDITO, FINANCIAMENTO E INVESTIMENTO",
+          "comunicacao_id": 675844919,
+          "polo": "P"
+        },
+        {
+          "nome": "FRANCIANE DOS SANTOS DE FRANCA",
+          "comunicacao_id": 675844919,
+          "polo": "A"
+        },
+        {
+          "nome": "ICRED SOLUCOES FINANCEIRAS S.A",
+          "comunicacao_id": 675844919,
+          "polo": "P"
+        },
+        {
+          "nome": "ITAU UNIBANCO S.A.",
+          "comunicacao_id": 675844919,
+          "polo": "P"
+        },
+        {
+          "nome": "OKE SOLUCAO EM GESTAO DE PESSOAS LTDA",
+          "comunicacao_id": 675844919,
+          "polo": "P"
+        },
+        {
+          "nome": "PARANA BANCO S/A",
+          "comunicacao_id": 675844919,
+          "polo": "P"
+        },
+        {
+          "nome": "PRATA DIGITAL LTDA",
+          "comunicacao_id": 675844919,
+          "polo": "P"
+        }
+      ],
+      "destinatarioadvogados": [
+        {
+          "id": 1251966478,
+          "comunicacao_id": 675844919,
+          "advogado_id": 1403131,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 1403131,
+            "nome": "RAFAEL DE SOUZA LACERDA",
+            "numero_oab": "300694",
+            "uf_oab": "SP"
+          }
+        },
+        {
+          "id": 1251966495,
+          "comunicacao_id": 675844919,
+          "advogado_id": 1483050,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 1483050,
+            "nome": "JULIANO DE OSTI GAMA E SILVA",
+            "numero_oab": "71428",
+            "uf_oab": "RS"
+          }
+        },
+        {
+          "id": 1251966492,
+          "comunicacao_id": 675844919,
+          "advogado_id": 3503792,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 3503792,
+            "nome": "GUSTAVO DADALT",
+            "numero_oab": "79517",
+            "uf_oab": "RS"
+          }
+        },
+        {
+          "id": 1251966493,
+          "comunicacao_id": 675844919,
+          "advogado_id": 1452276,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 1452276,
+            "nome": "NILSON APARECIDO SANTOS JUNIOR",
+            "numero_oab": "307967",
+            "uf_oab": "SP"
+          }
+        },
+        {
+          "id": 1251966500,
+          "comunicacao_id": 675844919,
+          "advogado_id": 1391684,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 1391684,
+            "nome": "SANDRA CALABRESE SIMAO",
+            "numero_oab": "13271",
+            "uf_oab": "PR"
+          }
+        },
+        {
+          "id": 1251966494,
+          "comunicacao_id": 675844919,
+          "advogado_id": 1385987,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 1385987,
+            "nome": "BRUNO MIARELLI DUARTE",
+            "numero_oab": "93776",
+            "uf_oab": "MG"
+          }
+        },
+        {
+          "id": 1251966491,
+          "comunicacao_id": 675844919,
+          "advogado_id": 1377215,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 1377215,
+            "nome": "PAULO ROBERTO VIGNA",
+            "numero_oab": "173477",
+            "uf_oab": "SP"
+          }
+        },
+        {
+          "id": 1251966506,
+          "comunicacao_id": 675844919,
+          "advogado_id": 3348622,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 3348622,
+            "nome": "ALFONSO DE BELLIS",
+            "numero_oab": "25818",
+            "uf_oab": "RS"
+          }
+        },
+        {
+          "id": 1251966484,
+          "comunicacao_id": 675844919,
+          "advogado_id": 2887244,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 2887244,
+            "nome": "EDUARDO CHALFIN",
+            "numero_oab": "45394",
+            "uf_oab": "BA"
+          }
+        },
+        {
+          "id": 1251966496,
+          "comunicacao_id": 675844919,
+          "advogado_id": 4377047,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 4377047,
+            "nome": "PATRYCIA BECKER COSTA",
+            "numero_oab": "129200",
+            "uf_oab": "RS"
+          }
+        },
+        {
+          "id": 1251966508,
+          "comunicacao_id": 675844919,
+          "advogado_id": 2872914,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 2872914,
+            "nome": "ARNALDO HENRIQUE ANDRADE DA SILVA",
+            "numero_oab": "10176",
+            "uf_oab": "PA"
+          }
+        },
+        {
+          "id": 1251966501,
+          "comunicacao_id": 675844919,
+          "advogado_id": 785359,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 785359,
+            "nome": "ANNA LUIZA DE MAGALHAES TEIXEIRA",
+            "numero_oab": "132542",
+            "uf_oab": "MG"
+          }
+        },
+        {
+          "id": 1251966499,
+          "comunicacao_id": 675844919,
+          "advogado_id": 3442496,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 3442496,
+            "nome": "GUSTAVO GERBASI GOMES DIAS",
+            "numero_oab": "25254",
+            "uf_oab": "BA"
+          }
+        },
+        {
+          "id": 1251966502,
+          "comunicacao_id": 675844919,
+          "advogado_id": 1416191,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 1416191,
+            "nome": "IZABELLA ROSA DOS SANTOS VAZ",
+            "numero_oab": "150621",
+            "uf_oab": "MG"
+          }
+        },
+        {
+          "id": 1251966480,
+          "comunicacao_id": 675844919,
+          "advogado_id": 1411030,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 1411030,
+            "nome": "RICARDO LOPES GODOY",
+            "numero_oab": "77167",
+            "uf_oab": "MG"
+          }
+        },
+        {
+          "id": 1251966510,
+          "comunicacao_id": 675844919,
+          "advogado_id": 3591319,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 3591319,
+            "nome": "LUIS OTAVIO CAMARGO PINTO",
+            "numero_oab": "86906",
+            "uf_oab": "SP"
+          }
+        },
+        {
+          "id": 1251966513,
+          "comunicacao_id": 675844919,
+          "advogado_id": 3458276,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 3458276,
+            "nome": "MARIA CAROLINA ALMEIDA RIBEIRO DE MIRANDA",
+            "numero_oab": "15283",
+            "uf_oab": "BA"
+          }
+        },
+        {
+          "id": 1251966503,
+          "comunicacao_id": 675844919,
+          "advogado_id": 3029235,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 3029235,
+            "nome": "NICOLAI TRINDADE FERNANDES MASCARENHAS",
+            "numero_oab": "22386",
+            "uf_oab": "BA"
+          }
+        },
+        {
+          "id": 1251966476,
+          "comunicacao_id": 675844919,
+          "advogado_id": 2751807,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 2751807,
+            "nome": "MARISSOL JESUS FILLA",
+            "numero_oab": "17245",
+            "uf_oab": "PR"
+          }
+        },
+        {
+          "id": 1251966490,
+          "comunicacao_id": 675844919,
+          "advogado_id": 2907018,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 2907018,
+            "nome": "JOAO PEDRO EYLER POVOA",
+            "numero_oab": "88922",
+            "uf_oab": "RJ"
+          }
+        },
+        {
+          "id": 1251966505,
+          "comunicacao_id": 675844919,
+          "advogado_id": 1581865,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 1581865,
+            "nome": "LUANA KAREN FRANCA DE OLIVEIRA",
+            "numero_oab": "479247",
+            "uf_oab": "SP"
+          }
+        },
+        {
+          "id": 1251966486,
+          "comunicacao_id": 675844919,
+          "advogado_id": 3501611,
+          "created_at": "2026-07-22T07:00:19",
+          "updated_at": "2026-07-22T07:00:19",
+          "advogado": {
+            "id": 3501611,
+            "nome": "FELIPE SOARES FREIRE",
+            "numero_oab": "117941",
+            "uf_oab": "MG"
+          }
+        }
+      ]
+    },
+    {
+      "id": 675845551,
+      "data_disponibilizacao": "2026-07-23",
+      "siglaTribunal": "TRT3",
+      "tipoComunicacao": "Lista de distribuição",
+      "nomeOrgao": "Gabinete de Desembargador n. 47",
+      "idOrgao": 48829,
+      "texto": "Processo 0011525-91.2025.5.03.0131 distribuído para 03ª Turma - Gabinete de Desembargador n. 47 na data 21/07/2026 <br> Para maiores informações, clique no link a seguir:  <a target=\"_blank\" href=\"https://pje.trt3.jus.br/pjekz/visualizacao/26072200300958600000151082750?instancia=2\">https://pje.trt3.jus.br/pjekz/visualizacao/26072200300958600000151082750?instancia=2</a>",
+      "numero_processo": "00115259120255030131",
+      "meio": "D",
+      "link": "https://pje.trt3.jus.br/pjekz/visualizacao/26072200300958600000151082750?instancia=2",
+      "tipoDocumento": "Distribuição",
+      "nomeClasse": "RECURSO ORDINáRIO TRABALHISTA",
+      "codigoClasse": "1009",
+      "numeroComunicacao": 96,
+      "ativo": true,
+      "hash": "PpDAj7XqYvVmHVQU4Tny4q7YrvMJbg",
+      "status": "P",
+      "motivo_cancelamento": null,
+      "data_cancelamento": null,
+      "datadisponibilizacao": "23/07/2026",
+      "meiocompleto": "Diário de Justiça Eletrônico Nacional",
+      "numeroprocessocommascara": "0011525-91.2025.5.03.0131",
+      "destinatarios": [
+        {
+          "nome": "ABB ELETRIFICACAO LTDA",
+          "comunicacao_id": 675845551,
+          "polo": "P"
+        },
+        {
+          "nome": "ANA LUCIA ALFAIS SOARES",
+          "comunicacao_id": 675845551,
+          "polo": "A"
+        },
+        {
+          "nome": "PAULA CHRISTINA FONSECA",
+          "comunicacao_id": 675845551,
+          "polo": "A"
+        }
+      ],
+      "destinatarioadvogados": [
+        {
+          "id": 1251968268,
+          "comunicacao_id": 675845551,
+          "advogado_id": 1385987,
+          "created_at": "2026-07-22T07:00:26",
+          "updated_at": "2026-07-22T07:00:26",
+          "advogado": {
+            "id": 1385987,
+            "nome": "BRUNO MIARELLI DUARTE",
+            "numero_oab": "93776",
+            "uf_oab": "MG"
+          }
+        },
+        {
+          "id": 1251968273,
+          "comunicacao_id": 675845551,
+          "advogado_id": 1385748,
+          "created_at": "2026-07-22T07:00:26",
+          "updated_at": "2026-07-22T07:00:26",
+          "advogado": {
+            "id": 1385748,
+            "nome": "REGIS KONAT VARANI",
+            "numero_oab": "80059",
+            "uf_oab": "RS"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { autenticado, visitante } from './auth/auth.guard';
+import { autenticado, semOab, visitante } from './auth/auth.guard';
 
 /**
  * Duas superfícies distintas, e elas têm regras de acesso diferentes:
@@ -26,6 +26,12 @@ export const routes: Routes = [
     canActivate: [visitante],
     loadComponent: () => import('./auth/login').then((m) => m.Login),
     title: 'Entrar · Peticiona',
+  },
+  {
+    path: 'comecar',
+    canActivate: [semOab],
+    loadComponent: () => import('./auth/onboarding-oab').then((m) => m.OnboardingOab),
+    title: 'Sua OAB · Peticiona',
   },
   {
     path: 'calculadora',
