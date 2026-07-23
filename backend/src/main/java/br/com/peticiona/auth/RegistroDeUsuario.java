@@ -40,9 +40,10 @@ public class RegistroDeUsuario {
                 .orElseGet(() -> usuarios.save(new Usuario(sub, email, nome, fotoUrl)));
         usuario.registrarAcesso(nome, fotoUrl);
 
-        // Idempotente: só semeia quando o acervo está vazio, então reentrar não duplica
-        // nada e quem apagou tudo de propósito continua com o acervo vazio.
-        acervo.semearSeVazio(usuario);
+        // Não semeia mais o acervo de exemplo no login: agora o "Seu dia" mostra só as
+        // publicações reais da OAB do advogado. Os exemplos viraram um botão explícito
+        // ("Carregar exemplos"), para demonstração — misturar caso fictício com processo
+        // real de cliente é confuso e parece dado verdadeiro sem ser.
 
         return usuario;
     }

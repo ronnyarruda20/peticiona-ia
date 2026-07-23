@@ -52,16 +52,18 @@ class LoginOidcTest {
     @Autowired private RegistroDeUsuario registro;
 
     @Test
-    @DisplayName("o cadastro roda pelo caminho OIDC e semeia o acervo")
-    void cadastraESemeiaNoPrimeiroLogin() {
+    @DisplayName("o cadastro roda pelo caminho OIDC — e o acervo nasce vazio")
+    void cadastraComAcervoVazio() {
         Usuario criado = registro.registrar("sub-oidc-1", "novo@exemplo.com", "Nova Advogada", null);
 
         assertThat(usuarios.findByGoogleSub("sub-oidc-1")).isPresent();
-        assertThat(intimacoes.findByUsuarioOrderByCriadoEmAsc(criado)).hasSize(3);
+        // Não semeia mais no login: o "Seu dia" enche com as publicações reais da OAB,
+        // e os exemplos viraram um botão explícito.
+        assertThat(intimacoes.findByUsuarioOrderByCriadoEmAsc(criado)).isEmpty();
     }
 
     @Test
-    @DisplayName("entrar de novo não duplica usuário nem acervo")
+    @DisplayName("entrar de novo não duplica usuário")
     void segundoLoginEhIdempotente() {
         Usuario primeiro = registro.registrar("sub-oidc-2", "repete@exemplo.com", "Advogado", null);
         Usuario segundo = registro.registrar("sub-oidc-2", "repete@exemplo.com", "Advogado", null);
@@ -70,7 +72,6 @@ class LoginOidcTest {
         // e a entidade não define equals().
         assertThat(segundo.getId()).isEqualTo(primeiro.getId());
         assertThat(usuarios.findByGoogleSub("sub-oidc-2")).isPresent();
-        assertThat(intimacoes.findByUsuarioOrderByCriadoEmAsc(segundo)).hasSize(3);
     }
 
     @Test

@@ -138,9 +138,21 @@
     </section>
 
     <div class="acoes">
-      <button type="button" class="secundario" (click)="reiniciar()" [disabled]="reiniciando()">
-        {{ reiniciando() ? 'Reiniciando…' : 'Reiniciar demonstração' }}
+      <button type="button" class="secundario" (click)="alternarExemplos()" [disabled]="reiniciando()">
+        @if (reiniciando()) {
+          Aguarde…
+        } @else if (d.temExemplos) {
+          Remover exemplos
+        } @else {
+          Carregar exemplos
+        }
       </button>
+      @if (!d.temExemplos && !d.intimacoes.length) {
+        <span class="carregando">
+          Seu acervo aparece aqui conforme o DJEN traz suas publicações. Para ver o fluxo
+          agora, carregue os exemplos.
+        </span>
+      }
     </div>
   } @else if (!erro()) {
     <div class="carregando">Carregando o painel…</div>

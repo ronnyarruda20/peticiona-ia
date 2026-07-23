@@ -83,9 +83,12 @@ export class Dashboard {
     });
   }
 
-  reiniciar(): void {
+  /** Carrega ou remove os exemplos, conforme já estejam presentes. Nunca toca no DJEN real. */
+  alternarExemplos(): void {
     this.reiniciando.set(true);
-    this.service.reiniciar().subscribe({
+    const tem = this.dados()?.temExemplos ?? false;
+    const acao = tem ? this.service.removerExemplos() : this.service.carregarExemplos();
+    acao.subscribe({
       next: () => {
         this.reiniciando.set(false);
         this.carregar();

@@ -51,8 +51,8 @@ class IsolamentoPorUsuarioTest {
     void semearDoisAdvogados() {
         ana = usuarios.save(new Usuario("sub-ana", "ana@exemplo.com", "Ana", null));
         bruno = usuarios.save(new Usuario("sub-bruno", "bruno@exemplo.com", "Bruno", null));
-        acervo.semearSeVazio(ana);
-        acervo.semearSeVazio(bruno);
+        acervo.carregarExemplos(ana);
+        acervo.carregarExemplos(bruno);
     }
 
     @Test
@@ -95,11 +95,11 @@ class IsolamentoPorUsuarioTest {
     }
 
     @Test
-    @DisplayName("reiniciar apaga só o acervo de quem pediu")
-    void reiniciarNaoAfetaOsOutros() {
-        acervo.reiniciar(ana);
+    @DisplayName("remover exemplos limpa só o acervo de quem pediu")
+    void removerExemplosNaoAfetaOsOutros() {
+        acervo.removerExemplos(ana);
 
-        assertThat(intimacoes.findByUsuarioOrderByCriadoEmAsc(ana)).hasSize(3);
+        assertThat(intimacoes.findByUsuarioOrderByCriadoEmAsc(ana)).isEmpty();
         assertThat(intimacoes.findByUsuarioOrderByCriadoEmAsc(bruno)).hasSize(3);
     }
 

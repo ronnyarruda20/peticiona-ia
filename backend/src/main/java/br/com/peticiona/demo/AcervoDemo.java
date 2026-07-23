@@ -30,21 +30,32 @@ public class AcervoDemo {
         this.intimacoes = intimacoes;
     }
 
-    /** Apaga o acervo do usuário e semeia de novo — o botão "recomeçar" da apresentação. */
+    /**
+     * Carrega os três casos de exemplo — o botão "Carregar exemplos" da apresentação.
+     *
+     * <p>Idempotente e cirúrgico: só mexe em dados de origem {@code DEMO}. As publicações
+     * reais do DJEN <b>não são tocadas</b>. Chamar duas vezes não duplica; chamar com
+     * exemplos já presentes não faz nada.
+     */
     @Transactional
-    public void reiniciar(Usuario dono) {
-        // Intimações primeiro: elas referenciam processos.
-        intimacoes.deleteByUsuario(dono);
-        processos.deleteByUsuario(dono);
-        semear(dono);
-    }
-
-    /** Semeia só se o usuário ainda não tem nada — o caso do primeiro login. */
-    @Transactional
-    public void semearSeVazio(Usuario dono) {
-        if (!intimacoes.existsByUsuario(dono)) {
+    public void carregarExemplos(Usuario dono) {
+        if (processos.findByUsuarioAndOrigem(dono, "DEMO").isEmpty()) {
             semear(dono);
         }
+    }
+
+    /**
+     * Remove os exemplos, e só os exemplos.
+     *
+     * <p>Apaga apenas o que tem origem {@code DEMO} — o acervo real do advogado permanece
+     * intacto. É o que permite manter os exemplos como recurso de demonstração sem risco de
+     * levar junto um processo de cliente.
+     */
+    @Transactional
+    public void removerExemplos(Usuario dono) {
+        // Intimações primeiro: elas referenciam processos.
+        intimacoes.deleteByUsuarioAndProcessoOrigem(dono, "DEMO");
+        processos.deleteByUsuarioAndOrigem(dono, "DEMO");
     }
 
     private void semear(Usuario dono) {

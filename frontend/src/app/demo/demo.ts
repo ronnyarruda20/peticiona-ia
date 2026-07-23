@@ -58,6 +58,8 @@ export interface Dashboard {
   prazosNaAgenda: number;
   rascunhosProntos: number;
   aguardandoRevisao: number;
+  /** Há casos de exemplo (origem DEMO) no acervo? Decide o rótulo do botão. */
+  temExemplos: boolean;
   intimacoes: LinhaIntimacao[];
 }
 

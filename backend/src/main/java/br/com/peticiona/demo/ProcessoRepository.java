@@ -19,5 +19,10 @@ public interface ProcessoRepository extends JpaRepository<Processo, UUID> {
     /** Processos esperando o advogado dizer de que lado está. */
     List<Processo> findByUsuarioAndClientePoloIsNullAndOrigem(Usuario usuario, String origem);
 
+    /** Processos de uma origem (DEMO ou DJEN) — usado para carregar/remover exemplos. */
+    List<Processo> findByUsuarioAndOrigem(Usuario usuario, String origem);
+
     void deleteByUsuario(Usuario usuario);
+
+    void deleteByUsuarioAndOrigem(Usuario usuario, String origem);
 }

@@ -23,6 +23,9 @@ public interface IntimacaoRepository extends JpaRepository<Intimacao, UUID> {
 
     void deleteByUsuario(Usuario usuario);
 
+    /** Remove só as intimações de processos de uma origem — preserva as reais do DJEN. */
+    void deleteByUsuarioAndProcessoOrigem(Usuario usuario, String origem);
+
     boolean existsByUsuario(Usuario usuario);
 
     /** Já importamos esta publicação para este advogado? */

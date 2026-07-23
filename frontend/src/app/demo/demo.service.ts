@@ -43,8 +43,13 @@ export class DemoService {
     return this.http.post(`${this.api}/processos/${processoId}/cliente`, { polo });
   }
 
-  /** Devolve o acervo ao estado inicial, para reapresentar do zero. */
-  reiniciar(): Observable<unknown> {
-    return this.http.post(`${this.api}/reiniciar`, {});
+  /** Carrega os três casos de exemplo — para demonstrar sem depender do DJEN na hora. */
+  carregarExemplos(): Observable<unknown> {
+    return this.http.post(`${this.api}/exemplos`, {});
+  }
+
+  /** Remove os exemplos, preservando as publicações reais do DJEN. */
+  removerExemplos(): Observable<unknown> {
+    return this.http.delete(`${this.api}/exemplos`);
   }
 }

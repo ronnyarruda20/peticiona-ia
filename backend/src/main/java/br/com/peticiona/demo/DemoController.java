@@ -17,6 +17,7 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -87,6 +88,9 @@ public class DemoController {
         long rascunhados = linhas.stream().filter(l -> Boolean.TRUE.equals(l.get("temRascunho"))).count();
         long revisao = linhas.stream().filter(l -> Boolean.TRUE.equals(l.get("precisaRevisao"))).count();
 
+        boolean temExemplos = minhas.stream()
+                .anyMatch(i -> i.getProcesso() != null && "DEMO".equals(i.getProcesso().getOrigem()));
+
         return Map.of(
                 "iaDisponivel", fluxo.disponivel(),
                 "hoje", LocalDate.now().toString(),
@@ -94,6 +98,7 @@ public class DemoController {
                 "prazosNaAgenda", comPrazo,
                 "rascunhosProntos", rascunhados,
                 "aguardandoRevisao", revisao,
+                "temExemplos", temExemplos,
                 "intimacoes", linhas);
     }
 
@@ -262,12 +267,18 @@ public class DemoController {
     /** @param polo {@code "A"} para polo ativo, {@code "P"} para passivo */
     public record PoloRequest(String polo) {}
 
-    /** Devolve o acervo ao estado inicial — o botão "recomeçar" entre ensaios. */
-    @PostMapping("/reiniciar")
-    public Map<String, String> reiniciar() {
-        // Só o acervo de quem chamou. Antes isto zerava a demo para todo mundo ao mesmo tempo.
-        acervo.reiniciar(usuarioAtual.obrigatorio());
-        return Map.of("status", "acervo reiniciado");
+    /** Carrega os três casos de exemplo, para demonstrar o fluxo sem depender do DJEN na hora. */
+    @PostMapping("/exemplos")
+    public Map<String, String> carregarExemplos() {
+        acervo.carregarExemplos(usuarioAtual.obrigatorio());
+        return Map.of("status", "exemplos carregados");
+    }
+
+    /** Remove os exemplos — e só eles. As publicações reais do DJEN permanecem. */
+    @DeleteMapping("/exemplos")
+    public Map<String, String> removerExemplos() {
+        acervo.removerExemplos(usuarioAtual.obrigatorio());
+        return Map.of("status", "exemplos removidos");
     }
 
     // ── infraestrutura ────────────────────────────────────────────
