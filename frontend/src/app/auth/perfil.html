@@ -1,118 +1,123 @@
-<header class="topo">
-  <div class="marca">⚖️ Peticiona</div>
-  <nav>
-    <a routerLink="/">Seu dia</a>
-    <a routerLink="/calculadora">Calculadora</a>
-    <a href="#" (click)="sair($event)">Sair</a>
-  </nav>
+<header class="bg-ink text-white">
+  <div class="mx-auto flex max-w-2xl items-center justify-between gap-4 px-5 py-4">
+    <a routerLink="/" class="flex items-center gap-2 text-lg font-bold"><span>⚖️</span><span>Peticiona</span></a>
+    <nav class="flex items-center gap-6">
+      <a routerLink="/" class="pt-nav-link">Seu dia</a>
+      <a routerLink="/calculadora" class="pt-nav-link">Calculadora</a>
+      <a href="#" (click)="sair($event)" class="pt-nav-link">Sair</a>
+    </nav>
+  </div>
+  <div class="mx-auto max-w-2xl px-5 pt-8 pb-28">
+    <p class="text-sm text-white/45">Configurações · Conta</p>
+    <h1 class="mt-1.5 font-serif text-4xl tracking-tight">Sua conta</h1>
+    <p class="mt-2 leading-relaxed text-white/60">Seus dados, sua OAB e as buscas no diário.</p>
+  </div>
 </header>
 
-<main>
+<main class="mx-auto -mt-20 max-w-2xl px-5 pb-24">
   @if (usuario(); as u) {
-    <section class="titulo">
-      <h1>Sua conta</h1>
-      <p>Seus dados, sua OAB e as buscas no diário.</p>
-    </section>
 
     @if (erro(); as e) {
-      <div class="aviso erro"><strong>Não deu certo</strong>{{ e }}</div>
+      <div class="pt-aviso pt-aviso-erro mb-4"><strong>Não deu certo</strong>{{ e }}</div>
     }
 
     <!-- ① Conta (Google, só leitura) -->
-    <section class="painel">
-      <h2>Identidade</h2>
-      <div class="conta">
-        @if (u.fotoUrl) { <img [src]="u.fotoUrl" alt="" width="56" height="56" /> }
+    <section class="pt-panel mb-4">
+      <h2 class="pt-panel-title">Identidade</h2>
+      <div class="flex items-center gap-4">
+        @if (u.fotoUrl) { <img [src]="u.fotoUrl" alt="" width="56" height="56" class="rounded-full" /> }
         <div>
-          <div class="nome">{{ u.nome ?? '—' }}</div>
-          <div class="email">{{ u.email }}</div>
+          <div class="font-semibold text-fg">{{ u.nome ?? '—' }}</div>
+          <div class="text-sm text-muted">{{ u.email }}</div>
         </div>
       </div>
-      <p class="nota">Nome e foto vêm da sua conta Google. Para mudá-los, altere no Google.</p>
+      <p class="mt-4 text-xs text-muted">Nome e foto vêm da sua conta Google. Para mudá-los, altere no Google.</p>
     </section>
 
     <!-- ② OAB -->
-    <section class="painel">
-      <h2>Sua OAB</h2>
-      <p class="ajuda">É com ela que buscamos suas publicações no DJEN.</p>
-      <form (ngSubmit)="salvarOab()" class="form-oab">
-        <div class="linha">
-          <label>
-            <span>Número</span>
-            <input type="text" inputmode="numeric" name="numero"
+    <section class="pt-panel mb-4">
+      <h2 class="pt-panel-title">Sua OAB</h2>
+      <p class="mb-4 leading-relaxed text-muted">É com ela que buscamos suas publicações no DJEN.</p>
+      <form (ngSubmit)="salvarOab()">
+        <div class="mb-4 flex gap-3">
+          <label class="flex flex-1 flex-col gap-1.5">
+            <span class="text-sm font-semibold text-muted">Número</span>
+            <input type="text" inputmode="numeric" name="numero" class="pt-input"
               [ngModel]="oabNumero()" (ngModelChange)="oabNumero.set($event)"
               [disabled]="salvandoOab()" />
           </label>
-          <label class="uf">
-            <span>UF</span>
-            <input type="text" maxlength="2" name="uf" style="text-transform: uppercase"
+          <label class="flex w-20 flex-col gap-1.5">
+            <span class="text-sm font-semibold text-muted">UF</span>
+            <input type="text" maxlength="2" name="uf" class="pt-input uppercase"
               [ngModel]="oabUf()" (ngModelChange)="oabUf.set($event)"
               [disabled]="salvandoOab()" />
           </label>
         </div>
-        <button type="submit" class="primario" [disabled]="salvandoOab()">
-          {{ salvandoOab() ? 'Salvando…' : 'Salvar OAB' }}
-        </button>
-        @if (oabSalva()) {
-          <span class="ok">Salvo. Buscando as publicações desta OAB…</span>
-        }
+        <div class="flex flex-wrap items-center gap-3">
+          <button type="submit" class="pt-btn pt-btn-brand" [disabled]="salvandoOab()">
+            {{ salvandoOab() ? 'Salvando…' : 'Salvar OAB' }}
+          </button>
+          @if (oabSalva()) {
+            <span class="text-sm text-success">Salvo. Buscando as publicações desta OAB…</span>
+          }
+        </div>
       </form>
     </section>
 
     <!-- ③ Sincronização -->
-    <section class="painel">
-      <h2>Busca no diário</h2>
+    <section class="pt-panel mb-4">
+      <h2 class="pt-panel-title">Busca no diário</h2>
       @if (u.djenSincronizadoAte) {
-        <p class="ajuda">
-          Última busca até <strong>{{ u.djenSincronizadoAte | date: 'dd/MM/yyyy' }}</strong>.
+        <p class="mb-4 leading-relaxed text-muted">
+          Última busca até <strong class="font-semibold text-fg">{{ u.djenSincronizadoAte | date: 'dd/MM/yyyy' }}</strong>.
           A rotina roda todo dia às 8h.
         </p>
       } @else {
-        <p class="ajuda">Ainda não sincronizamos. Cadastre a OAB ou busque agora.</p>
+        <p class="mb-4 leading-relaxed text-muted">Ainda não sincronizamos. Cadastre a OAB ou busque agora.</p>
       }
       @if (u.djenErro) {
-        <div class="aviso alerta">
+        <div class="pt-aviso pt-aviso-alerta mb-4">
           <strong>A última busca falhou</strong>{{ u.djenErro }}
         </div>
       }
-      <button type="button" class="secundario" (click)="sincronizar()" [disabled]="sincronizando()">
+      <button type="button" class="pt-btn pt-btn-ghost" (click)="sincronizar()" [disabled]="sincronizando()">
         {{ sincronizando() ? 'Buscando…' : 'Buscar publicações agora' }}
       </button>
     </section>
 
     <!-- ④ IA -->
-    <section class="painel">
-      <h2>Inteligência artificial</h2>
-      <p class="ajuda">
-        Você tem <strong>{{ u.execucoesRestantesHoje }}</strong> leituras/redações de IA
+    <section class="pt-panel mb-4">
+      <h2 class="pt-panel-title">Inteligência artificial</h2>
+      <p class="leading-relaxed text-muted">
+        Você tem <strong class="font-semibold text-fg">{{ u.execucoesRestantesHoje }}</strong> leituras/redações de IA
         disponíveis hoje. O limite se renova amanhã.
       </p>
     </section>
 
     <!-- ⑤ Zona de perigo -->
-    <section class="painel perigo">
-      <h2>Excluir minha conta</h2>
-      <p class="ajuda">
+    <section class="pt-panel mb-4 border-red/30">
+      <h2 class="pt-panel-title text-red">Excluir minha conta</h2>
+      <p class="mb-4 leading-relaxed text-muted">
         Apaga sua conta e todo o acervo — processos, intimações e rascunhos. Não há como
         desfazer.
       </p>
 
       @if (!confirmandoExclusao()) {
-        <button type="button" class="destrutivo" (click)="confirmandoExclusao.set(true)">
+        <button type="button" class="pt-btn pt-btn-danger" (click)="confirmandoExclusao.set(true)">
           Excluir minha conta
         </button>
       } @else {
-        <div class="confirmar-exclusao">
-          <label>
-            <span>Para confirmar, digite seu e-mail: <strong>{{ u.email }}</strong></span>
-            <input type="email" name="confirmacao" autocomplete="off"
+        <div>
+          <label class="flex flex-col gap-1.5">
+            <span class="text-sm text-muted">Para confirmar, digite seu e-mail: <strong class="text-fg">{{ u.email }}</strong></span>
+            <input type="email" name="confirmacao" autocomplete="off" class="pt-input mb-4"
               [ngModel]="emailDigitado()" (ngModelChange)="emailDigitado.set($event)"
               [disabled]="excluindo()" />
           </label>
-          <div class="acoes">
-            <button type="button" class="secundario" (click)="confirmandoExclusao.set(false)"
+          <div class="flex gap-3">
+            <button type="button" class="pt-btn pt-btn-ghost" (click)="confirmandoExclusao.set(false)"
               [disabled]="excluindo()">Cancelar</button>
-            <button type="button" class="destrutivo" (click)="excluir()"
+            <button type="button" class="pt-btn pt-btn-danger" (click)="excluir()"
               [disabled]="!podeExcluir() || excluindo()">
               {{ excluindo() ? 'Excluindo…' : 'Excluir definitivamente' }}
             </button>

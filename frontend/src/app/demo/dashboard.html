@@ -1,89 +1,100 @@
-<header class="topo">
-  <div class="marca">⚖️ Peticiona</div>
-  <nav>
-    <a routerLink="/">Seu dia</a>
-    <a routerLink="/calculadora">Calculadora</a>
+<!-- ── Hero escuro (nav + saudação) ───────────────────────────────── -->
+<header class="bg-ink text-white">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
+    <div class="flex items-center gap-2 text-lg font-bold"><span>⚖️</span><span>Peticiona</span></div>
+    <nav class="hidden items-center gap-7 md:flex">
+      <a routerLink="/" class="pt-nav-link-active">Seu dia</a>
+      <a routerLink="/calculadora" class="pt-nav-link">Calculadora</a>
+      <a routerLink="/perfil" class="pt-nav-link">Perfil</a>
+    </nav>
     @if (usuario(); as u) {
-      <a class="usuario" routerLink="/perfil" [title]="'Sua conta — ' + u.email">
-        @if (u.fotoUrl) { <img [src]="u.fotoUrl" alt="" width="24" height="24" /> }
-        {{ u.nome ?? u.email }}
-      </a>
-      <a href="#" (click)="sair($event)">Sair</a>
+      <div class="flex items-center gap-4">
+        <a routerLink="/perfil" class="flex items-center gap-2.5" [title]="'Sua conta — ' + u.email">
+          @if (u.fotoUrl) { <img [src]="u.fotoUrl" alt="" width="38" height="38" class="h-9 w-9 rounded-full object-cover" /> }
+          <span class="hidden text-sm leading-tight sm:block">
+            <span class="block font-semibold">{{ u.nome ?? u.email }}</span>
+            <span class="block text-xs text-white/50">Advogado(a)</span>
+          </span>
+        </a>
+        <a href="#" (click)="sair($event)" class="text-sm font-medium text-white/50 transition-colors hover:text-white">Sair</a>
+      </div>
     }
-  </nav>
-</header>
+  </div>
 
-<main>
-  <section class="titulo">
-    <h1>Seu dia</h1>
-    <p>
+  <div class="mx-auto max-w-6xl px-5 pt-8 pb-28">
+    <p class="text-sm text-white/45">Overview · Seu dia</p>
+    <h1 class="mt-1.5 font-serif text-4xl tracking-tight sm:text-5xl">Olá, {{ usuario()?.nome ?? 'advogado' }}</h1>
+    <p class="mt-3 max-w-xl leading-relaxed text-white/60">
       As publicações que chegaram, o que cada uma pede e quando vence.
       A IA lê e sugere; a data-limite vem do motor de prazos, não do modelo.
     </p>
-  </section>
+  </div>
+</header>
 
+<!-- ── Conteúdo (sobrepõe a emenda do hero) ───────────────────────── -->
+<main class="mx-auto -mt-20 max-w-6xl px-5 pb-24">
   @if (erro(); as e) {
-    <div class="aviso erro"><strong>Erro</strong>{{ e }}</div>
+    <div class="pt-aviso pt-aviso-erro mb-5"><strong>Erro</strong>{{ e }}</div>
   }
 
   @if (dados(); as d) {
+    <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <div class="pt-stat">
+        <div class="text-3xl font-bold leading-none text-brand">{{ d.naoLidas }}</div>
+        <span class="mt-2 block text-xs uppercase tracking-wide text-muted">Não lidas</span>
+      </div>
+      <div class="pt-stat">
+        <div class="text-3xl font-bold leading-none text-ink">{{ d.prazosNaAgenda }}</div>
+        <span class="mt-2 block text-xs uppercase tracking-wide text-muted">Prazos na agenda</span>
+      </div>
+      <div class="pt-stat">
+        <div class="text-3xl font-bold leading-none text-ink">{{ d.rascunhosProntos }}</div>
+        <span class="mt-2 block text-xs uppercase tracking-wide text-muted">Rascunhos prontos</span>
+      </div>
+      <div class="pt-stat">
+        <div class="text-3xl font-bold leading-none text-ink">{{ d.aguardandoRevisao }}</div>
+        <span class="mt-2 block text-xs uppercase tracking-wide text-muted">Baixa confiança</span>
+      </div>
+    </div>
+
     @if (!d.iaDisponivel) {
-      <div class="aviso alerta">
+      <div class="pt-aviso pt-aviso-alerta mt-6">
         <strong>IA indisponível neste ambiente</strong>
-        O fluxo de IA não está configurado (<code>N8N_WEBHOOK_URL</code> e
-        <code>APP_BASE_URL</code>). A leitura das intimações e a redação das peças vão
+        O fluxo de IA não está configurado (<code class="rounded bg-black/5 px-1 py-0.5 font-mono text-[0.85em]">N8N_WEBHOOK_URL</code> e
+        <code class="rounded bg-black/5 px-1 py-0.5 font-mono text-[0.85em]">APP_BASE_URL</code>). A leitura das intimações e a redação das peças vão
         responder erro; a calculadora de prazos continua funcionando normalmente.
       </div>
     }
 
-    <div class="contadores">
-      <div class="contador destaque">
-        <div class="n">{{ d.naoLidas }}</div>
-        <span class="rot">Não lidas</span>
-      </div>
-      <div class="contador">
-        <div class="n">{{ d.prazosNaAgenda }}</div>
-        <span class="rot">Prazos na agenda</span>
-      </div>
-      <div class="contador">
-        <div class="n">{{ d.rascunhosProntos }}</div>
-        <span class="rot">Rascunhos prontos</span>
-      </div>
-      <div class="contador">
-        <div class="n">{{ d.aguardandoRevisao }}</div>
-        <span class="rot">Baixa confiança</span>
-      </div>
-    </div>
-
     @if (pendentes().length) {
-      <section class="painel confirmar">
-        <h2>Confirme seu cliente</h2>
-        <p class="ajuda">
+      <section class="pt-panel mt-6 border-l-4 border-l-brand">
+        <h2 class="pt-panel-title">Confirme seu cliente</h2>
+        <p class="mb-4 leading-relaxed text-muted">
           O diário traz as partes, mas não diz qual você representa. Antes de acionar a IA
           num processo, diga de que lado você está — a peça é redigida para defender o seu
           cliente.
         </p>
 
         @for (p of pendentes(); track p.id) {
-          <div class="processo-pendente">
-            <div class="num">{{ p.numero }}</div>
-            @if (p.vara) { <div class="vara">{{ p.vara }}</div> }
-            <div class="lados">
+          <div class="border-t border-line py-3.5 first-of-type:border-t-0">
+            <div class="font-semibold text-fg">{{ p.numero }}</div>
+            @if (p.vara) { <div class="mb-2.5 text-sm text-muted">{{ p.vara }}</div> }
+            <div class="flex flex-wrap gap-3">
               <button
                 type="button"
-                class="lado"
+                class="flex min-w-56 flex-1 flex-col gap-1 rounded-lg border border-line-strong bg-surface px-3.5 py-3 text-left transition-colors hover:border-brand hover:bg-brand-bg disabled:cursor-not-allowed disabled:opacity-50"
                 [disabled]="confirmando() === p.id || !p.partesPoloAtivo"
                 (click)="confirmar(p.id, 'A')">
-                <span class="rot">Represento (polo ativo)</span>
-                <span class="partes">{{ p.partesPoloAtivo || '— sem parte neste polo —' }}</span>
+                <span class="text-[0.72rem] uppercase tracking-wide text-muted">Represento (polo ativo)</span>
+                <span class="text-sm leading-snug">{{ p.partesPoloAtivo || '— sem parte neste polo —' }}</span>
               </button>
               <button
                 type="button"
-                class="lado"
+                class="flex min-w-56 flex-1 flex-col gap-1 rounded-lg border border-line-strong bg-surface px-3.5 py-3 text-left transition-colors hover:border-brand hover:bg-brand-bg disabled:cursor-not-allowed disabled:opacity-50"
                 [disabled]="confirmando() === p.id || !p.partesPoloPassivo"
                 (click)="confirmar(p.id, 'P')">
-                <span class="rot">Represento (polo passivo)</span>
-                <span class="partes">{{ p.partesPoloPassivo || '— sem parte neste polo —' }}</span>
+                <span class="text-[0.72rem] uppercase tracking-wide text-muted">Represento (polo passivo)</span>
+                <span class="text-sm leading-snug">{{ p.partesPoloPassivo || '— sem parte neste polo —' }}</span>
               </button>
             </div>
           </div>
@@ -91,54 +102,59 @@
       </section>
     }
 
-    <section class="painel">
-      <h2>Intimações</h2>
+    <section class="pt-panel mt-6">
+      <h2 class="pt-panel-title">Intimações</h2>
 
-      <div class="lista">
+      <div class="flex flex-col gap-3">
         @for (i of d.intimacoes; track i.id) {
-          <a class="item {{ classe(i) }}" [routerLink]="['/intimacoes', i.id]">
-            <div class="cab">
-              <span class="cliente">{{ i.cliente }}</span>
-              <span class="proc">{{ i.numeroProcesso }}</span>
+          <a class="block rounded-xl border border-line border-l-4 bg-surface-2 p-4 transition-colors hover:border-brand-soft hover:bg-brand-bg"
+            [class.border-l-line-strong]="!classe(i)"
+            [class.border-l-red]="classe(i) === 'urgente'"
+            [class.border-l-brand]="classe(i) === 'pendente'"
+            [class.border-l-success]="classe(i) === 'pronto'"
+            [routerLink]="['/intimacoes', i.id]">
+            <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+              <span class="font-semibold">{{ i.cliente }}</span>
+              <span class="text-xs tabular-nums text-muted">{{ i.numeroProcesso }}</span>
             </div>
 
             @if (i.tipoAto) {
-              <div class="ato">{{ i.tipoAto }}</div>
-              <div class="prov">{{ i.providencia }}</div>
+              <div class="mt-1.5 text-[0.92rem]">{{ i.tipoAto }}</div>
+              <div class="mt-1 text-sm leading-normal text-muted">{{ i.providencia }}</div>
             } @else {
-              <div class="ato">Publicação ainda não lida</div>
-              <div class="prov">
+              <div class="mt-1.5 text-[0.92rem]">Publicação ainda não lida</div>
+              <div class="mt-1 text-sm leading-normal text-muted">
                 {{ i.orgao }} · publicada em {{ i.dataPublicacao | date: 'dd/MM/yyyy' }}
               </div>
             }
 
-            <div class="etiquetas">
+            <div class="mt-2.5 flex flex-wrap gap-1.5">
               @if (i.dataVencimento) {
-                <span class="etiqueta vence">
+                <span class="pt-tag pt-tag-vence">
                   Vence {{ i.dataVencimento | date: 'dd/MM' }}
                   @if (diasRestantes(i.dataVencimento); as n) {
                     · {{ n }} {{ n === 1 ? 'dia' : 'dias' }}
                   }
                 </span>
               }
-              @if (i.urgencia === 'ALTA') { <span class="etiqueta alta">Urgente</span> }
-              @if (i.precisaRevisao) { <span class="etiqueta revisao">Revisar leitura da IA</span> }
-              @if (i.temRascunho) { <span class="etiqueta ia">Rascunho pronto</span> }
+              @if (i.urgencia === 'ALTA') { <span class="pt-tag pt-tag-alta">Urgente</span> }
+              @if (i.precisaRevisao) { <span class="pt-tag pt-tag-revisao">Revisar leitura da IA</span> }
+              @if (i.temRascunho) { <span class="pt-tag pt-tag-ia">Rascunho pronto</span> }
               @if (i.situacao === 'NAO_LIDA' && i.aguardaCliente) {
-                <span class="etiqueta revisao">Confirme o cliente acima</span>
+                <span class="pt-tag pt-tag-revisao">Confirme o cliente acima</span>
               } @else if (i.situacao === 'NAO_LIDA') {
-                <span class="etiqueta">Ler com a IA →</span>
+                <span class="pt-tag">Ler com a IA →</span>
               }
-              @if (i.situacao === 'PROCESSANDO') { <span class="etiqueta ia">IA trabalhando…</span> }
-              @if (i.origem === 'DJEN') { <span class="etiqueta">DJEN</span> }
+              @if (i.situacao === 'PROCESSANDO') { <span class="pt-tag pt-tag-ia">IA trabalhando…</span> }
+              @if (i.origem === 'DJEN') { <span class="pt-tag">DJEN</span> }
             </div>
           </a>
         }
       </div>
     </section>
 
-    <div class="acoes">
-      <button type="button" class="secundario" (click)="alternarExemplos()" [disabled]="reiniciando()">
+    <div class="mt-6 flex flex-wrap items-center gap-3">
+      <button type="button" class="pt-btn pt-btn-ghost" (click)="alternarExemplos()" [disabled]="reiniciando()">
         @if (reiniciando()) {
           Aguarde…
         } @else if (d.temExemplos) {
@@ -148,13 +164,13 @@
         }
       </button>
       @if (!d.temExemplos && !d.intimacoes.length) {
-        <span class="carregando">
+        <span class="text-sm leading-relaxed text-muted">
           Seu acervo aparece aqui conforme o DJEN traz suas publicações. Para ver o fluxo
           agora, carregue os exemplos.
         </span>
       }
     </div>
   } @else if (!erro()) {
-    <div class="carregando">Carregando o painel…</div>
+    <div class="pt-stat flex items-center gap-2 text-sm text-muted">Carregando o painel…</div>
   }
 </main>

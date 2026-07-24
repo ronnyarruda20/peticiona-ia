@@ -1,50 +1,56 @@
-<header class="topo">
-  <div class="marca">⚖️ Peticiona</div>
-  <nav>
-    <a routerLink="/">← Seu dia</a>
-    <a routerLink="/calculadora">Calculadora</a>
-  </nav>
-</header>
-
-<main>
-  @if (erro(); as e) {
-    <div class="aviso erro"><strong>Não deu certo</strong>{{ e }}</div>
-  }
-
-  @if (dados(); as d) {
-    <section class="titulo">
-      <h1>{{ d.processo.cliente }}</h1>
-      <p>
+<header class="bg-ink text-white">
+  <div class="mx-auto flex max-w-4xl items-center justify-between gap-4 px-5 py-4">
+    <a routerLink="/" class="flex items-center gap-2 text-lg font-bold"><span>⚖️</span><span>Peticiona</span></a>
+    <nav class="flex items-center gap-6">
+      <a routerLink="/" class="pt-nav-link">← Seu dia</a>
+      <a routerLink="/calculadora" class="pt-nav-link">Calculadora</a>
+    </nav>
+  </div>
+  <div class="mx-auto max-w-4xl px-5 pt-8 pb-28">
+    @if (dados(); as d) {
+      <p class="text-sm text-white/45">Intimação</p>
+      <h1 class="mt-1.5 font-serif text-4xl tracking-tight">{{ d.processo.cliente }}</h1>
+      <p class="mt-2 leading-relaxed text-white/60">
         {{ d.processo.numero }} · {{ d.processo.vara }}<br />
         Contra {{ d.processo.parteContraria }} · {{ d.processo.fase }}
       </p>
-    </section>
+    } @else {
+      <h1 class="font-serif text-4xl tracking-tight">Intimação</h1>
+    }
+  </div>
+</header>
 
+<main class="mx-auto -mt-20 max-w-4xl px-5 pb-24">
+  @if (erro(); as e) {
+    <div class="pt-aviso pt-aviso-erro mb-5"><strong>Não deu certo</strong>{{ e }}</div>
+  }
+
+  @if (dados(); as d) {
     <!-- ① A publicação como ela chega. O "antes". -->
-    <section class="painel">
-      <h2>Publicação · {{ d.orgao }} · {{ d.dataPublicacao | date: 'dd/MM/yyyy' }}</h2>
-      <div class="publicacao">{{ d.texto }}</div>
+    <section class="pt-panel mb-6">
+      <h2 class="pt-panel-title">Publicação · {{ d.orgao }} · {{ d.dataPublicacao | date: 'dd/MM/yyyy' }}</h2>
+      <div class="max-h-96 overflow-y-auto rounded-lg border border-line bg-surface-2 p-4 font-mono text-[0.82rem] leading-relaxed wrap-break-word whitespace-pre-wrap">{{ d.texto }}</div>
 
       @if (d.link) {
-        <p style="margin-top: 0.8rem; font-size: 0.85rem">
-          <a [href]="d.link" target="_blank" rel="noopener">Conferir no PJe ↗</a>
+        <p class="mt-3.5 text-sm">
+          <a [href]="d.link" target="_blank" rel="noopener" class="text-link hover:underline">Conferir no PJe ↗</a>
         </p>
       }
 
       @if (d.aguardaCliente) {
-        <div class="aviso alerta" style="margin-top: 1.1rem">
+        <div class="pt-aviso pt-aviso-alerta mt-4">
           <strong>Confirme seu cliente antes de acionar a IA</strong>
-          Volte ao <a routerLink="/">Seu dia</a> e diga qual das partes você representa neste
+          Volte ao <a routerLink="/" class="font-semibold underline">Seu dia</a> e diga qual das partes você representa neste
           processo. A peça é redigida para defender o seu cliente — sem isso, ela sairia do
           lado errado.
         </div>
       } @else if (!classificacao()) {
-        <div class="acoes" style="margin-top: 1.1rem">
-          <button type="button" class="primario" (click)="ler()" [disabled]="lendo()">
+        <div class="mt-4 flex flex-wrap items-center gap-3">
+          <button type="button" class="pt-btn pt-btn-primary" (click)="ler()" [disabled]="lendo()">
             {{ lendo() ? 'Lendo a publicação…' : 'Ler com a IA' }}
           </button>
           @if (lendo()) {
-            <span class="carregando">
+            <span class="text-sm leading-relaxed text-muted">
               A IA lê a publicação e já rascunha a peça. Leva um a dois minutos — pode
               acompanhar por aqui.
             </span>
@@ -55,17 +61,17 @@
 
     <!-- ② O que a IA entendeu. -->
     @if (classificacao(); as c) {
-      <section class="painel">
-        <h2>Leitura da IA <span class="etiqueta ia">gerado por IA · confira</span></h2>
+      <section class="pt-panel mb-6">
+        <h2 class="pt-panel-title flex flex-wrap items-center gap-2">Leitura da IA <span class="pt-tag pt-tag-ia">gerado por IA · confira</span></h2>
 
-        <div class="campos">
-          <div class="campo-leitura">
-            <span class="rot">Ato processual</span>
-            <span class="val">{{ c.tipoAto }}</span>
+        <div class="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <span class="mb-1 block text-xs uppercase tracking-wide text-muted">Ato processual</span>
+            <span class="font-semibold leading-snug">{{ c.tipoAto }}</span>
           </div>
-          <div class="campo-leitura">
-            <span class="rot">Prazo concedido</span>
-            <span class="val">
+          <div>
+            <span class="mb-1 block text-xs uppercase tracking-wide text-muted">Prazo concedido</span>
+            <span class="font-semibold leading-snug">
               @if (c.prazoEmDias > 0) {
                 {{ c.prazoEmDias }} {{ rotuloContagem(c.tipoContagem) }}
               } @else {
@@ -73,76 +79,76 @@
               }
             </span>
           </div>
-          <div class="campo-leitura">
-            <span class="rot">Urgência</span>
-            <span class="val">{{ c.urgencia }}</span>
+          <div>
+            <span class="mb-1 block text-xs uppercase tracking-wide text-muted">Urgência</span>
+            <span class="font-semibold leading-snug">{{ c.urgencia }}</span>
           </div>
-          <div class="campo-leitura">
-            <span class="rot">Peça sugerida</span>
-            <span class="val">{{ rotuloPeca(c.tipoPecaSugerida) }}</span>
+          <div>
+            <span class="mb-1 block text-xs uppercase tracking-wide text-muted">Peça sugerida</span>
+            <span class="font-semibold leading-snug">{{ rotuloPeca(c.tipoPecaSugerida) }}</span>
           </div>
         </div>
 
-        <div class="campo-leitura" style="margin-bottom: 1rem">
-          <span class="rot">Providência</span>
-          <span class="val">{{ c.providencia }}</span>
+        <div class="mb-4">
+          <span class="mb-1 block text-xs uppercase tracking-wide text-muted">Providência</span>
+          <span class="font-semibold leading-snug">{{ c.providencia }}</span>
         </div>
 
-        <div class="campo-leitura">
-          <span class="rot">Trecho que sustenta a leitura</span>
-          <p class="citacao">“{{ c.fundamentacao }}”</p>
+        <div>
+          <span class="mb-1 block text-xs uppercase tracking-wide text-muted">Trecho que sustenta a leitura</span>
+          <p class="border-l-[3px] border-brand-soft py-2 pl-3.5 text-sm leading-relaxed text-muted italic">“{{ c.fundamentacao }}”</p>
         </div>
 
-        <div class="confianca" [class.baixa]="c.confianca < 0.7">
-          <span class="rot" style="font-size: 0.75rem; color: var(--muted)">
+        <div class="mt-4">
+          <span class="text-xs text-muted">
             Confiança da IA: {{ (c.confianca * 100).toFixed(0) }}%
             @if (c.confianca < 0.7) { — abaixo do limiar, revise antes de agendar }
           </span>
-          <div class="barra"><span [style.width.%]="c.confianca * 100"></span></div>
+          <div class="mt-1.5 h-1.5 overflow-hidden rounded-full bg-line">
+            <span class="block h-full rounded-full" [class.bg-success]="c.confianca >= 0.7" [class.bg-warn]="c.confianca < 0.7" [style.width.%]="c.confianca * 100"></span>
+          </div>
         </div>
       </section>
     }
 
     <!-- ③ O prazo. Calculado, não gerado. -->
     @if (prazo(); as p) {
-      <section class="painel">
-        <h2>Prazo · calculado pelo motor determinístico</h2>
+      <section class="pt-panel mb-6">
+        <h2 class="pt-panel-title">Prazo · calculado pelo motor determinístico</h2>
 
-        <div class="campos">
-          <div class="campo-leitura">
-            <span class="rot">Vence em</span>
-            <span class="val" style="font-size: 1.35rem; color: var(--gold)">
-              {{ p.dataVencimento | date: 'dd/MM/yyyy' }}
-            </span>
+        <div class="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div>
+            <span class="mb-1 block text-xs uppercase tracking-wide text-muted">Vence em</span>
+            <span class="text-2xl font-semibold text-brand">{{ p.dataVencimento | date: 'dd/MM/yyyy' }}</span>
           </div>
-          <div class="campo-leitura">
-            <span class="rot">Contagem começa</span>
-            <span class="val">{{ p.dataInicioContagem | date: 'dd/MM/yyyy' }}</span>
+          <div>
+            <span class="mb-1 block text-xs uppercase tracking-wide text-muted">Contagem começa</span>
+            <span class="font-semibold leading-snug">{{ p.dataInicioContagem | date: 'dd/MM/yyyy' }}</span>
           </div>
-          <div class="campo-leitura">
-            <span class="rot">Dias não contados</span>
-            <span class="val">{{ diasPulados() }}</span>
+          <div>
+            <span class="mb-1 block text-xs uppercase tracking-wide text-muted">Dias não contados</span>
+            <span class="font-semibold leading-snug">{{ diasPulados() }}</span>
           </div>
         </div>
 
         @if (p.avisos.length) {
-          <div class="aviso alerta">
+          <div class="pt-aviso pt-aviso-alerta">
             <strong>O que este cálculo não garante</strong>
             @for (a of p.avisos; track a) { <div>· {{ a }}</div> }
           </div>
         }
 
-        <details class="memoria">
-          <summary>Ver a memória de cálculo, dia a dia</summary>
-          <ul class="passos">
+        <details class="mt-4">
+          <summary class="cursor-pointer text-sm font-semibold">Ver a memória de cálculo, dia a dia</summary>
+          <ul class="mt-3 grid list-none grid-cols-1 gap-1 p-0 sm:grid-cols-2">
             @for (passo of p.passos; track passo.data) {
-              <li [class.pulado]="!passo.contado">
-                <span class="d">{{ passo.data | date: 'dd/MM (EEE)' }}</span>
+              <li class="flex gap-2 rounded bg-surface-2 px-2 py-1.5 text-[0.82rem]" [class.text-muted]="!passo.contado">
+                <span class="min-w-22 font-semibold tabular-nums">{{ passo.data | date: 'dd/MM (EEE)' }}</span>
                 <span>{{ passo.contado ? passo.numero + 'º dia' : passo.motivo }}</span>
               </li>
             }
           </ul>
-          <div style="margin-top: 0.9rem; font-size: 0.85rem; color: var(--muted)">
+          <div class="mt-3.5 text-sm text-muted">
             @for (f of p.fundamentacao; track f) { <div>· {{ f }}</div> }
           </div>
         </details>
@@ -151,29 +157,29 @@
 
     <!-- ④ O rascunho. -->
     @if (classificacao()) {
-      <section class="painel">
-        <h2>Peça</h2>
+      <section class="pt-panel mb-6">
+        <h2 class="pt-panel-title">Peça</h2>
 
         @if (!podeRascunhar()) {
-          <p style="color: var(--muted); line-height: 1.6">
+          <p class="leading-relaxed text-muted">
             Esta publicação não pede contestação nem petição simples — os dois tipos de peça
             do lançamento. Réplica e recurso ficam para depois (corte #3).
           </p>
         } @else {
-          <div class="acoes" style="margin-bottom: 1.1rem">
-            <button type="button" class="primario" (click)="ler()" [disabled]="lendo()">
+          <div class="mb-4 flex flex-wrap items-center gap-3">
+            <button type="button" class="pt-btn pt-btn-primary" (click)="ler()" [disabled]="lendo()">
               {{ lendo() ? 'Redigindo…' : rascunho() ? 'Gerar outro rascunho' : 'Rascunhar a peça' }}
             </button>
             @if (rascunho()) {
-              <button type="button" class="secundario" (click)="baixar()">Baixar</button>
+              <button type="button" class="pt-btn pt-btn-ghost" (click)="baixar()">Baixar</button>
             }
             @if (lendo()) {
-              <span class="carregando">A peça inteira leva mais tempo que a leitura.</span>
+              <span class="text-sm text-muted">A peça inteira leva mais tempo que a leitura.</span>
             }
           </div>
 
           @if (rascunho()) {
-            <div class="aviso alerta">
+            <div class="pt-aviso pt-aviso-alerta mb-4">
               <strong>Rascunho gerado por IA — revisão obrigatória</strong>
               Os trechos em [COLCHETES] são lacunas deliberadas: fatos e precedentes que o
               modelo não tem e não deve inventar. A responsabilidade pela peça protocolada é
@@ -181,7 +187,7 @@
             </div>
 
             <textarea
-              class="editor"
+              class="min-h-128 w-full resize-y rounded-lg border border-line-strong bg-input-bg p-6 font-serif text-[0.95rem] leading-relaxed text-fg focus-visible:border-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30"
               [ngModel]="rascunho()"
               (ngModelChange)="rascunho.set($event)"
               name="rascunho"
@@ -192,6 +198,6 @@
       </section>
     }
   } @else if (!erro()) {
-    <div class="carregando">Carregando…</div>
+    <div class="flex items-center gap-2 text-sm text-muted">Carregando…</div>
   }
 </main>

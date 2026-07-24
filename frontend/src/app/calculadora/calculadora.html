@@ -1,50 +1,151 @@
-<header class="topo">
-  <div class="marca">⚖️ Calculadora de Prazos</div>
-  <div class="selo">Grátis · sem cadastro</div>
-</header>
+<!--
+  Hero. O `isolate` é obrigatório: cria o contexto de empilhamento que mantém as
+  camadas -z-10 acima do bg-ink do próprio header e abaixo do conteúdo.
+-->
+<header class="relative isolate overflow-hidden bg-ink text-white">
+  <!--
+    Arte de fundo, puramente decorativa (aria-hidden): régua de prazos com o
+    marcador do dia + balança. Desenhada em SVG, e não como imagem raster, para
+    ficar nítida em qualquer largura e acompanhar o token `brand` — o currentColor
+    vem do `text-brand` aqui no elemento.
+  -->
+  <svg class="pointer-events-none absolute inset-0 -z-10 h-full w-full text-brand"
+       viewBox="0 0 1440 380" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <radialGradient id="ph-amb" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="currentColor" stop-opacity="0.18" />
+        <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+      </radialGradient>
+      <linearGradient id="ph-fade" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#fff" stop-opacity="0" />
+        <stop offset="0.45" stop-color="#fff" stop-opacity="0.5" />
+        <stop offset="1" stop-color="#fff" stop-opacity="1" />
+      </linearGradient>
+      <mask id="ph-mask"><rect width="1440" height="380" fill="url(#ph-fade)" /></mask>
+      <pattern id="ph-ticks" x="0" y="60" width="24" height="60" patternUnits="userSpaceOnUse">
+        <line x1="0.5" y1="6" x2="0.5" y2="54" stroke="#fff" stroke-opacity="0.22" />
+        <line x1="6.5" y1="22" x2="6.5" y2="38" stroke="#fff" stroke-opacity="0.10" />
+        <line x1="12.5" y1="19" x2="12.5" y2="41" stroke="#fff" stroke-opacity="0.10" />
+        <line x1="18.5" y1="22" x2="18.5" y2="38" stroke="#fff" stroke-opacity="0.10" />
+      </pattern>
+      <!--
+        filterUnits="userSpaceOnUse" é obrigatório aqui: uma forma vertical fina tem
+        bounding box quase sem largura, e com região em % o blur é recortado até sumir.
+      -->
+      <filter id="ph-glow" filterUnits="userSpaceOnUse" x="1010" y="0" width="160" height="230">
+        <feGaussianBlur stdDeviation="9" result="b" />
+        <feMerge><feMergeNode in="b" /><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+      </filter>
+    </defs>
 
-<main>
-  <section class="hero">
-    <h1>Quando vence esse prazo?</h1>
-    <p>
+    <ellipse cx="1090" cy="170" rx="430" ry="230" fill="url(#ph-amb)" />
+
+    <!-- Régua de prazos: ticks + linha de base, esmaecendo para a esquerda -->
+    <g mask="url(#ph-mask)">
+      <rect x="0" y="60" width="1440" height="60" fill="url(#ph-ticks)" />
+      <line x1="0" y1="90" x2="1440" y2="90" stroke="#fff" stroke-opacity="0.14" />
+    </g>
+
+    <!-- Balança em contorno -->
+    <g fill="none" stroke="currentColor" stroke-opacity="0.45" stroke-width="1.25" mask="url(#ph-mask)">
+      <path d="M985 92 L925 200 H1045 Z" />
+      <path d="M946 166 H1024" />
+      <path d="M1200 92 L1140 200 H1260 Z" />
+      <path d="M1161 166 H1239" />
+    </g>
+
+    <!-- Balança em silhueta -->
+    <g fill="#ffffff" fill-opacity="0.055">
+      <circle cx="1090" cy="156" r="7" />
+      <path d="M1084 160 h12 v170 h-12 z" />
+      <rect x="975" y="168" width="230" height="9" rx="4.5" />
+      <rect x="983" y="177" width="3" height="40" />
+      <rect x="1194" y="177" width="3" height="40" />
+      <path d="M930 214 h108 l-22 34 q-32 12 -64 0 z" />
+      <path d="M1141 214 h108 l-22 34 q-32 12 -64 0 z" />
+      <path d="M1058 330 h64 l14 26 h-92 z" />
+      <rect x="1030" y="356" width="120" height="12" rx="4" />
+    </g>
+
+    <!-- O marcador do dia: halo borrado, depois o núcleo em camadas até o branco -->
+    <g filter="url(#ph-glow)">
+      <rect x="1085" y="36" width="10" height="108" rx="5" fill="#4f8dff" />
+    </g>
+    <rect x="1088.25" y="40" width="3.5" height="100" rx="1.75" fill="#cfe0ff" />
+    <rect x="1089.4" y="45" width="1.2" height="90" fill="#ffffff" />
+
+    <path d="M1300 296 C1301.6 305.8 1304.2 308.4 1314 310 C1304.2 311.6 1301.6 314.2 1300 324 C1298.4 314.2 1295.8 311.6 1286 310 C1295.8 308.4 1298.4 305.8 1300 296 Z"
+          fill="#ffffff" fill-opacity="0.45" />
+  </svg>
+  <!--
+    Véu de contraste: sólido sob o título, dissolvendo para a direita onde a arte
+    vive. Sem ele o h1 branco cai abaixo de AAA sobre as partes claras da imagem.
+  -->
+  <div aria-hidden="true"
+       class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_65%_75%_at_42%_50%,rgb(20,33,61)_0%,rgba(20,33,61,0.72)_45%,rgba(20,33,61,0)_100%)]"></div>
+
+  <div class="relative mx-auto flex max-w-5xl items-center justify-between gap-4 px-5 py-4">
+    <a href="/" class="flex items-center gap-2 text-lg font-bold">
+      <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" />
+        <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" />
+        <path d="M7 21h10" /><path d="M12 3v18" />
+        <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2" />
+      </svg>
+      <span>Peticiona</span>
+    </a>
+    <div class="flex items-center gap-3">
+      <span class="pt-badge bg-white/10 text-white/80">Grátis · sem cadastro</span>
+      <a href="/login" class="text-sm font-medium text-white/60 transition-colors hover:text-white">Entrar</a>
+    </div>
+  </div>
+
+  <div class="relative mx-auto max-w-3xl px-5 pt-10 pb-28 text-center">
+    <span class="pt-badge bg-white/10 uppercase tracking-wider text-brand-soft">Calculadora de prazos</span>
+    <h1 class="mt-5 font-serif text-4xl leading-[1.1] tracking-tight sm:text-5xl">
+      Quando vence esse prazo?
+    </h1>
+    <p class="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-white/65">
       Conta em dias úteis, pula feriado forense e respeita o recesso de 20/12 a 20/01.
       E mostra a conta dia a dia — porque a responsabilidade pelo prazo é sua, não de um número na tela.
     </p>
-  </section>
+  </div>
+</header>
 
-  <section class="painel">
-    <form class="form" (ngSubmit)="calcular()">
-      <div class="campo">
-        <label for="data">Data da intimação</label>
-        <input id="data" type="date" [ngModel]="dataIntimacao()" (ngModelChange)="dataIntimacao.set($event)" name="data" required />
-        <small>O dia da intimação não conta — a contagem começa no dia útil seguinte (CPC art. 224, § 3º).</small>
+<main class="mx-auto -mt-20 max-w-3xl px-5 pb-24">
+  <div class="pt-card p-6 sm:p-8">
+    <form class="grid gap-5" (ngSubmit)="calcular()">
+      <div>
+        <label for="data" class="pt-label">Data da intimação</label>
+        <input id="data" type="date" class="pt-input" [ngModel]="dataIntimacao()" (ngModelChange)="dataIntimacao.set($event)" name="data" required />
+        <p class="pt-hint mt-1.5">O dia da intimação não conta — a contagem começa no dia útil seguinte (CPC art. 224, § 3º).</p>
       </div>
 
-      <div class="campo">
-        <label for="dias">Prazo</label>
-        <div class="input-sufixo">
-          <input id="dias" type="number" min="1" max="3650" [ngModel]="prazoEmDias()" (ngModelChange)="prazoEmDias.set($event)" name="dias" required />
-          <span>dias</span>
+      <div>
+        <label for="dias" class="pt-label">Prazo</label>
+        <div class="flex items-center gap-2">
+          <input id="dias" type="number" min="1" max="3650" class="pt-input max-w-32" [ngModel]="prazoEmDias()" (ngModelChange)="prazoEmDias.set($event)" name="dias" required />
+          <span class="text-sm text-muted">dias</span>
         </div>
-        <div class="atalhos">
+        <div class="mt-2.5 flex flex-wrap gap-2">
           @for (p of prazosComuns; track p.dias) {
-            <button type="button" class="chip" (click)="usarPrazo(p.dias)">{{ p.label }}</button>
+            <button type="button" class="pt-chip" (click)="usarPrazo(p.dias)">{{ p.label }}</button>
           }
         </div>
       </div>
 
-      <div class="linha">
-        <div class="campo">
-          <label for="tipo">Contagem</label>
-          <select id="tipo" [ngModel]="tipoContagem()" (ngModelChange)="tipoContagem.set($event)" name="tipo">
+      <div class="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label for="tipo" class="pt-label">Contagem</label>
+          <select id="tipo" class="pt-input" [ngModel]="tipoContagem()" (ngModelChange)="tipoContagem.set($event)" name="tipo">
             <option value="DIAS_UTEIS">Dias úteis (prazo processual)</option>
             <option value="DIAS_CORRIDOS">Dias corridos (prazo material)</option>
           </select>
         </div>
 
-        <div class="campo">
-          <label for="justica">Justiça</label>
-          <select id="justica" [ngModel]="justica()" (ngModelChange)="justica.set($event)" name="justica">
+        <div>
+          <label for="justica" class="pt-label">Justiça</label>
+          <select id="justica" class="pt-input" [ngModel]="justica()" (ngModelChange)="justica.set($event)" name="justica">
             <option value="TRABALHISTA">Do Trabalho</option>
             <option value="ESTADUAL">Estadual</option>
             <option value="FEDERAL">Federal</option>
@@ -52,132 +153,156 @@
         </div>
       </div>
 
-      <label class="check">
-        <input type="checkbox" [ngModel]="considerarRecesso()" (ngModelChange)="considerarRecesso.set($event)" name="recesso" />
-        <span>Suspender no recesso forense (20/12 a 20/01 — CPC art. 220)</span>
+      <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-line bg-surface-2 px-4 py-3">
+        <input type="checkbox" class="mt-0.5 h-4 w-4 accent-brand" [ngModel]="considerarRecesso()" (ngModelChange)="considerarRecesso.set($event)" name="recesso" />
+        <span class="text-sm text-fg">Suspender no recesso forense (20/12 a 20/01 — CPC art. 220)</span>
       </label>
 
-      <button type="submit" class="btn" [disabled]="carregando()">
+      <button type="submit" class="pt-btn pt-btn-primary w-full sm:w-auto sm:justify-self-start" [disabled]="carregando()">
         {{ carregando() ? 'Calculando…' : 'Calcular prazo' }}
+        @if (!carregando()) { <span aria-hidden="true">→</span> }
       </button>
     </form>
 
     @if (erro()) {
-      <div class="erro">{{ erro() }}</div>
+      <div class="mt-5 flex items-start gap-2.5 rounded-lg bg-red-bg px-4 py-3 text-sm text-red">
+        <svg class="mt-0.5 h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+          <path d="M12 3.5 21.5 20H2.5L12 3.5Z" /><path d="M12 10v4" /><path d="M12 17h.01" />
+        </svg><span>{{ erro() }}</span>
+      </div>
     }
 
     @if (resultado(); as r) {
-      <div class="resultado">
-        <div class="venc">
-          <span class="rotulo">Vence em</span>
-          <strong>{{ r.dataVencimento | date: 'dd/MM/yyyy' }}</strong>
-          <span class="dia-semana">{{ r.dataVencimento | date: 'EEEE' : '' : 'pt-BR' }}</span>
+      <div class="mt-7 border-t border-line pt-7">
+        <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-xl border-l-4 border-brand bg-brand-bg px-5 py-4">
+          <span class="text-sm text-muted">Vence em</span>
+          <strong class="font-serif text-3xl tracking-tight text-ink">{{ r.dataVencimento | date: 'dd/MM/yyyy' }}</strong>
+          <span class="text-sm capitalize text-muted">{{ r.dataVencimento | date: 'EEEE' : '' : 'pt-BR' }}</span>
         </div>
 
-        <dl class="resumo">
-          <div>
-            <dt>Contagem começou</dt>
-            <dd>{{ r.dataInicioContagem | date: 'dd/MM/yyyy' }}</dd>
+        <dl class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div class="rounded-lg bg-surface-2 px-4 py-3">
+            <dt class="text-xs uppercase tracking-wide text-muted">Contagem começou</dt>
+            <dd class="mt-1 text-base font-semibold text-fg">{{ r.dataInicioContagem | date: 'dd/MM/yyyy' }}</dd>
           </div>
-          <div>
-            <dt>Dias contados</dt>
-            <dd>{{ r.prazoEmDias }} {{ r.tipoContagem === 'DIAS_UTEIS' ? 'úteis' : 'corridos' }}</dd>
+          <div class="rounded-lg bg-surface-2 px-4 py-3">
+            <dt class="text-xs uppercase tracking-wide text-muted">Dias contados</dt>
+            <dd class="mt-1 text-base font-semibold text-fg">{{ r.prazoEmDias }} {{ r.tipoContagem === 'DIAS_UTEIS' ? 'úteis' : 'corridos' }}</dd>
           </div>
-          <div>
-            <dt>Dias pulados</dt>
-            <dd>{{ diasNaoContados() }}</dd>
+          <div class="rounded-lg bg-surface-2 px-4 py-3">
+            <dt class="text-xs uppercase tracking-wide text-muted">Dias pulados</dt>
+            <dd class="mt-1 text-base font-semibold text-fg">{{ diasNaoContados() }}</dd>
           </div>
-          <div>
-            <dt>Total no calendário</dt>
-            <dd>{{ r.diasCorridosTotais }} dias</dd>
+          <div class="rounded-lg bg-surface-2 px-4 py-3">
+            <dt class="text-xs uppercase tracking-wide text-muted">Total no calendário</dt>
+            <dd class="mt-1 text-base font-semibold text-fg">{{ r.diasCorridosTotais }} dias</dd>
           </div>
         </dl>
 
-        <button type="button" class="link" (click)="alternarMemoria()">
+        <button type="button" class="mt-4 inline-flex text-sm font-medium text-link transition-colors hover:underline" (click)="alternarMemoria()">
           {{ memoriaAberta() ? '▾ Esconder a memória de cálculo' : '▸ Ver a memória de cálculo (dia a dia)' }}
         </button>
 
         @if (memoriaAberta()) {
-          <div class="memoria">
-            <table>
+          <div class="mt-3 max-h-96 overflow-auto rounded-lg border border-line">
+            <table class="w-full border-collapse text-sm">
               <thead>
-                <tr><th>Data</th><th>Contou?</th><th>Motivo</th><th class="num">#</th></tr>
+                <tr>
+                  <th class="sticky top-0 border-b border-line bg-surface-2 px-3 py-2 text-left text-[0.72rem] uppercase tracking-wide text-muted">Data</th>
+                  <th class="sticky top-0 border-b border-line bg-surface-2 px-3 py-2 text-left text-[0.72rem] uppercase tracking-wide text-muted">Contou?</th>
+                  <th class="sticky top-0 border-b border-line bg-surface-2 px-3 py-2 text-left text-[0.72rem] uppercase tracking-wide text-muted">Motivo</th>
+                  <th class="sticky top-0 border-b border-line bg-surface-2 px-3 py-2 text-right text-[0.72rem] uppercase tracking-wide text-muted">#</th>
+                </tr>
               </thead>
               <tbody>
                 @for (p of r.passos; track p.data) {
-                  <tr [class.pulado]="!p.contado">
-                    <td>{{ p.data | date: 'dd/MM (EEE)' : '' : 'pt-BR' }}</td>
-                    <td>{{ p.contado ? '✓' : '—' }}</td>
-                    <td>{{ p.motivo }}</td>
-                    <td class="num">{{ p.numero || '' }}</td>
+                  <tr class="border-b border-line last:border-0" [class.bg-surface-2]="!p.contado" [class.text-muted]="!p.contado">
+                    <td class="px-3 py-1.5 whitespace-nowrap">{{ p.data | date: 'dd/MM (EEE)' : '' : 'pt-BR' }}</td>
+                    <td class="px-3 py-1.5">
+                      @if (p.contado) {
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" role="img" aria-label="Dia contado">
+                          <path d="m4 12.5 5.5 5.5L20 6.5" />
+                        </svg>
+                      } @else {
+                        <span aria-label="Dia não contado">—</span>
+                      }
+                    </td>
+                    <td class="px-3 py-1.5">{{ p.motivo }}</td>
+                    <td class="w-12 px-3 py-1.5 text-right tabular-nums">{{ p.numero || '' }}</td>
                   </tr>
                 }
               </tbody>
             </table>
           </div>
 
-          <div class="fundamentos">
-            <h3>Base legal aplicada</h3>
-            <ul>
+          <div class="mt-5">
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-muted">Base legal aplicada</h3>
+            <ul class="mt-2 space-y-1.5">
               @for (f of r.fundamentacao; track f) {
-                <li>{{ f }}</li>
+                <li class="flex gap-2 text-sm leading-relaxed text-muted"><span class="text-brand" aria-hidden="true">•</span><span>{{ f }}</span></li>
               }
             </ul>
           </div>
         }
 
-        <div class="avisos">
-          <h3>⚠️ O que este cálculo NÃO garante</h3>
-          <ul>
+        <div class="mt-5 rounded-lg bg-warn-bg px-4 py-3.5">
+          <h3 class="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-warn">
+            <svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <path d="M12 3.5 21.5 20H2.5L12 3.5Z" /><path d="M12 10v4" /><path d="M12 17h.01" />
+            </svg>O que este cálculo NÃO garante
+          </h3>
+          <ul class="mt-2 space-y-1.5">
             @for (a of r.avisos; track a) {
-              <li>{{ a }}</li>
+              <li class="flex gap-2 text-sm leading-relaxed text-fg"><span class="text-warn" aria-hidden="true">•</span><span>{{ a }}</span></li>
             }
           </ul>
         </div>
 
-        <aside class="convite">
-          <h3>E se você não precisasse calcular?</h3>
-          <p>
+        <aside class="mt-6 overflow-hidden rounded-2xl bg-linear-to-br from-ink to-[#0c1428] p-6 text-white shadow-lift sm:p-7">
+          <h3 class="font-serif text-xl">E se você não precisasse calcular?</h3>
+          <p class="mt-2 text-sm leading-relaxed text-white/70">
             Estou construindo um sistema que lê suas intimações no diário eletrônico,
             calcula o prazo sozinho e avisa você antes de vencer. Ainda não existe —
             mas já é possível acompanhar o projeto de perto.
           </p>
 
           @if (!interesseEnviado()) {
-            <form class="form-lead" (ngSubmit)="enviarInteresse()">
-              <input type="text" [ngModel]="nome()" (ngModelChange)="nome.set($event)" name="nome" placeholder="Seu nome" required />
-              <input type="email" [ngModel]="email()" (ngModelChange)="email.set($event)" name="email" placeholder="Seu e-mail" required />
-              <select [ngModel]="interesse()" (ngModelChange)="interesse.set($event)" name="interesse">
+            <form class="mt-4 grid gap-2.5" (ngSubmit)="enviarInteresse()">
+              <input type="text" class="pt-input-dark" [ngModel]="nome()" (ngModelChange)="nome.set($event)" name="nome" placeholder="Seu nome" required />
+              <input type="email" class="pt-input-dark" [ngModel]="email()" (ngModelChange)="email.set($event)" name="email" placeholder="Seu e-mail" required />
+              <select class="pt-input-dark" [ngModel]="interesse()" (ngModelChange)="interesse.set($event)" name="interesse">
                 <option value="Conteúdo">Quero acompanhar o projeto</option>
                 <option value="Beta">Quero testar o beta</option>
                 <option value="Parceria">Quero conversar sobre parceria</option>
               </select>
-              <textarea [ngModel]="mensagem()" (ngModelChange)="mensagem.set($event)" name="mensagem" rows="3" placeholder="Fale um pouco sobre sua rotina"></textarea>
-              <button type="submit" class="btn-convite" [disabled]="interesseEnviando()">
+              <textarea class="pt-input-dark" [ngModel]="mensagem()" (ngModelChange)="mensagem.set($event)" name="mensagem" rows="3" placeholder="Fale um pouco sobre sua rotina"></textarea>
+              <button type="submit" class="pt-btn pt-btn-brand w-full sm:w-auto sm:justify-self-start" [disabled]="interesseEnviando()">
                 {{ interesseEnviando() ? 'Enviando…' : 'Receber update' }}
               </button>
             </form>
           }
 
           @if (interesseMensagem()) {
-            <p class="mensagem-lead">{{ interesseMensagem() }}</p>
+            <p class="mt-3 rounded-lg bg-white/10 px-3.5 py-2.5 text-sm text-white">{{ interesseMensagem() }}</p>
           }
 
           @if (interesseEnviado()) {
-            <p class="mensagem-lead">Obrigado! Vamos te manter informado.</p>
+            <p class="mt-3 rounded-lg bg-white/10 px-3.5 py-2.5 text-sm text-white">Obrigado! Vamos te manter informado.</p>
           }
 
           @if (pesquisaUrl()) {
-            <a [href]="pesquisaUrl()" target="_blank" rel="noopener" class="btn-convite btn-convite--secundario">
+            <a [href]="pesquisaUrl()" target="_blank" rel="noopener" class="pt-btn pt-btn-brand mt-3 w-full sm:w-auto">
               Responder a pesquisa (2 min)
             </a>
           }
+
+          <small class="mt-4 block text-xs text-white/50">Sem spam. Você recebe só updates do projeto e pode sair quando quiser.</small>
         </aside>
       </div>
     }
-  </section>
+  </div>
 
-  <article class="conteudo">
+  <article class="prosa mx-auto mt-14 max-w-2xl">
     <h2>Como se conta prazo processual</h2>
 
     <p>
@@ -223,8 +348,8 @@
     </p>
 
     <h2>Prazos comuns</h2>
-    <div class="tabela-wrap">
-      <table class="tabela-prazos">
+    <div class="mt-4 overflow-x-auto rounded-lg border border-line">
+      <table class="pt-table">
         <thead>
           <tr><th>Ato</th><th>Prazo</th><th>Base</th></tr>
         </thead>
@@ -238,14 +363,17 @@
         </tbody>
       </table>
     </div>
-    <p class="mini">
-      ⚠️ Tabela de referência rápida, não exaustiva. Prazos em dobro (Fazenda Pública,
+    <p class="mt-3 flex items-start gap-2 text-sm">
+      <svg class="mt-0.5 h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+        <path d="M12 3.5 21.5 20H2.5L12 3.5Z" /><path d="M12 10v4" /><path d="M12 17h.01" />
+      </svg>
+      <span>Tabela de referência rápida, não exaustiva. Prazos em dobro (Fazenda Pública,
       Defensoria, Ministério Público, litisconsortes com procuradores distintos) e regras
-      de procedimentos especiais não estão aqui.
+      de procedimentos especiais não estão aqui.</span>
     </p>
 
     <h2>O que esta calculadora não sabe</h2>
-    <ul class="limites">
+    <ul>
       <li>
         <strong>Feriados estaduais e municipais.</strong> Ela conhece os feriados nacionais
         e os forenses federais. Um feriado na sua comarca desloca o vencimento e ela não vê.
@@ -267,14 +395,14 @@
     </p>
   </article>
 
-  <section class="rodape-nota">
+  <section class="mx-auto mt-16 max-w-2xl border-t border-line pt-6 text-sm leading-relaxed text-muted">
     <p>
-      <strong>Isto é uma ferramenta de apoio, não uma consultoria jurídica.</strong>
+      <strong class="font-semibold text-fg">Isto é uma ferramenta de apoio, não uma consultoria jurídica.</strong>
       Confira sempre no sistema do tribunal. A responsabilidade pelo prazo é de quem
       protocola.
     </p>
-    <p class="mini">
-      Parte do <strong>Peticiona</strong> — projeto em construção. O motor de cálculo é
+    <p class="mt-2.5 text-xs">
+      Parte do <strong class="font-semibold text-fg">Peticiona</strong> — projeto em construção. O motor de cálculo é
       determinístico e coberto por testes automatizados: nenhuma data aqui vem de IA.
     </p>
   </section>

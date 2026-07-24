@@ -1,51 +1,52 @@
-<main class="entrada">
-  <section class="cartao">
-    <div class="marca">⚖️ Peticiona</div>
+<main class="grid min-h-screen place-items-center bg-brand-bg px-6 py-10">
+  <section class="w-full max-w-md rounded-2xl border border-line border-t-[3px] border-t-brand bg-surface p-8 shadow-lift">
+    <div class="mb-7 text-center font-semibold text-ink">⚖️ Peticiona</div>
 
-    <h1>Qual é a sua OAB?</h1>
-    <p class="sub">
+    <h1 class="text-center font-serif text-2xl tracking-tight text-ink">Qual é a sua OAB?</h1>
+    <p class="mx-auto mt-2.5 text-center leading-relaxed text-muted">
       É com ela que buscamos suas publicações no Diário de Justiça Eletrônico Nacional.
       Seus prazos aparecem aqui automaticamente, sem você garimpar o diário.
     </p>
 
-    <form (ngSubmit)="salvar()" class="form-oab">
-      <div class="linha">
-        <label>
-          <span>Número</span>
+    <form (ngSubmit)="salvar()" class="mt-6">
+      <div class="flex gap-3">
+        <label class="flex flex-1 flex-col gap-1.5">
+          <span class="text-sm font-semibold text-muted">Número</span>
           <input
             type="text"
             inputmode="numeric"
             placeholder="123456"
+            class="pt-input"
             [ngModel]="numero()"
             (ngModelChange)="numero.set($event)"
             name="numero"
             [disabled]="salvando()"
             autofocus />
         </label>
-        <label class="uf">
-          <span>UF</span>
+        <label class="flex w-20 flex-col gap-1.5">
+          <span class="text-sm font-semibold text-muted">UF</span>
           <input
             type="text"
             maxlength="2"
             placeholder="MG"
+            class="pt-input uppercase"
             [ngModel]="uf()"
             (ngModelChange)="uf.set($event)"
             name="uf"
-            [disabled]="salvando()"
-            style="text-transform: uppercase" />
+            [disabled]="salvando()" />
         </label>
       </div>
 
       @if (erro(); as e) {
-        <p class="erro-inline">{{ e }}</p>
+        <p class="mt-3 text-sm text-red">{{ e }}</p>
       }
 
-      <button type="submit" class="google" [disabled]="salvando()">
+      <button type="submit" class="pt-btn pt-btn-brand mt-5 w-full" [disabled]="salvando()">
         {{ salvando() ? 'Buscando suas publicações…' : 'Buscar meus prazos' }}
       </button>
     </form>
 
-    <p class="nota">
+    <p class="mt-5 text-xs leading-relaxed text-muted">
       Buscamos os últimos 30 dias agora e, a partir daí, todo dia de manhã. A conferência
       do diário continua sendo sua responsabilidade — a busca é um auxílio, não a substitui.
     </p>

@@ -1,27 +1,72 @@
 /*
-  Tokens semânticos.
-  Dark mode foi cortado do escopo (doc 00, corte #1), mas os tokens já são semânticos
-  para que ligá-lo depois custe pouco — só trocar os valores num media query.
+  Tailwind v4 — só as camadas theme + utilities.
+  O preflight (reset do Tailwind) fica DESLIGADO de propósito: telas que ainda
+  usam CSS por componente dependem de defaults do browser. Para ligá-lo numa
+  migração futura, adicione:
+    @import "tailwindcss/preflight.css" layer(base);
+*/
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/*
+  Tokens do design system expostos como cores/fontes/sombras do Tailwind.
+  Cada --color-x vira utilitário: bg-x / text-x / border-x.
+  Ex.: --color-ink → bg-ink, text-ink, border-ink.
+  Esta é a fonte única de verdade; os nomes curtos (var(--ink)) abaixo apontam pra cá.
+*/
+@theme {
+  --color-ink: #14213d;
+  --color-ink-hover: #1f3057;
+  --color-brand: #2f6bfe;
+  --color-brand-soft: #93b4ff;
+  --color-brand-bg: #eef2ff;
+  --color-fg: #14213d;
+  --color-muted: #64708a;
+  --color-line: #e2e6ee;
+  --color-line-strong: #c7cedd;
+  --color-surface: #ffffff;
+  --color-surface-2: #f7f8fb;
+  --color-input-bg: #ffffff;
+  --color-link: #1f5fa8;
+  --color-red: #9b3b33;
+  --color-red-bg: #fbeae8;
+  --color-warn: #8a6321;
+  --color-warn-bg: #fdf6e7;
+  --color-page: #f2f4f8;
+  --color-success: #3f7a53;
+
+  /* Serifa para títulos — dá ar editorial/jurídico sem dependência externa. */
+  --font-serif: Georgia, Cambria, 'Times New Roman', Times, serif;
+
+  --shadow-card: 0 1px 2px 0 rgb(20 33 61 / 0.04), 0 14px 30px -16px rgb(20 33 61 / 0.22);
+  --shadow-lift: 0 2px 4px 0 rgb(20 33 61 / 0.05), 0 24px 48px -20px rgb(20 33 61 / 0.30);
+}
+
+/*
+  Compat: os nomes curtos que o CSS por componente usa via var(--ink), var(--brand)…
+  agora só reapontam para os tokens do @theme. Trocar uma cor = editar em um lugar só.
 */
 :root {
-  --ink: #14213d;
-  --ink-hover: #1f3057;
-  --gold: #a8763e;
-  --gold-soft: #d2a970;
-  --gold-bg: #faf4ea;
-  --fg: #14213d;
-  --muted: #64708a;
-  --line: #e2e6ee;
-  --line-strong: #c7cedd;
-  --surface: #ffffff;
-  --surface-2: #f7f8fb;
-  --input-bg: #ffffff;
-  --link: #1f5fa8;
-  --red: #9b3b33;
-  --red-bg: #fbeae8;
-  --warn: #8a6321;
-  --warn-bg: #fdf6e7;
-  --page: #f2f4f8;
+  --ink: var(--color-ink);
+  --ink-hover: var(--color-ink-hover);
+  --brand: var(--color-brand);
+  --brand-soft: var(--color-brand-soft);
+  --brand-bg: var(--color-brand-bg);
+  --fg: var(--color-fg);
+  --muted: var(--color-muted);
+  --line: var(--color-line);
+  --line-strong: var(--color-line-strong);
+  --surface: var(--color-surface);
+  --surface-2: var(--color-surface-2);
+  --input-bg: var(--color-input-bg);
+  --link: var(--color-link);
+  --red: var(--color-red);
+  --red-bg: var(--color-red-bg);
+  --warn: var(--color-warn);
+  --warn-bg: var(--color-warn-bg);
+  --page: var(--color-page);
 }
 
 * { box-sizing: border-box; }
@@ -38,3 +83,111 @@ html, body {
 h1, h2, h3 { margin: 0; font-weight: 700; }
 p { margin: 0; }
 ul { margin: 0; }
+
+/*
+  Sem o preflight do Tailwind, <a> mantém o azul-sublinhado padrão do browser — e os
+  templates assumem link que herda a cor do texto. Este reset devolve isso. Fica em
+  @layer base de propósito: onde se quer sublinhado ou cor (underline, text-link,
+  pt-topbar-link…), os utilitários estão na layer utilities e vencem.
+*/
+@layer base {
+  a { color: inherit; text-decoration: none; }
+  /* Hosts dos componentes Angular: block para o layout de hero full-bleed funcionar. */
+  app-root, app-calculadora, app-dashboard, app-intimacao, app-perfil, app-login, app-onboarding-oab {
+    display: block;
+  }
+}
+
+/*
+  Primitivos do template. São a "cara" reutilizável do produto — botão, campo,
+  card, chip, etiqueta e a tipografia de conteúdo. Definidos uma vez aqui e usados
+  em qualquer template (.html) do app.
+*/
+@layer components {
+  .pt-label { @apply mb-1.5 block text-sm font-semibold text-fg; }
+  .pt-hint  { @apply text-xs leading-relaxed text-muted; }
+
+  .pt-input {
+    font: inherit;
+    @apply w-full rounded-lg border border-line-strong bg-input-bg px-3.5 py-2.5 text-fg
+           transition-colors placeholder:text-muted
+           focus-visible:border-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30;
+  }
+
+  /* Campos dentro de superfícies escuras (o convite de lead). */
+  .pt-input-dark {
+    font: inherit;
+    @apply w-full rounded-lg border border-white/15 bg-white/5 px-3.5 py-2.5 text-white
+           transition-colors placeholder:text-white/40
+           focus-visible:border-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40;
+  }
+
+  .pt-btn {
+    font: inherit;
+    @apply inline-flex cursor-pointer appearance-none items-center justify-center gap-2 rounded-lg
+           border border-transparent px-5 py-2.5 text-sm font-semibold transition-colors
+           disabled:cursor-progress disabled:opacity-60;
+  }
+  .pt-btn-primary { @apply bg-ink text-white hover:bg-ink-hover; }
+  .pt-btn-brand    { @apply bg-brand text-white hover:bg-[#1f54d6]; }
+  .pt-btn-ghost   { @apply bg-surface border-line-strong text-fg hover:border-ink; }
+  .pt-btn-danger  { @apply bg-red text-white hover:bg-[#8a3229]; }
+
+  .pt-chip {
+    font: inherit;
+    @apply cursor-pointer appearance-none rounded-full border border-line-strong bg-surface px-3 py-1
+           text-xs text-muted transition-colors hover:border-brand hover:text-fg;
+  }
+
+  .pt-card { @apply rounded-2xl border border-line bg-surface shadow-card; }
+
+  .pt-badge { @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium; }
+
+  .pt-table { @apply w-full min-w-[30rem] border-collapse text-sm; }
+  .pt-table th {
+    @apply bg-surface-2 px-3 py-2.5 text-left text-[0.72rem] font-semibold uppercase tracking-wide text-muted;
+  }
+  .pt-table td { @apply border-t border-line px-3 py-2.5; }
+
+  /* Tipografia de conteúdo longo (SEO / explicações). */
+  .prosa { @apply text-fg; }
+  .prosa h2 { @apply mt-10 mb-3 font-serif text-2xl tracking-tight text-ink; }
+  .prosa h2:first-child { @apply mt-0; }
+  .prosa h3 { @apply mt-6 mb-1.5 text-lg font-semibold text-ink; }
+  .prosa p  { @apply mb-3 leading-relaxed text-muted; }
+  .prosa p strong, .prosa li strong { @apply font-semibold text-fg; }
+  .prosa ul { @apply mb-3 list-disc space-y-1.5 pl-5 text-muted; }
+  .prosa li { @apply leading-relaxed; }
+
+  /* Barra de topo das telas logadas (dashboard, perfil, intimação). */
+  .pt-topbar {
+    @apply sticky top-0 z-20 flex items-center justify-between gap-4
+           border-b-[3px] border-brand bg-ink px-6 py-4 text-white;
+  }
+  .pt-topbar-link {
+    @apply text-xs uppercase tracking-wide text-brand-soft transition-colors hover:text-white hover:underline;
+  }
+
+  /* Navegação dentro do hero escuro (padrão Surface). */
+  .pt-nav-link { @apply text-sm font-medium text-white/55 transition-colors hover:text-white; }
+  .pt-nav-link-active { @apply text-sm font-semibold text-white; }
+  /* Card de estatística que "flutua" sobrepondo a emenda escuro→claro do hero. */
+  .pt-stat { @apply rounded-2xl border border-line bg-surface p-5 shadow-lift; }
+
+  /* Painel (card) das telas de produto. */
+  .pt-panel { @apply rounded-2xl border border-line bg-surface p-5 shadow-card sm:p-6; }
+  .pt-panel-title { @apply mb-4 border-b border-line pb-2.5 text-base font-bold text-ink; }
+
+  /* Avisos (erro / alerta). */
+  .pt-aviso { @apply rounded-xl border px-4 py-3 text-sm leading-relaxed; }
+  .pt-aviso strong { @apply mb-0.5 block; }
+  .pt-aviso-erro   { @apply border-[#eebfb9] bg-red-bg text-red; }
+  .pt-aviso-alerta { @apply border-[#e8d3a4] bg-warn-bg text-warn; }
+
+  /* Etiquetas de estado (dashboard/intimação). */
+  .pt-tag { @apply inline-flex items-center rounded bg-line px-2 py-0.5 text-[0.7rem] font-semibold uppercase tracking-wide text-muted; }
+  .pt-tag-vence   { @apply bg-ink text-white tabular-nums; }
+  .pt-tag-alta    { @apply bg-red-bg text-red; }
+  .pt-tag-revisao { @apply bg-warn-bg text-warn; }
+  .pt-tag-ia      { @apply bg-brand-bg text-brand; }
+}
