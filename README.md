@@ -4,8 +4,7 @@
 > os prazos e rascunha as peças — o advogado revisa.
 >
 > **Projeto solo:** Ronny, fullstack Angular + Java, ~12,5h/semana.
-> **Status:** validação de mercado em curso · fatia 1 do código no ar.
-> **Nome:** provisório (ver decisões em aberto em [`docs/00-premissas.md`](docs/00-premissas.md)).
+> **Status:** projeto **descontinuado** em set/2026. O código e a documentação ficam públicos como referência.
 
 ---
 
